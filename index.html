@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rota 69 - Bar & Moto Club RP</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#f59e0b',
+              red: '#dc2626',
+              dark: '#0a0a0c',
+              card: '#141417',
+              border: '#27272a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Font Awesome SVGs / Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto:wght@300;400;700&display=swap');
+    body { font-family: 'Roboto', sans-serif; background-color: #0a0a0c; color: #e4e4e7; }
+    h1, h2, h3, .font-heading { font-family: 'Oswald', sans-serif; letter-spacing: 0.05em; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+
+  <!-- HEADER & NAV -->
+  <header class="bg-brand-card border-b border-brand-border sticky top-0 z-50 shadow-2xl">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+      <!-- Logo Shield SVG -->
+      <a href="#" onclick="showSection('home')" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 bg-amber-500 text-black rounded-lg flex items-center justify-center font-extrabold text-2xl border-2 border-amber-300 shadow-lg shadow-amber-500/10 group-hover:bg-amber-400 transition">
+          69
+        </div>
+        <div>
+          <span class="text-2xl font-bold tracking-wider text-amber-500 font-heading block leading-none">ROTA 69</span>
+          <span class="text-[10px] text-zinc-400 font-semibold tracking-widest uppercase">Bar & Moto Club • Flint County</span>
+        </div>
+      </a>
+
+      <!-- Status do Bar (SVG Indicator) -->
+      <div id="bar-status-badge" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2.5 border shadow-inner">
+        <span id="bar-status-icon"></span>
+        <span id="bar-status-text">Carregando...</span>
+      </div>
+
+      <!-- Menu de Navegação -->
+      <nav class="flex flex-wrap items-center gap-1 text-sm font-semibold">
+        <button onclick="showSection('home')" class="px-3 py-1.5 rounded-lg hover:bg-zinc-800 text-amber-400 transition flex items-center gap-2">
+          <i class="fa-solid fa-house text-xs"></i> Início
+        </button>
+        <button onclick="showSection('cardapio')" class="px-3 py-1.5 rounded-lg hover:bg-zinc-800 hover:text-amber-400 transition flex items-center gap-2">
+          <i class="fa-solid fa-beer-mug-empty text-xs"></i> Cardápio
+        </button>
+        <button onclick="showSection('galeria')" class="px-3 py-1.5 rounded-lg hover:bg-zinc-800 hover:text-amber-400 transition flex items-center gap-2">
+          <i class="fa-solid fa-camera text-xs"></i> Galeria
+        </button>
+        <button onclick="showSection('eventos')" class="px-3 py-1.5 rounded-lg hover:bg-zinc-800 hover:text-amber-400 transition flex items-center gap-2">
+          <i class="fa-solid fa-calendar-days text-xs"></i> Eventos
+        </button>
+        <button onclick="showSection('manifesto')" class="px-3 py-1.5 rounded-lg hover:bg-zinc-800 hover:text-amber-400 transition flex items-center gap-2">
+          <i class="fa-solid fa-shield-halved text-xs"></i> Manifesto
+        </button>
+        <button onclick="openAdminModal()" class="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-amber-500 hover:text-black border border-zinc-700 transition text-zinc-300 ml-2 flex items-center gap-2">
+          <i class="fa-solid fa-user-lock text-xs"></i> Painel Restrito
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO & LOCALIZAÇÃO -->
+  <section id="sec-home" class="space-y-12 pb-12">
+    <!-- Banner Principal com Estética Route 66 -->
+    <div class="relative bg-zinc-950 border-b border-brand-border py-24 px-4 text-center overflow-hidden">
+      <div class="absolute inset-0 opacity-30 bg-cover bg-center" style="background-image: url('https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcTTy-F62rbxzDVQiAc2XKNnhw0wRl_jOsZAL3CINi0H-wWxkRSFmqS0reU1uqUVXtg605U2ZWgbXyqsL1s');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-transparent"></div>
+      
+      <div class="relative max-w-4xl mx-auto space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-500 text-xs font-bold uppercase tracking-widest">
+          <i class="fa-solid fa-route"></i> Rodovia SP-330 • Flint County
+        </div>
+        <h1 class="text-5xl md:text-7xl font-extrabold text-amber-500 uppercase tracking-wider drop-shadow-2xl">
+          Cerveja Gelada & Asfalto Quente
+        </h1>
+        <p class="text-zinc-300 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+          O ponto de encontro dos apaixonados por duas rodas no Estado. Respeito, fraternidade e o verdadeiro espírito da estrada americana.
+        </p>
+
+        <!-- Caixa de Localização -->
+        <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div class="bg-zinc-900/90 backdrop-blur border border-zinc-800 px-6 py-3.5 rounded-xl text-left flex items-center gap-4 shadow-xl">
+            <i class="fa-solid fa-location-dot text-amber-500 text-2xl"></i>
+            <div>
+              <span class="text-[11px] text-zinc-400 font-bold block uppercase tracking-wider">Ponto de Referência</span>
+              <span class="text-sm font-semibold text-zinc-200">SP-330, Flint County (Ao lado da Polícia Rodoviária)</span>
+            </div>
+          </div>
+          <button onclick="copyGPSCommand()" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-3.5 rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center gap-2 uppercase tracking-wider text-xs">
+            <i class="fa-solid fa-copy"></i> Copiar Rota GPS (/gps)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quadro de Avisos -->
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-center gap-3 mb-6 border-b border-zinc-800 pb-3">
+        <i class="fa-solid fa-bullhorn text-amber-500 text-xl"></i>
+        <h2 class="text-2xl font-bold uppercase text-zinc-100 font-heading">Quadro de Comunicados</h2>
+      </div>
+      <div id="announcements-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Renderizado dinamicamente -->
+      </div>
+    </div>
+  </section>
+
+  <!-- CARDÁPIO -->
+  <section id="sec-cardapio" class="hidden max-w-7xl mx-auto px-4 py-8 space-y-8">
+    <div class="border-b border-zinc-800 pb-4 flex justify-between items-end">
+      <div>
+        <h2 class="text-4xl font-bold uppercase text-amber-500 font-heading">Cardápio Digital</h2>
+        <p class="text-zinc-400 text-sm">Valores atualizados na moeda do servidor ($)</p>
+      </div>
+      <i class="fa-solid fa-utensils text-zinc-700 text-3xl"></i>
+    </div>
+
+    <div id="menu-container" class="space-y-8">
+      <!-- Renderizado via JS -->
+    </div>
+  </section>
+
+  <!-- GALERIA DE FOTOS -->
+  <section id="sec-galeria" class="hidden max-w-7xl mx-auto px-4 py-8 space-y-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
+      <div>
+        <h2 class="text-4xl font-bold uppercase text-amber-500 font-heading">Mural do Asfalto</h2>
+        <p class="text-zinc-400 text-sm">Registros dos rolês e das moscas no Rota 69</p>
+      </div>
+      <button onclick="toggleElement('upload-photo-modal')" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-5 py-2.5 rounded-xl transition flex items-center gap-2 uppercase tracking-wider text-xs">
+        <i class="fa-solid fa-upload"></i> Enviar Sua Foto
+      </button>
+    </div>
+
+    <!-- Grid de Fotos -->
+    <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Renderizado via JS -->
+    </div>
+  </section>
+
+  <!-- EVENTOS -->
+  <section id="sec-eventos" class="hidden max-w-7xl mx-auto px-4 py-8 space-y-8">
+    <div class="border-b border-zinc-800 pb-4">
+      <h2 class="text-4xl font-bold uppercase text-amber-500 font-heading">Agenda & Rolês</h2>
+      <p class="text-zinc-400 text-sm">Próximos eventos, comboios e noites temáticas</p>
+    </div>
+
+    <div id="events-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Renderizado via JS -->
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section id="sec-manifesto" class="hidden max-w-4xl mx-auto px-4 py-8">
+    <div class="bg-brand-card border border-brand-border rounded-2xl p-8 space-y-6 shadow-2xl">
+      <div class="text-center space-y-3">
+        <i class="fa-solid fa-shield-halved text-amber-500 text-5xl"></i>
+        <h2 class="text-4xl font-bold uppercase text-zinc-100 font-heading">Código & Manifesto Rota 69</h2>
+        <p class="text-amber-500 font-semibold tracking-widest uppercase text-xs">Fraternidade • Respeito • Tradição</p>
+      </div>
+      <div class="space-y-4 text-zinc-300 leading-relaxed text-base border-t border-zinc-800 pt-6">
+        <p><strong class="text-amber-500">1. Respeito à Estrada:</strong> O Rota 69 é um porto seguro para todos os motociclistas e frequentadores da SP-330. Violência sem motivo RP não é tolerada nas dependências do bar.</p>
+        <p><strong class="text-amber-500">2. Irmandade de Duas Rodas:</strong> Seja de Freeway, Chopper ou Sport, o amor pelos motores nos une. Respeite as cores e o espaço de cada clube visitante.</p>
+        <p><strong class="text-amber-500">3. Ambiente RP Recreativo:</strong> Honramos o bom Roleplay. Respeite os funcionários, pague sua conta e aproveite o verdadeiro rock 'n' roll.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAINEL ADMINISTRATIVO -->
+  <section id="sec-admin" class="hidden max-w-7xl mx-auto px-4 py-8 space-y-8">
+    <div class="bg-zinc-900 border border-amber-500/30 p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4">
+      <div>
+        <h2 class="text-3xl font-bold text-amber-500 uppercase flex items-center gap-3 font-heading">
+          <i class="fa-solid fa-user-shield"></i> Painel da Diretoria
+        </h2>
+        <p class="text-xs text-zinc-400">Acesso Restrito do Moto Club</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="btn-toggle-bar" onclick="toggleBarStatus()" class="px-5 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider transition flex items-center gap-2">
+          Alternar Status
+        </button>
+        <button onclick="logoutAdmin()" class="bg-zinc-800 hover:bg-red-600 text-zinc-200 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition flex items-center gap-2">
+          <i class="fa-solid fa-right-from-bracket"></i> Sair
+        </button>
+      </div>
+    </div>
+
+    <!-- Módulos do Admin -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Gerenciar Anúncios -->
+      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
+        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
+          <i class="fa-solid fa-bullhorn text-xs"></i> Publicar Anúncio
+        </h3>
+        <input id="adm-announcement-title" type="text" placeholder="Título do Anúncio" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
+        <textarea id="adm-announcement-text" placeholder="Conteúdo do comunicado..." rows="3" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100"></textarea>
+        <button onclick="addAnnouncement()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-lg transition text-xs uppercase tracking-wider">Publicar</button>
+      </div>
+
+      <!-- Gerenciar Cardápio -->
+      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
+        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
+          <i class="fa-solid fa-beer-mug-empty text-xs"></i> Adicionar Item
+        </h3>
+        <input id="adm-menu-title" type="text" placeholder="Nome do Item" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
+        <input id="adm-menu-price" type="number" placeholder="Preço ($)" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
+        <select id="adm-menu-cat" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
+          <option value="Cervejas & Doses">Cervejas & Doses</option>
+          <option value="Porções & Petiscos">Porções & Petiscos</option>
+          <option value="Não-Alcoólicos">Não-Alcoólicos</option>
+        </select>
+        <button onclick="addMenuItem()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-lg transition text-xs uppercase tracking-wider">Salvar</button>
+      </div>
+
+      <!-- Gerenciar Eventos -->
+      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
+        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
+          <i class="fa-solid fa-calendar-plus text-xs"></i> Novo Evento
+        </h3>
+        <input id="adm-event-title" type="text" placeholder="Nome do Evento" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
+        <input id="adm-event-date" type="text" placeholder="Data/Hora (Ex: Sexta - 21h)" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
+        <textarea id="adm-event-desc" placeholder="Descrição do evento..." rows="2" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100"></textarea>
+        <button onclick="addEvent()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-lg transition text-xs uppercase tracking-wider">Agendar</button>
+      </div>
+
+      <!-- Moderação da Galeria -->
+      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
+        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
+          <i class="fa-solid fa-images text-xs"></i> Fila de Moderação
+        </h3>
+        <div id="adm-pending-gallery" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+          <!-- Renderizado dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL ENVIAR FOTO -->
+  <div id="upload-photo-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl max-w-md w-full space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="text-xl font-bold text-amber-500 uppercase font-heading">Enviar Foto para a Galeria</h3>
+        <button onclick="toggleElement('upload-photo-modal')" class="text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+      <input id="pub-photo-author" type="text" placeholder="Seu Nome / Apelido no RP" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-sm text-zinc-100">
+      <input id="pub-photo-url" type="url" placeholder="URL da Imagem (Imgur, Discord CDN, etc)" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-sm text-zinc-100">
+      <textarea id="pub-photo-caption" placeholder="Legenda curta..." rows="2" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-sm text-zinc-100"></textarea>
+      <button onclick="submitPhoto()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-3 rounded-lg transition uppercase tracking-wider text-xs">Enviar para Moderação</button>
+    </div>
+  </div>
+
+  <!-- MODAL LOGIN ADMIN -->
+  <div id="admin-login-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-amber-500/30 p-8 rounded-2xl max-w-sm w-full space-y-6 text-center">
+      <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-full flex items-center justify-center mx-auto text-2xl border border-amber-500/30">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold text-amber-500 uppercase font-heading">Acesso Restrito</h3>
+        <p class="text-xs text-zinc-400">Diretoria Rota 69</p>
+      </div>
+      <input id="admin-pass-input" type="password" placeholder="Senha de Acesso" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-center text-zinc-100 focus:border-amber-500 outline-none">
+      <div class="flex gap-2">
+        <button onclick="toggleElement('admin-login-modal')" class="w-1/2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold py-2.5 rounded-lg transition text-xs uppercase">Cancelar</button>
+        <button onclick="loginAdmin()" class="w-1/2 bg-amber-500 hover:bg-amber-400 text-black font-bold py-2.5 rounded-lg transition text-xs uppercase">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-zinc-950 border-t border-brand-border py-6 text-center text-xs text-zinc-500 mt-12">
+    <p>© 2026 Rota 69 Bar & Moto Club • Flint County RP</p>
+  </footer>
+
+  <!-- FIREBASE SDK & LÓGICA DO SITE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY_AQUI",
+      authDomain: "seu-projeto.firebaseapp.com",
+      projectId: "seu-projeto-id",
+      storageBucket: "seu-projeto.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef"
+    };
+
+    let db = null;
+    let isFirebaseReady = false;
+
+    try {
+      if (firebaseConfig.apiKey !== "SUA_API_KEY_AQUI") {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        isFirebaseReady = true;
+      }
+    } catch (e) {
+      console.warn("Firebase não configurado. Modo local ativo.");
+    }
+
+    // Estado com imagens de estética Americana Route 66
+    window.appState = {
+      barOpen: true,
+      announcements: [
+        { id: 1, title: 'Noite do Rock ao Vivo', text: 'Nesta sexta-feira chopp em dobro para quem colar de Freeway ou Chopper!' },
+        { id: 2, title: 'Reunião de Moto Clubes', text: 'Alinhamento marcado para as 21:00 no pátio principal antes do comboio.' }
+      ],
+      menu: [
+        { id: 1, title: 'Cerveja Long Neck Americana', price: 15, category: 'Cervejas & Doses', available: true },
+        { id: 2, title: 'Dose de Whiskey Tennessee', price: 35, category: 'Cervejas & Doses', available: true },
+        { id: 3, title: 'Costela Defumada no Barbecue', price: 60, category: 'Porções & Petiscos', available: true }
+      ],
+      events: [
+        { id: 1, title: 'Comboio SP-330', date: 'Sábado - 20:00', desc: 'Concentração no pátio do Rota 69 rumo às estradas de Flint County.' }
+      ],
+      photos: [
+        { 
+          id: 1, 
+          author: 'Jack_Presidente', 
+          url: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcT5UXwKhHKX5h9jOT4Q1zpFVLhdR4c90HWBOR_OWKStDnhd41QTnGabGv6xZhp0eUZqS4Udu6jNd7vEFOg', 
+          caption: 'Moscas alinhadas no pátio!', 
+          status: 'approved' 
+        },
+        { 
+          id: 2, 
+          author: 'Sargento_Mendes', 
+          url: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcS_8otR7dooeRnhwJQ-l90fU4D6M7mbCUS-ibWLnRVteimM0eRRtUJ2bshh1wbhEoYLvfy2FxD4dl4IP18', 
+          caption: 'Neon aceso na pista.', 
+          status: 'approved' 
+        }
+      ]
+    };
+
+    window.renderUI = function() {
+      // Bar Status
+      const statusBadge = document.getElementById('bar-status-badge');
+      const statusIcon = document.getElementById('bar-status-icon');
+      const statusText = document.getElementById('bar-status-text');
+      const adminToggleBtn = document.getElementById('btn-toggle-bar');
+
+      if (window.appState.barOpen) {
+        statusBadge.className = "px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 bg-emerald-950/80 text-emerald-400 border-emerald-800 shadow-emerald-900/30";
+        statusIcon.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>`;
+        statusText.innerText = "BAR ABERTO";
+        if (adminToggleBtn) {
+          adminToggleBtn.className = "px-5 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider bg-red-600 hover:bg-red-500 text-white transition";
+          adminToggleBtn.innerText = "Fechar Bar";
+        }
+      } else {
+        statusBadge.className = "px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 bg-rose-950/80 text-rose-400 border-rose-800 shadow-rose-900/30";
+        statusIcon.innerHTML = `<span class="w-2 h-2 rounded-full bg-rose-500"></span>`;
+        statusText.innerText = "BAR FECHADO";
+        if (adminToggleBtn) {
+          adminToggleBtn.className = "px-5 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white transition";
+          adminToggleBtn.innerText = "Abrir Bar";
+        }
+      }
+
+      // Render Comunicados
+      const annList = document.getElementById('announcements-list');
+      annList.innerHTML = window.appState.announcements.map(a => `
+        <div class="bg-brand-card border border-brand-border p-5 rounded-2xl relative shadow-lg">
+          <h3 class="text-xl font-bold text-amber-500 font-heading mb-2">${a.title}</h3>
+          <p class="text-zinc-300 text-sm leading-relaxed">${a.text}</p>
+        </div>
+      `).join('');
+
+      // Render Cardápio
+      const menuContainer = document.getElementById('menu-container');
+      const categories = ['Cervejas & Doses', 'Porções & Petiscos', 'Não-Alcoólicos'];
+      
+      menuContainer.innerHTML = categories.map(cat => {
+        const items = window.appState.menu.filter(m => m.category === cat);
+        if (items.length === 0) return '';
+        return `
+          <div class="space-y-4">
+            <h3 class="text-2xl font-bold text-amber-500 border-b border-zinc-800 pb-1 font-heading">${cat}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              ${items.map(i => `
+                <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex justify-between items-center shadow-md">
+                  <div>
+                    <h4 class="font-bold text-zinc-100">${i.title}</h4>
+                    <span class="text-[11px] ${i.available ? 'text-emerald-400' : 'text-rose-500'} font-semibold">
+                      ${i.available ? 'Disponível' : 'Esgotado'}                     </span>                   </div>                   <span class="text-xl font-bold text-amber-500 font-heading">$ ${i.price}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Render Galeria (Fotos Aprovadas)
+      const galleryGrid = document.getElementById('gallery-grid');
+      const approvedPhotos = window.appState.photos.filter(p => p.status === 'approved');
+      galleryGrid.innerHTML = approvedPhotos.map(p => `
+        <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden group shadow-xl">
+          <div class="h-56 overflow-hidden relative">
+            <img src="${p.url}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Galeria Rota 69">
+          </div>
+          <div class="p-4 space-y-1">
+            <p class="text-sm font-semibold text-zinc-200">"${p.caption}"</p>
+            <span class="text-xs text-amber-500 font-bold uppercase block">— ${p.author}</span>
+          </div>
+        </div>
+      `).join('');
+
+      // Render Moderação da Galeria (Admin)
+      const admPending = document.getElementById('adm-pending-gallery');
+      if (admPending) {
+        admPending.innerHTML = window.appState.photos.map(p => `
+          <div class="bg-zinc-950 p-2.5 rounded-lg border border-zinc-800 flex items-center justify-between gap-2 text-xs">
+            <div class="truncate">
+              <span class="font-bold text-zinc-200 block">${p.author}</span>
+              <span class="text-zinc-400 truncate block">${p.caption}</span>
+            </div>
+            <div class="flex gap-1">
+              ${p.status === 'pending' ? `<button onclick="approvePhoto(${p.id})" class="bg-emerald-600 text-white px-2 py-1 rounded font-bold">Aprovar</button>` : ''}
+              <button onclick="deletePhoto(${p.id})" class="bg-rose-600 text-white px-2 py-1 rounded font-bold">Deletar</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Render Eventos
+      const eventsList = document.getElementById('events-list');
+      eventsList.innerHTML = window.appState.events.map(e => `
+        <div class="bg-brand-card border border-brand-border p-6 rounded-2xl flex items-start gap-4 shadow-lg">
+          <div class="bg-amber-500/10 border border-amber-500/30 text-amber-500 p-3.5 rounded-xl text-center min-w-[80px]">
+            <i class="fa-solid fa-calendar-day text-2xl block mb-1"></i>
+          </div>
+          <div class="space-y-1">
+            <span class="text-xs text-amber-500 font-bold uppercase tracking-wider">${e.date}</span>
+            <h3 class="text-xl font-bold text-zinc-100 font-heading">${e.title}</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">${e.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    };
+
+    if (isFirebaseReady) {
+      const docRef = doc(db, "rota69", "mainState");
+      onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+          window.appState = docSnap.data();
+          window.renderUI();
+        } else {
+          setDoc(docRef, window.appState);
+        }
+      });
+    } else {
+      window.renderUI();
+    }
+
+    window.syncState = async function() {
+      if (isFirebaseReady) {
+        await setDoc(doc(db, "rota69", "mainState"), window.appState);
+      } else {
+        window.renderUI();
+      }
+    };
+  </script>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = ['home', 'cardapio', 'galeria', 'eventos', 'manifesto', 'admin'];
+      sections.forEach(s => {
+        const el = document.getElementById(`sec-${s}`);
+        if (el) el.classList.add('hidden');
+      });
+      document.getElementById(`sec-${sectionId}`).classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleElement(id) {
+      document.getElementById(id).classList.toggle('hidden');
+    }
+
+    function copyGPSCommand() {
+      navigator.clipboard.writeText('/gps Rota 69');
+      alert('Comando GPS "/gps Rota 69" copiado para a área de transferência.');
+    }
+
+    function openAdminModal() {
+      if (sessionStorage.getItem('rota69_admin') === 'true') {
+        showSection('admin');
+      } else {
+        toggleElement('admin-login-modal');
+      }
+    }
+
+    function loginAdmin() {
+      const pass = document.getElementById('admin-pass-input').value;
+      if (pass === 'rota69admin') {
+        sessionStorage.setItem('rota69_admin', 'true');
+        toggleElement('admin-login-modal');
+        showSection('admin');
+      } else {
+        alert('Senha incorreta da Diretoria!');
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('rota69_admin');
+      showSection('home');
+    }
+
+    async function toggleBarStatus() {
+      window.appState.barOpen = !window.appState.barOpen;
+      await window.syncState();
+    }
+
+    async function addAnnouncement() {
+      const title = document.getElementById('adm-announcement-title').value;
+      const text = document.getElementById('adm-announcement-text').value;
+      if (!title || !text) return alert('Preencha todos os campos!');
+      
+      window.appState.announcements.unshift({ id: Date.now(), title, text });
+      await window.syncState();
+      document.getElementById('adm-announcement-title').value = '';
+      document.getElementById('adm-announcement-text').value = '';
+    }
+
+    async function addMenuItem() {
+      const title = document.getElementById('adm-menu-title').value;
+      const price = Number(document.getElementById('adm-menu-price').value);
+      const category = document.getElementById('adm-menu-cat').value;
+      if (!title || !price) return alert('Preencha os dados do produto!');
+
+      window.appState.menu.push({ id: Date.now(), title, price, category, available: true });
+      await window.syncState();
+      document.getElementById('adm-menu-title').value = '';
+      document.getElementById('adm-menu-price').value = '';
+    }
+
+    async function addEvent() {
+      const title = document.getElementById('adm-event-title').value;
+      const date = document.getElementById('adm-event-date').value;
+      const desc = document.getElementById('adm-event-desc').value;
+      if (!title || !date) return alert('Preencha o evento!');
+
+      window.appState.events.push({ id: Date.now(), title, date, desc });
+      await window.syncState();
+      document.getElementById('adm-event-title').value = '';
+      document.getElementById('adm-event-date').value = '';
+      document.getElementById('adm-event-desc').value = '';
+    }
+
+    async function submitPhoto() {
+      const author = document.getElementById('pub-photo-author').value;
+      const url = document.getElementById('pub-photo-url').value;
+      const caption = document.getElementById('pub-photo-caption').value;
+      if (!author || !url) return alert('Informe seu nome e o link da foto!');
+
+      window.appState.photos.push({ id: Date.now(), author, url, caption, status: 'pending' });
+      await window.syncState();
+      toggleElement('upload-photo-modal');
+      alert('Foto enviada para a fila de moderação!');
+    }
+
+    async function approvePhoto(id) {
+      const photo = window.appState.photos.find(p => p.id === id);
+      if (photo) photo.status = 'approved';
+      await window.syncState();
+    }
+
+    async function deletePhoto(id) {
+      window.appState.photos = window.appState.photos.filter(p => p.id !== id);
+      await window.syncState();
+    }
+  </script>
+</body>
+</html>
