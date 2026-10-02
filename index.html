@@ -53,7 +53,7 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 .quick span{font-family:'Bebas Neue';letter-spacing:.08em;font-size:1.15rem}
 .quick:hover{border-color:var(--bourbon)}
 #radio-panel{max-height:0;overflow:hidden;transition:max-height .25s ease}
-#radio-panel.open{max-height:340px}
+#radio-panel.open{max-height:420px}
 .st{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;padding:.55rem .8rem;border-radius:4px;font-size:.9rem;color:#d8cbb4}
 .st:hover{background:rgba(232,163,23,.12)}.st.on{background:rgba(232,163,23,.2);color:var(--bourbon);font-weight:700}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}}
@@ -275,7 +275,9 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
     <div class="max-w-6xl mx-auto px-3 py-3 grid sm:grid-cols-2 gap-3 items-start">
       <div id="station-list" class="space-y-1"></div>
       <div class="space-y-3">
-        <div class="text-xs text-zinc-400">Na jukebox: <span id="jukebox-track-name" class="text-amber-400 font-semibold">Lynyrd Skynyrd — Simple Man</span></div>
+        <div class="text-xs text-zinc-400">Tocando agora: <span id="now-track" class="text-amber-400 font-semibold">—</span></div>
+        <div class="text-xs text-zinc-500"><div class="mb-1">Últimas tocadas:</div><div id="track-history" class="space-y-0.5"></div></div>
+        <div class="text-xs text-zinc-400">Jukebox da casa: <span id="jukebox-track-name" class="text-amber-400 font-semibold">Lynyrd Skynyrd — Simple Man</span></div>
         <label class="flex items-center gap-3 text-xs text-zinc-400"><i class="fa-solid fa-volume-low"></i>
           <input id="radio-vol" type="range" min="0" max="1" step="0.05" value="0.6" oninput="audio().volume=this.value" class="flex-1 accent-amber-500" aria-label="Volume"><i class="fa-solid fa-volume-high"></i></label>
       </div>
@@ -420,59 +422,92 @@ window.syncState = async function(){
 
 <script>
 const RP='https://stream.radioparadise.com/';
+const RB_HOSTS=['https://de1.api.radio-browser.info','https://at1.api.radio-browser.info','https://nl1.api.radio-browser.info'];
 const STATIONS=[
-  {name:'Rock Mix',chan:2,urls:[RP+'rock-128',RP+'rock-192',RP+'rock-320']},
-  {name:'Mix Principal — rock, blues e clássicos',chan:0,urls:[RP+'mp3-128',RP+'mp3-192',RP+'mp3-320']},
-  {name:'Mellow — rock leve e americana',chan:1,urls:[RP+'mellow-128',RP+'mellow-192',RP+'mellow-320']},
-  {name:'Global — mundo e rock',chan:3,urls:[RP+'global-128',RP+'global-192',RP+'global-320']}
+  {label:'Radio Paradise — Rock Mix (EUA)',chan:2,cands:[RP+'rock-128',RP+'rock-192',RP+'rock-320'].map(u=>({url:u}))},
+  {label:'Classic Rock (EUA)',search:{tag:'classic rock',countrycode:'US'}},
+  {label:'Hard Rock & Blues (EUA)',search:{tag:'hard rock',countrycode:'US'}},
+  {label:'Rock Brasil (Kiss FM, 89 FM e outras)',search:{tag:'rock',countrycode:'BR',prefer:/kiss|89|rock/i}}
 ];
-let curTrack='', trackTimer=null;
-async function fetchTrack(){
-  try{
-    const r=await fetch('https://api.radioparadise.com/api/now_playing?chan='+STATIONS[curStation].chan,{cache:'no-store'});
-    const d=await r.json();
-    if(d&&d.title){ curTrack=(d.artist?d.artist+' — ':'')+d.title; if(wantPlay&&!audio().paused) document.getElementById('radio-status').innerText='♪ '+curTrack; }
-  }catch(e){ /* sem metadados */ }
-}
-function startTrackPolling(){ stopTrackPolling(); curTrack=''; fetchTrack(); trackTimer=setInterval(fetchTrack,15000); }
-function stopTrackPolling(){ if(trackTimer){clearInterval(trackTimer);trackTimer=null;} }
-let curStation=0, curUrl=0, wantPlay=false;
+let curStation=0, curUrl=0, wantPlay=false, playToken=0;
+let curTrack='', lastTrack='', history=[], trackTimer=null;
 const audio=()=>document.getElementById('radio-audio');
+const $=id=>document.getElementById(id);
+
+async function resolveStation(st){
+  if(st.cands) return st.cands;
+  const p=new URLSearchParams({...(st.search.tag?{tag:st.search.tag,tagExact:'true'}:{}),countrycode:st.search.countrycode,hidebroken:'true',order:'clickcount',reverse:'true',limit:'60'});
+  for(const host of RB_HOSTS){
+    try{
+      const r=await fetch(host+'/json/stations/search?'+p.toString());
+      if(!r.ok) continue;
+      let list=(await r.json()).filter(x=>x.url_resolved&&x.url_resolved.startsWith('https://')&&!x.hls&&/mp3|aac/i.test(x.codec||''));
+      if(st.search.prefer){ list=[...list.filter(x=>st.search.prefer.test(x.name)),...list.filter(x=>!st.search.prefer.test(x.name))]; }
+      if(list.length){ st.cands=list.slice(0,8).map(x=>({name:x.name.trim(),url:x.url_resolved})); return st.cands; }
+    }catch(e){}
+  }
+  return [];
+}
+
+function setNow(txt){ $('now-track').innerText=txt; }
+function renderHistory(){ $('track-history').innerHTML=history.length?history.map(t=>'<div class="truncate">• '+t.replace(/[<>&]/g,'')+'</div>').join(''):'<div>—</div>'; }
+async function fetchTrack(){
+  const st=STATIONS[curStation];
+  if(st.chan===undefined){ curTrack=''; setNow('Esta rádio não informa a música'); return; }
+  try{
+    const r=await fetch('https://api.radioparadise.com/api/now_playing?chan='+st.chan,{cache:'no-store'});
+    const d=await r.json();
+    if(d&&d.title){
+      curTrack=(d.artist?d.artist+' — ':'')+d.title; setNow(curTrack);
+      if(curTrack!==lastTrack){ if(lastTrack){history.unshift(lastTrack);history=history.slice(0,5);renderHistory();} lastTrack=curTrack; }
+      if(wantPlay&&!audio().paused) $('radio-status').innerText='♪ '+curTrack;
+    }
+  }catch(e){ setNow('Informação da música indisponível'); }
+}
+function startTrackPolling(){ stopTrackPolling(); curTrack=''; lastTrack=''; history=[]; renderHistory(); setNow('—'); fetchTrack(); trackTimer=setInterval(fetchTrack,15000); }
+function stopTrackPolling(){ if(trackTimer){clearInterval(trackTimer);trackTimer=null;} }
+
 function setPlayingUI(on,status){
-  document.getElementById('radio-btn').innerHTML=`<i class="fa-solid ${on?'fa-pause':'fa-play'}"></i>`;
-  document.getElementById('eq').classList.toggle('on',on);
-  document.getElementById('radio-status').innerText=status||(on?(curTrack?'♪ '+curTrack:'NO AR'):'RÁDIO DO SALOON');
+  $('radio-btn').innerHTML=`<i class="fa-solid ${on?'fa-pause':'fa-play'}"></i>`;
+  $('eq').classList.toggle('on',on);
+  $('radio-status').innerText=status||(on?(curTrack?'♪ '+curTrack:'NO AR'):'RÁDIO DO SALOON');
 }
 function renderStations(){
-  document.getElementById('station-list').innerHTML=STATIONS.map((st,i)=>`<button class="st ${i===curStation?'on':''}" onclick="changeStation(${i})"><i class="fa-solid ${i===curStation?'fa-volume-high':'fa-music'}"></i>${st.name}</button>`).join('');
-  document.getElementById('radio-name').innerText=STATIONS[curStation].name;
+  $('station-list').innerHTML=STATIONS.map((st,i)=>`<button class="st ${i===curStation?'on':''}" onclick="changeStation(${i})"><i class="fa-solid ${i===curStation?'fa-volume-high':'fa-music'}"></i>${st.label}</button>`).join('');
+  $('radio-name').innerText=STATIONS[curStation].label;
 }
-function loadAndPlay(){
-  const a=audio();
+async function loadAndPlay(){
+  const token=++playToken, st=STATIONS[curStation], a=audio();
+  setPlayingUI(false,st.cands?'CONECTANDO...':'PROCURANDO RÁDIO NO AR...');
+  const cands=await resolveStation(st);
+  if(token!==playToken||!wantPlay) return;
+  if(!cands.length){ wantPlay=false; stopTrackPolling(); setPlayingUI(false,'NENHUMA RÁDIO ENCONTRADA, TENTE OUTRA'); return; }
+  const c=cands[curUrl];
+  if(c.name) $('radio-name').innerText=c.name;
   a.referrerPolicy='no-referrer';
-  a.src=STATIONS[curStation].urls[curUrl];
-  a.volume=Number(document.getElementById('radio-vol').value);
+  a.src=c.url;
+  a.volume=Number($('radio-vol').value);
   a.load();
   setPlayingUI(false,'CONECTANDO...');
   const p=a.play();
   if(p&&p.catch) p.catch(err=>{ if(err&&err.name==='NotAllowedError'){wantPlay=false;setPlayingUI(false,'TOQUE NO PLAY PARA OUVIR');} });
 }
 function playRadio(){ wantPlay=true; curUrl=0; loadAndPlay(); startTrackPolling(); }
-function pauseRadio(){ wantPlay=false; stopTrackPolling(); const a=audio(); a.pause(); a.removeAttribute('src'); a.load(); setPlayingUI(false); }
+function pauseRadio(){ wantPlay=false; playToken++; stopTrackPolling(); const a=audio(); a.pause(); a.removeAttribute('src'); a.load(); setPlayingUI(false); }
 function toggleRadio(){ wantPlay?pauseRadio():playRadio(); }
 function changeStation(i){ curStation=Number(i); curUrl=0; renderStations(); playRadio(); }
-function toggleRadioPanel(){ const o=document.getElementById('radio-panel').classList.toggle('open'); document.getElementById('radio-chev').className='fa-solid '+(o?'fa-chevron-down':'fa-chevron-up'); }
+function toggleRadioPanel(){ const o=$('radio-panel').classList.toggle('open'); $('radio-chev').className='fa-solid '+(o?'fa-chevron-down':'fa-chevron-up'); }
 (function(){
   const a=audio();
   a.addEventListener('playing',()=>{setPlayingUI(true);});
   a.addEventListener('waiting',()=>{ if(wantPlay) setPlayingUI(false,'CARREGANDO...'); });
   a.addEventListener('error',()=>{
     if(!wantPlay) return;
-    const urls=STATIONS[curStation].urls;
-    if(curUrl<urls.length-1){ curUrl++; loadAndPlay(); }
-    else { wantPlay=false; stopTrackPolling(); setPlayingUI(false,'ESTAÇÃO FORA DO AR, ESCOLHA OUTRA'); }
+    const st=STATIONS[curStation], n=(st.cands||[]).length;
+    if(curUrl<n-1){ curUrl++; loadAndPlay(); }
+    else { wantPlay=false; stopTrackPolling(); setPlayingUI(false,'RÁDIO FORA DO AR, ESCOLHA OUTRA'); }
   });
-  renderStations();
+  renderStations(); renderHistory();
 })();
 
 function toggleDrawer(force){
