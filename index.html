@@ -11,7 +11,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Rye&family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--asfalto:#0d0b09;--couro:#1a1511;--couro2:#241c15;--bourbon:#e8a317;--verde:#1fa35c;--amarelo:#ffd23f;--azul:#1d3f8f;--neon:#ff3b30;--osso:#efe6d6;--borda:#3a2d20}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{overflow-x:hidden;max-width:100vw}
+.adm-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;align-items:start}
+@media(min-width:768px){.adm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1024px){.adm-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.adm-card{min-width:0}
+.adm-card>h3{cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.adm-card>h3::after{content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;font-size:.75rem;color:var(--bourbon);transition:transform .2s}
+.adm-card.collapsed>h3::after{transform:rotate(-90deg)}
+.adm-card.collapsed>*:not(h3){display:none}
+.adm-card.collapsed{padding-bottom:1rem}
 body{font-family:'Barlow',sans-serif;color:var(--osso);background:
  radial-gradient(ellipse at top,rgba(232,163,23,.08),transparent 60%),
  repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0 2px,transparent 2px 6px),var(--asfalto);padding-bottom:64px}
@@ -193,21 +203,23 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 <!-- ADMIN -->
 <section id="sec-admin" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
   <div class="card p-6 flex flex-wrap items-center justify-between gap-4">
-    <div><h2 class="f-rye text-3xl text-amber-500"><i class="fa-solid fa-user-shield mr-2"></i>Painel da Gerência</h2><p class="text-sm text-zinc-400">Status, cardápio, avisos, eventos e moderação em tempo real</p></div>
-    <div class="flex gap-3">
+    <div><h2 class="f-rye text-2xl sm:text-3xl text-amber-500"><i class="fa-solid fa-user-shield mr-2"></i>Painel da Gerência</h2><p class="text-sm text-zinc-400">Status, cardápio, avisos, eventos e moderação em tempo real</p></div>
+    <div class="flex flex-wrap gap-3 w-full sm:w-auto">
       <button id="btn-toggle-bar" onclick="toggleBarStatus()" class="btn">Alternar status</button>
       <button onclick="logoutAdmin()" class="btn btn-dark"><i class="fa-solid fa-right-from-bracket mr-1"></i>Sair</button>
     </div>
   </div>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Faixa da jukebox</h3>
+  <div class="adm-grid">
+    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Faixa da jukebox</h3>
       <input id="adm-jukebox-input" class="input" placeholder="Artista — Música">
       <button onclick="updateJukeboxTrack()" class="btn w-full">Atualizar</button></div>
-    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Publicar aviso</h3>
+    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Avisos</h3>
       <input id="adm-announcement-title" class="input" placeholder="Título">
       <textarea id="adm-announcement-text" class="input" rows="2" placeholder="Comunicado"></textarea>
-      <button onclick="addAnnouncement()" class="btn w-full">Publicar</button></div>
-    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Novo item no cardápio</h3>
+      <div class="flex gap-2"><button id="btn-save-ann" onclick="addAnnouncement()" class="btn flex-1">Publicar</button><button id="btn-cancel-ann" onclick="cancelEdit('ann')" class="btn btn-dark hidden">Cancelar</button></div>
+      <div class="flex items-center justify-between text-xs text-zinc-400 pt-2 border-t border-[#3a2d20]"><span>Avisos publicados</span><button onclick="clearAnnouncements()" class="text-rose-400 font-bold hover:underline">Apagar todos</button></div>
+      <div id="adm-ann-list" class="space-y-2 max-h-56 overflow-y-auto"></div></div>
+    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Cardápio</h3>
       <input id="adm-menu-title" class="input" placeholder="Nome do prato ou bebida">
       <input id="adm-menu-price" type="number" class="input" placeholder="Preço (R$)">
       <select id="adm-menu-cat" class="input">
@@ -215,15 +227,19 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
         <option value="Burgers & BBQ">Burgers & BBQ</option>
         <option value="Bebidas Sem Álcool">Bebidas Sem Álcool</option>
       </select>
-      <button onclick="addMenuItem()" class="btn w-full">Salvar item</button></div>
-    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Agendar evento</h3>
+      <div class="flex gap-2"><button id="btn-save-menu" onclick="addMenuItem()" class="btn flex-1">Salvar item</button><button id="btn-cancel-menu" onclick="cancelEdit('menu')" class="btn btn-dark hidden">Cancelar</button></div>
+      <div class="flex items-center justify-between text-xs text-zinc-400 pt-2 border-t border-[#3a2d20]"><span>Itens do cardápio</span><button onclick="clearMenu()" class="text-rose-400 font-bold hover:underline">Apagar tudo</button></div>
+      <div id="adm-menu-list" class="space-y-2 max-h-64 overflow-y-auto"></div></div>
+    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Programação</h3>
       <input id="adm-event-title" class="input" placeholder="Nome do evento">
       <input id="adm-event-date" class="input" placeholder="Sábado • 21h">
       <textarea id="adm-event-desc" class="input" rows="2" placeholder="Detalhes"></textarea>
-      <button onclick="addEvent()" class="btn w-full">Cadastrar</button></div>
-    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Moderação de fotos</h3>
+      <div class="flex gap-2"><button id="btn-save-event" onclick="addEvent()" class="btn flex-1">Cadastrar</button><button id="btn-cancel-event" onclick="cancelEdit('event')" class="btn btn-dark hidden">Cancelar</button></div>
+      <div class="flex items-center justify-between text-xs text-zinc-400 pt-2 border-t border-[#3a2d20]"><span>Eventos agendados</span><button onclick="clearEvents()" class="text-rose-400 font-bold hover:underline">Apagar todos</button></div>
+      <div id="adm-event-list" class="space-y-2 max-h-56 overflow-y-auto"></div></div>
+    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Moderação de fotos</h3>
       <div id="adm-pending-gallery" class="space-y-2 max-h-52 overflow-y-auto"></div></div>
-    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Moderação do mural</h3>
+    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Moderação do mural</h3>
       <div id="adm-wall-messages" class="space-y-2 max-h-52 overflow-y-auto"></div></div>
   </div>
 </section>
@@ -391,13 +407,13 @@ window.renderUI = function(){
 
   document.getElementById('adm-pending-gallery').innerHTML=(S.photos||[]).map(p=>`
     <div class="bg-black/40 p-2.5 rounded border border-[#3a2d20] flex items-center justify-between gap-2 text-xs">
-      <div class="truncate"><b class="block">${esc(p.author)}</b><span class="text-zinc-400">${esc(p.caption)}</span></div>
+      <div class="truncate min-w-0"><b class="block">${esc(p.author)}</b><span class="text-zinc-400">${esc(p.caption)}</span></div>
       <div class="flex gap-1 shrink-0">${p.status==='pending'?`<button onclick="approvePhoto(${p.id})" class="bg-emerald-600 text-white px-2 py-1 rounded font-bold">Aprovar</button>`:''}
       <button onclick="deletePhoto(${p.id})" class="bg-rose-600 text-white px-2 py-1 rounded font-bold">Excluir</button></div></div>`).join('');
 
   document.getElementById('adm-wall-messages').innerHTML=(S.wallMessages||[]).map(w=>`
     <div class="bg-black/40 p-2.5 rounded border border-[#3a2d20] flex items-center justify-between gap-2 text-xs">
-      <div class="truncate"><b class="block">${esc(w.name)}</b><span class="text-zinc-400">${esc(w.msg)}</span></div>
+      <div class="truncate min-w-0"><b class="block">${esc(w.name)}</b><span class="text-zinc-400">${esc(w.msg)}</span></div>
       <button onclick="deleteWallMessage(${w.id})" class="bg-rose-600 text-white px-2 py-1 rounded font-bold shrink-0">Remover</button></div>`).join('');
 
   document.getElementById('events-list').innerHTML=(S.events||[]).map(e=>`
@@ -406,6 +422,15 @@ window.renderUI = function(){
       <div><span class="f-bebas text-lg text-amber-500">${esc(e.date)}</span>
         <h3 class="f-bebas text-3xl leading-tight">${esc(e.title)}</h3>
         <p class="text-zinc-400">${esc(e.desc)}</p></div></div>`).join('');
+  const rowBtns=(ed,del)=>`<div class="flex gap-1 shrink-0"><button onclick="${ed}" class="bg-amber-500 text-black px-2 py-1 rounded font-bold">Editar</button><button onclick="${del}" class="bg-rose-600 text-white px-2 py-1 rounded font-bold">Excluir</button></div>`;
+  const row=(t1,t2,btns)=>`<div class="bg-black/40 p-2.5 rounded border border-[#3a2d20] flex items-center justify-between gap-2 text-xs"><div class="truncate min-w-0"><b class="block truncate">${t1}</b><span class="text-zinc-400 block truncate">${t2}</span></div>${btns}</div>`;
+  const none='<p class="text-xs text-zinc-500">Nada cadastrado.</p>';
+  const al=document.getElementById('adm-ann-list'); if(al) al.innerHTML=(S.announcements||[]).map(a=>row(esc(a.title),esc(a.text),rowBtns(`editAnnouncement(${a.id})`,`deleteAnnouncement(${a.id})`))).join('')||none;
+  const ml=document.getElementById('adm-menu-list'); if(ml) ml.innerHTML=(S.menu||[]).map(i=>row(esc(i.title),'R$ '+esc(i.price)+' • '+esc(i.category),rowBtns(`editMenuItem(${i.id})`,`deleteMenuItem(${i.id})`))).join('')||none;
+  const el2=document.getElementById('adm-event-list'); if(el2) el2.innerHTML=(S.events||[]).map(e=>row(esc(e.title),esc(e.date),rowBtns(`editEvent(${e.id})`,`deleteEvent(${e.id})`))).join('')||none;
+  const empty=(id,msg)=>{const el=document.getElementById(id); if(el&&!el.innerHTML.trim()) el.innerHTML='<p class="text-zinc-500 col-span-full">'+msg+'</p>';};
+  if(!isAdmin()){ ['adm-ann-list','adm-menu-list','adm-event-list','adm-pending-gallery','adm-wall-messages'].forEach(id=>{const e=document.getElementById(id); if(e) e.innerHTML='';}); }
+  empty('announcements-list','Nenhum aviso no momento.'); empty('menu-container','O cardápio está sendo atualizado. Volte já!'); empty('events-list','Nenhum evento agendado por enquanto.');
 };
 
 if(isFirebaseReady){
@@ -448,7 +473,7 @@ async function resolveStation(st){
 }
 
 function setNow(txt){}
-function renderHistory(){ const el=$('track-history'); if(!el) return; el.innerHTML=history.length?history.map(t=>'<div class="truncate">• '+t.replace(/[<>&]/g,'')+'</div>').join(''):'<div>—</div>'; }
+function renderHistory(){ const el=$('track-history'); if(!el) return; el.innerHTML=history.length?history.map(t=>'<div class="truncate min-w-0">• '+t.replace(/[<>&]/g,'')+'</div>').join(''):'<div>—</div>'; }
 async function fetchTrack(){
   const st=STATIONS[curStation];
   if(st.chan===undefined){ curTrack=''; setNow('Esta rádio não informa a música'); return; }
@@ -508,6 +533,11 @@ function toggleRadioPanel(){ const o=$('radio-panel').classList.toggle('open'); 
   renderStations(); renderHistory();
 })();
 
+
+document.querySelectorAll('#sec-admin .adm-card > h3').forEach(h=>{
+  h.addEventListener('click',()=>h.parentElement.classList.toggle('collapsed'));
+  if(window.innerWidth<768) h.parentElement.classList.add('collapsed');
+});
 function toggleDrawer(force){
   const open=typeof force==='boolean'?force:!document.getElementById('drawer').classList.contains('open');
   document.getElementById('drawer').classList.toggle('open',open);
@@ -516,6 +546,7 @@ function toggleDrawer(force){
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') toggleDrawer(false); });
 
 function showSection(id){
+  if(id==='admin'&&sessionStorage.getItem('rota69_admin')!=='true'){ toggleDrawer(false); document.getElementById('admin-login-modal').classList.remove('hidden'); return; }
   ['home','cardapio','eventos','mural','galeria','manifesto','admin'].forEach(s=>document.getElementById('sec-'+s).classList.add('hidden'));
   document.getElementById('sec-'+id).classList.remove('hidden');
   document.querySelectorAll('#main-nav [data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
@@ -543,25 +574,52 @@ async function updateJukeboxTrack(){
   const t=document.getElementById('adm-jukebox-input').value.trim(); if(!t) return alert('Digite o nome da música!');
   appState.jukeboxTrack=t; await syncState(); document.getElementById('adm-jukebox-input').value='';
 }
+
+const editing={ann:null,menu:null,event:null};
+const FORM={ann:['adm-announcement-title','adm-announcement-text'],menu:['adm-menu-title','adm-menu-price'],event:['adm-event-title','adm-event-date','adm-event-desc']};
+const LABEL={ann:'Publicar',menu:'Salvar item',event:'Cadastrar'};
+function openCard(id){ const c=document.getElementById(id).closest('.adm-card'); if(c) c.classList.remove('collapsed'); }
+function cancelEdit(k){
+  editing[k]=null; FORM[k].forEach(id=>document.getElementById(id).value='');
+  if(k==='menu') document.getElementById('adm-menu-cat').selectedIndex=0;
+  document.getElementById('btn-save-'+k).innerText=LABEL[k]; document.getElementById('btn-cancel-'+k).classList.add('hidden');
+}
+function startEdit(k,id){ editing[k]=id; document.getElementById('btn-save-'+k).innerText='Salvar alterações'; document.getElementById('btn-cancel-'+k).classList.remove('hidden'); openCard(FORM[k][0]); document.getElementById(FORM[k][0]).focus(); }
+
 async function addAnnouncement(){
   const title=document.getElementById('adm-announcement-title').value.trim(), text=document.getElementById('adm-announcement-text').value.trim();
   if(!title||!text) return alert('Preencha os campos do aviso!');
-  (appState.announcements=appState.announcements||[]).unshift({id:Date.now(),title,text});
-  await syncState(); document.getElementById('adm-announcement-title').value=''; document.getElementById('adm-announcement-text').value='';
+  const list=(appState.announcements=appState.announcements||[]);
+  if(editing.ann){ const it=list.find(x=>x.id===editing.ann); if(it){it.title=title;it.text=text;} } else list.unshift({id:Date.now(),title,text});
+  await syncState(); cancelEdit('ann');
 }
+function editAnnouncement(id){ const it=(appState.announcements||[]).find(x=>x.id===id); if(!it) return; document.getElementById('adm-announcement-title').value=it.title; document.getElementById('adm-announcement-text').value=it.text; startEdit('ann',id); }
+async function deleteAnnouncement(id){ if(!confirm('Excluir este aviso?')) return; appState.announcements=(appState.announcements||[]).filter(x=>x.id!==id); if(editing.ann===id) cancelEdit('ann'); await syncState(); }
+async function clearAnnouncements(){ if(!confirm('Apagar TODOS os avisos?')) return; appState.announcements=[]; cancelEdit('ann'); await syncState(); }
+
 async function addMenuItem(){
   const title=document.getElementById('adm-menu-title').value.trim(), price=Number(document.getElementById('adm-menu-price').value), category=document.getElementById('adm-menu-cat').value;
   if(!title||!price) return alert('Preencha nome e preço!');
-  (appState.menu=appState.menu||[]).push({id:Date.now(),title,price,category,available:true});
-  await syncState(); document.getElementById('adm-menu-title').value=''; document.getElementById('adm-menu-price').value='';
+  const list=(appState.menu=appState.menu||[]);
+  if(editing.menu){ const it=list.find(x=>x.id===editing.menu); if(it){it.title=title;it.price=price;it.category=category;} } else list.push({id:Date.now(),title,price,category,available:true});
+  await syncState(); cancelEdit('menu');
 }
-async function toggleItemAvailability(id){ const i=(appState.menu||[]).find(m=>m.id===id); if(i){i.available=!i.available; await syncState();} }
+function editMenuItem(id){ const it=(appState.menu||[]).find(x=>x.id===id); if(!it) return; document.getElementById('adm-menu-title').value=it.title; document.getElementById('adm-menu-price').value=it.price; document.getElementById('adm-menu-cat').value=it.category; startEdit('menu',id); }
+async function deleteMenuItem(id){ if(!confirm('Excluir este item do cardápio?')) return; appState.menu=(appState.menu||[]).filter(x=>x.id!==id); if(editing.menu===id) cancelEdit('menu'); await syncState(); }
+async function clearMenu(){ if(!confirm('Apagar TODO o cardápio?')) return; appState.menu=[]; cancelEdit('menu'); await syncState(); }
+
 async function addEvent(){
   const title=document.getElementById('adm-event-title').value.trim(), date=document.getElementById('adm-event-date').value.trim(), desc=document.getElementById('adm-event-desc').value.trim();
-  if(!title||!date) return alert('Preencha os dados do evento!');
-  (appState.events=appState.events||[]).push({id:Date.now(),title,date,desc});
-  await syncState(); ['title','date','desc'].forEach(k=>document.getElementById('adm-event-'+k).value='');
+  if(!title||!date) return alert('Preencha o nome e a data do evento!');
+  const list=(appState.events=appState.events||[]);
+  if(editing.event){ const it=list.find(x=>x.id===editing.event); if(it){it.title=title;it.date=date;it.desc=desc;} } else list.push({id:Date.now(),title,date,desc});
+  await syncState(); cancelEdit('event');
 }
+function editEvent(id){ const it=(appState.events||[]).find(x=>x.id===id); if(!it) return; document.getElementById('adm-event-title').value=it.title; document.getElementById('adm-event-date').value=it.date; document.getElementById('adm-event-desc').value=it.desc||''; startEdit('event',id); }
+async function deleteEvent(id){ if(!confirm('Excluir este evento?')) return; appState.events=(appState.events||[]).filter(x=>x.id!==id); if(editing.event===id) cancelEdit('event'); await syncState(); }
+async function clearEvents(){ if(!confirm('Apagar TODOS os eventos?')) return; appState.events=[]; cancelEdit('event'); await syncState(); }
+
+async function toggleItemAvailability(id){ const i=(appState.menu||[]).find(m=>m.id===id); if(i){i.available=!i.available; await syncState();} }
 async function submitWallMessage(){
   const name=document.getElementById('pub-wall-name').value.trim(), msg=document.getElementById('pub-wall-msg').value.trim();
   if(!name||!msg) return alert('Preencha seu nome e a mensagem!');
