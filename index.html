@@ -1,894 +1,489 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="dark">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rota 69 - American Roadside Saloon & Biker Bar</title>
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              gold: '#f59e0b',
-              amber: '#d97706',
-              red: '#dc2626',
-              dark: '#0a0a0c',
-              surface: '#121216',
-              card: '#18181e',
-              border: '#272730'
-            }
-          },
-          fontFamily: {
-            heading: ['Oswald', 'sans-serif'],
-            body: ['Roboto', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
-  
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-
-  <style>
-    body { font-family: 'Roboto', sans-serif; background-color: #0a0a0c; color: #e4e4e7; }
-    h1, h2, h3, h4, .font-heading { font-family: 'Oswald', sans-serif; letter-spacing: 0.05em; }
-    
-    .neon-gold { text-shadow: 0 0 12px rgba(245, 158, 11, 0.4); }
-    .neon-red { text-shadow: 0 0 12px rgba(220, 38, 38, 0.5); }
-    
-    /* Shield shape for Route emblem */
-    .clip-shield {
-      clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 50% 100%, 0% 75%);
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0a0a0c; }
-    ::-webkit-scrollbar-thumb { background: #272730; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rota 69 — Saloon & Moto Bar</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--asfalto:#0d0b09;--couro:#1a1511;--couro2:#241c15;--bourbon:#e8a317;--verde:#1fa35c;--amarelo:#ffd23f;--azul:#1d3f8f;--neon:#ff3b30;--osso:#efe6d6;--borda:#3a2d20}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;color:var(--osso);background:
+ radial-gradient(ellipse at top,rgba(232,163,23,.08),transparent 60%),
+ repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0 2px,transparent 2px 6px),var(--asfalto);padding-bottom:84px}
+.f-rye{font-family:'Rye',serif}.f-bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:.06em}
+.neon{color:#ffb347;text-shadow:0 0 6px #ff9500,0 0 18px #ff6a00,0 0 40px rgba(255,80,0,.6);animation:flick 5s infinite}
+.neon-red{color:#ff7a70;text-shadow:0 0 6px #ff3b30,0 0 22px #ff3b30}
+@keyframes flick{0%,92%,100%{opacity:1}93%{opacity:.7}94%{opacity:1}96%{opacity:.8}}
+.card{background:linear-gradient(180deg,var(--couro2),var(--couro));border:1px solid var(--borda);border-radius:6px;box-shadow:inset 0 0 0 3px var(--couro),inset 0 0 0 4px rgba(232,163,23,.18),0 10px 24px rgba(0,0,0,.5)}
+.stitch{border:2px dashed rgba(232,163,23,.35);border-radius:6px}
+.btn{background:var(--bourbon);color:#1a1005;font-family:'Bebas Neue';letter-spacing:.08em;font-size:1.05rem;padding:.55rem 1.3rem;border-radius:4px;border-bottom:4px solid #9a6a08;transition:.15s}
+.btn:hover{background:#ffbd2e}.btn:active{transform:translateY(3px);border-bottom-width:1px}
+.btn-dark{background:#2a2118;color:var(--osso);border:1px solid var(--borda);border-bottom:4px solid #120e0a}
+.btn-dark:hover{background:#3a2d20}
+.input{width:100%;background:#0a0806;border:1px solid var(--borda);padding:.65rem;border-radius:4px;color:var(--osso);font-size:.9rem}
+.input:focus{outline:2px solid var(--bourbon);outline-offset:1px}
+.bandeira{height:6px;background:linear-gradient(90deg,var(--verde) 0 33%,var(--amarelo) 33% 66%,var(--azul) 66%)}
+.shield{clip-path:polygon(0 0,100% 0,100% 72%,50% 100%,0 72%);background:#f4efe2;color:#111}
+.nav-btn{padding:.5rem .8rem;border-radius:4px;font-family:'Bebas Neue';letter-spacing:.08em;font-size:1.1rem;color:#d8cbb4;transition:.15s}
+.nav-btn:hover,.nav-btn.on{background:rgba(232,163,23,.15);color:var(--bourbon)}
+.sec-title{font-family:'Rye';color:var(--bourbon);font-size:clamp(2rem,6vw,3.4rem);line-height:1.05}
+.hero{background:linear-gradient(180deg,rgba(13,11,9,.55),var(--asfalto)),url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1920') center/cover}
+.estrada{height:10px;background:repeating-linear-gradient(90deg,var(--amarelo) 0 40px,transparent 40px 80px);opacity:.8}
+.eq span{display:inline-block;width:4px;background:var(--bourbon);margin-right:2px;height:6px;border-radius:1px}
+.eq.on span{animation:eq .9s infinite ease-in-out}
+.eq.on span:nth-child(2){animation-delay:.15s}.eq.on span:nth-child(3){animation-delay:.3s}.eq.on span:nth-child(4){animation-delay:.45s}.eq.on span:nth-child(5){animation-delay:.6s}
+@keyframes eq{0%,100%{height:5px}50%{height:22px}}
+.disco.on{animation:spin 3s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.mural-card{transform:rotate(var(--r,0deg))}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}}
+::-webkit-scrollbar{width:9px}::-webkit-scrollbar-track{background:var(--asfalto)}::-webkit-scrollbar-thumb{background:var(--borda)}
+</style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+<body class="min-h-screen selection:bg-amber-500 selection:text-black">
 
-  <!-- ================= NAV & HEADER ================= -->
-  <header class="bg-brand-surface/95 backdrop-blur border-b border-brand-border sticky top-0 z-50 shadow-2xl">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap justify-between items-center gap-4">
-      
-      <!-- Route 69 Emblem -->
-      <a href="#" onclick="showSection('home')" class="flex items-center gap-3 group">
-        <div class="relative w-12 h-14 bg-amber-500 text-black flex items-center justify-center font-extrabold text-2xl clip-shield font-heading shadow-lg group-hover:bg-amber-400 transition">
-          <svg class="w-10 h-12 text-black fill-current" viewBox="0 0 24 24">
-            <path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-5.45 9-12V5l-9-3zm0 2.18l7 2.33v4.99c0 4.47-3.08 8.66-7 9.8-3.92-1.14-7-5.33-7-9.8V6.51l7-2.33z"/>
-          </svg>
-          <span class="absolute inset-0 flex items-center justify-center text-black font-extrabold text-lg tracking-tighter">69</span>
-        </div>
-        <div>
-          <span class="text-2xl font-bold tracking-wider text-amber-500 font-heading block leading-none neon-gold">ROTA 69</span>
-          <span class="text-[10px] text-zinc-400 font-semibold tracking-widest uppercase">Roadside Saloon & Grill • Historic Route 66</span>
-        </div>
-      </a>
-
-      <!-- Status Indicator -->
-      <div id="bar-status-badge" class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2.5 border shadow-inner">
-        <span id="bar-status-icon"></span>
-        <span id="bar-status-text">Carregando...</span>
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-[#100c09]/95 backdrop-blur border-b border-[#3a2d20]">
+  <div class="bandeira"></div>
+  <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+    <a href="#" onclick="showSection('home');return false" class="flex items-center gap-3">
+      <div class="shield w-11 h-12 flex items-start justify-center pt-1 font-bold shadow-lg"><span class="f-bebas text-2xl leading-none">69</span></div>
+      <div>
+        <div class="f-rye text-2xl text-amber-500 leading-none">Rota 69</div>
+        <div class="text-[11px] text-zinc-400 tracking-widest">SALOON • MOTO BAR • CHURRASCO</div>
       </div>
-
-      <!-- Navigation Links -->
-      <nav class="flex flex-wrap items-center gap-1 text-sm font-semibold">
-        <button onclick="showSection('home')" class="px-3.5 py-2 rounded-lg hover:bg-zinc-800 text-amber-400 transition flex items-center gap-2">
-          <i class="fa-solid fa-compass text-xs"></i> Início
-        </button>
-        <button onclick="showSection('cardapio')" class="px-3.5 py-2 rounded-lg hover:bg-zinc-800 hover:text-amber-400 transition flex items-center gap-2">
-          <i class="fa-solid fa-beer-mug-empty text-xs"></i> Cardápio
-        </button>
-        <button onclick="showSection('eventos')" class="px-3.5 py-2 rounded-lg hover:bg-zinc-800 hover:text-amber-400 transition flex items-center gap-2">
-          <i class="fa-solid fa-calendar-days text-xs"></i> Programação
-        </button>
-        <button onclick="showSection('mural')" class="px-3.5 py-2 rounded-lg hover:bg-zinc-800 hover:text-amber-400 transition flex items-center gap-2">
-          <i class="fa-solid fa-pen-nib text-xs"></i> Mural Viajantes
-        </button>
-        <button onclick="showSection('galeria')" class="px-3.5 py-2 rounded-lg hover:bg-zinc-800 hover:text-amber-400 transition flex items-center gap-2">
-          <i class="fa-solid fa-camera text-xs"></i> Galeria
-        </button>
-        <button onclick="showSection('manifesto')" class="px-3.5 py-2 rounded-lg hover:bg-zinc-800 hover:text-amber-400 transition flex items-center gap-2">
-          <i class="fa-solid fa-shield-halved text-xs"></i> Tradição
-        </button>
-        <button onclick="openAdminModal()" class="px-3.5 py-2 rounded-lg bg-zinc-900 hover:bg-amber-500 hover:text-black border border-zinc-700 transition text-zinc-300 ml-2 flex items-center gap-2">
-          <i class="fa-solid fa-lock text-xs"></i> Gerência
-        </button>
-      </nav>
+    </a>
+    <div id="bar-status-badge" class="px-3 py-1 rounded-full text-xs font-bold tracking-wider flex items-center gap-2 border">
+      <span id="bar-status-icon"></span><span id="bar-status-text">Carregando...</span>
     </div>
-  </header>
+    <nav class="flex flex-wrap items-center gap-1" id="main-nav">
+      <button data-s="home" onclick="showSection('home')" class="nav-btn on">Início</button>
+      <button data-s="cardapio" onclick="showSection('cardapio')" class="nav-btn">Cardápio</button>
+      <button data-s="eventos" onclick="showSection('eventos')" class="nav-btn">Programação</button>
+      <button data-s="mural" onclick="showSection('mural')" class="nav-btn">Mural</button>
+      <button data-s="galeria" onclick="showSection('galeria')" class="nav-btn">Galeria</button>
+      <button data-s="manifesto" onclick="showSection('manifesto')" class="nav-btn">Código da Casa</button>
+      <button onclick="openAdminModal()" class="nav-btn border border-[#3a2d20]"><i class="fa-solid fa-lock text-xs"></i> Gerência</button>
+    </nav>
+  </div>
+</header>
 
-  <!-- ================= JUKEBOX / RADIO WIDGET BANNER ================= -->
-  <div class="bg-zinc-950 border-b border-zinc-800 py-2.5 px-4">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs">
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 animate-pulse">
-          <i class="fa-solid fa-compact-disc"></i>
-        </div>
-        <div>
-          <span class="text-zinc-500 uppercase tracking-widest font-bold block text-[10px]">Tocando na Jukebox do Saloon</span>
-          <span id="jukebox-track-name" class="font-bold text-amber-400 text-sm">Lynyrd Skynyrd — Simple Man</span>
-        </div>
+<!-- HOME -->
+<section id="sec-home">
+  <div class="hero relative px-4 py-24 sm:py-32 text-center">
+    <div class="max-w-5xl mx-auto space-y-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1 border border-amber-500/40 rounded text-amber-300 text-sm tracking-widest bg-black/40">
+        <i class="fa-solid fa-star text-xs"></i> ESTRADA ABERTA DESDE 1969 <i class="fa-solid fa-star text-xs"></i>
       </div>
-
-      <div class="flex items-center gap-3">
-        <audio id="saloon-audio-player" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-        <button onclick="toggleJukeboxPlay()" id="jukebox-play-btn" class="bg-amber-500 hover:bg-amber-400 text-black px-4 py-1.5 rounded-lg font-bold uppercase tracking-wider flex items-center gap-2 text-xs transition">
-          <i class="fa-solid fa-play"></i> Ouvir Rádio
-        </button>
+      <h1 class="f-rye neon text-5xl sm:text-7xl md:text-8xl leading-[1.05]">Rota 69</h1>
+      <p class="f-bebas text-3xl sm:text-5xl text-[#efe6d6] tracking-widest">Gasolina, Rock & Churrasco</p>
+      <p class="max-w-2xl mx-auto text-zinc-300 text-lg">Saloon de beira de estrada onde a Route 66 encontra o Brasil: chopp gelado, bourbon, costela defumada, picanha na brasa e rock rolando a noite toda. Estacione a moto e fique à vontade.</p>
+      <div class="flex flex-wrap justify-center gap-3 pt-3">
+        <button class="btn" onclick="showSection('cardapio')"><i class="fa-solid fa-utensils mr-2"></i>Ver cardápio</button>
+        <button class="btn btn-dark" onclick="copyAddress()"><i class="fa-solid fa-location-dot mr-2"></i>Copiar endereço</button>
+        <button class="btn btn-dark" onclick="toggleRadio()"><i class="fa-solid fa-radio mr-2"></i>Ligar rádio</button>
       </div>
     </div>
   </div>
+  <div class="estrada"></div>
 
-  <!-- ================= HERO SECTION ================= -->
-  <section id="sec-home" class="space-y-16 pb-16">
-    <div class="relative bg-zinc-950 border-b border-brand-border py-28 px-4 text-center overflow-hidden">
-      
-      <!-- Background Image with Vignette -->
-      <div class="absolute inset-0 opacity-40 bg-cover bg-center scale-105 transition duration-1000" style="background-image: url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1920');"></div>
-      <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/70 to-transparent"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-brand-dark/80 via-transparent to-brand-dark/80"></div>
-
-      <div class="relative max-w-5xl mx-auto space-y-6">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-widest backdrop-blur">
-          <i class="fa-solid fa-route"></i> Historic Route 66 • Flint County
-        </div>
-        
-        <h1 class="text-5xl sm:text-7xl md:text-8xl font-extrabold text-amber-500 uppercase tracking-wider drop-shadow-2xl font-heading leading-none">
-          Cerveja Gelada, Smoke & Asfalto
-        </h1>
-        
-        <p class="text-zinc-300 text-lg md:text-xl max-w-3xl mx-auto font-light leading-relaxed">
-          O autêntico ponto de encontro dos motociclistas e viajantes da estrada. Rock & roll, motores aquecidos e o melhor churrasco defumado no estilo americano.
-        </p>
-
-        <!-- Address & Quick Copy Card -->
-        <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <div class="bg-brand-surface/90 backdrop-blur border border-zinc-800 px-6 py-4 rounded-xl text-left flex items-center gap-4 shadow-2xl">
-            <div class="w-10 h-10 bg-amber-500/10 border border-amber-500/20 rounded-lg flex items-center justify-center text-amber-500 text-xl">
-              <i class="fa-solid fa-location-dot"></i>
-            </div>
-            <div>
-              <span class="text-[11px] text-zinc-400 font-bold block uppercase tracking-wider">Localização na Rodovia</span>
-              <span class="text-sm font-semibold text-zinc-200">Rodovia SP-330, Flint County (Entrada da Rota 66)</span>
-            </div>
-          </div>
-
-          <button onclick="copyAddress()" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-7 py-4 rounded-xl shadow-lg shadow-amber-500/20 transition flex items-center gap-2.5 uppercase tracking-wider text-xs font-heading">
-            <i class="fa-solid fa-copy"></i> Copiar Endereço
-          </button>
-        </div>
-      </div>
+  <div class="max-w-7xl mx-auto px-4 py-12 space-y-14">
+    <div class="grid md:grid-cols-3 gap-5">
+      <div class="card p-5 flex items-center gap-4"><i class="fa-solid fa-clock text-3xl text-amber-500"></i><div><div class="f-bebas text-xl text-amber-400">Horário</div><div class="font-semibold">Ter a Dom, 18h às 04h</div></div></div>
+      <div class="card p-5 flex items-center gap-4"><i class="fa-solid fa-whiskey-glass text-3xl text-amber-500"></i><div><div class="f-bebas text-xl text-amber-400">Happy hour dobrado</div><div class="font-semibold">18h às 21h, todos os bourbons</div></div></div>
+      <div class="card p-5 flex items-center gap-4"><i class="fa-solid fa-motorcycle text-3xl text-amber-500"></i><div><div class="f-bebas text-xl text-amber-400">Vaga pra moto</div><div class="font-semibold">Pátio coberto para motos e trucks</div></div></div>
     </div>
 
-    <!-- Operating Hours & Specials Banner -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-brand-card border border-brand-border p-6 rounded-2xl flex items-center gap-4">
-        <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-xl flex items-center justify-center text-2xl">
-          <i class="fa-solid fa-clock"></i>
-        </div>
-        <div>
-          <h4 class="text-xs uppercase font-bold text-zinc-400 tracking-wider">Horário do Saloon</h4>
-          <p class="text-zinc-100 font-bold text-base">Terça a Domingo: 18h - 04h</p>
-        </div>
+    <div>
+      <div class="flex items-end justify-between border-b border-[#3a2d20] pb-3 mb-6">
+        <h2 class="sec-title !text-3xl sm:!text-4xl"><i class="fa-solid fa-bullhorn text-2xl mr-2"></i>Quadro de avisos</h2>
+        <span class="text-xs text-zinc-500">Atualizado pela gerência</span>
       </div>
-
-      <div class="bg-brand-card border border-brand-border p-6 rounded-2xl flex items-center gap-4">
-        <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-xl flex items-center justify-center text-2xl">
-          <i class="fa-solid fa-beer-mug-empty"></i>
-        </div>
-        <div>
-          <h4 class="text-xs uppercase font-bold text-zinc-400 tracking-wider">Happy Hour Duplo</h4>
-          <p class="text-zinc-100 font-bold text-base">Das 18h às 21h em todos os Bourbons</p>
-        </div>
-      </div>
-
-      <div class="bg-brand-card border border-brand-border p-6 rounded-2xl flex items-center gap-4">
-        <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-xl flex items-center justify-center text-2xl">
-          <i class="fa-solid fa-motorcycle"></i>
-        </div>
-        <div>
-          <h4 class="text-xs uppercase font-bold text-zinc-400 tracking-wider">Estacionamento Reservado</h4>
-          <p class="text-zinc-100 font-bold text-base">Vagas para Motocicletas e Trucks</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Announcements Board -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-6">
-        <div class="flex items-center gap-3">
-          <i class="fa-solid fa-bullhorn text-amber-500 text-2xl"></i>
-          <h2 class="text-3xl font-bold uppercase text-zinc-100 font-heading">Quadro de Avisos da Estrada</h2>
-        </div>
-        <span class="text-xs text-zinc-500 uppercase tracking-widest">Atualizado pela Gerência</span>
-      </div>
-      
-      <div id="announcements-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Dynamic Render -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CARDÁPIO ================= -->
-  <section id="sec-cardapio" class="hidden max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-10">
-    <div class="border-b border-zinc-800 pb-6 flex justify-between items-end">
-      <div>
-        <h2 class="text-5xl font-bold uppercase text-amber-500 font-heading">Cardápio & Smokehouse</h2>
-        <p class="text-zinc-400 text-sm mt-1">Cortes defumados na lenha de nogueira, hambúrgueres artesanais e bebidas trincando</p>
-      </div>
-      <div class="hidden sm:block text-zinc-700 text-4xl">
-        <i class="fa-solid fa-utensils"></i>
-      </div>
-    </div>
-
-    <div id="menu-container" class="space-y-10">
-      <!-- Dynamic Render -->
-    </div>
-  </section>
-
-  <!-- ================= PROGRAMAÇÃO & EVENTOS ================= -->
-  <section id="sec-eventos" class="hidden max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-8">
-    <div class="border-b border-zinc-800 pb-6">
-      <h2 class="text-5xl font-bold uppercase text-amber-500 font-heading">Programação & Rolês</h2>
-      <p class="text-zinc-400 text-sm mt-1">Shows de rock ao vivo, encontros de motocicletas e noites temáticas de sinuca</p>
-    </div>
-
-    <div id="events-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Dynamic Render -->
-    </div>
-  </section>
-
-  <!-- ================= MURAL DOS VIAJANTES ================= -->
-  <section id="sec-mural" class="hidden max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-8">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
-      <div>
-        <h2 class="text-5xl font-bold uppercase text-amber-500 font-heading">Mural de Assinaturas</h2>
-        <p class="text-zinc-400 text-sm mt-1">Deixe sua marca gravada na parede virtual do Rota 69 Saloon</p>
-      </div>
-      <button onclick="toggleElement('sign-wall-modal')" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 uppercase tracking-wider text-xs font-heading">
-        <i class="fa-solid fa-pen-to-square"></i> Assinar o Mural
-      </button>
-    </div>
-
-    <div id="wall-messages-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Dynamic Render -->
-    </div>
-  </section>
-
-  <!-- ================= GALERIA ================= -->
-  <section id="sec-galeria" class="hidden max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-8">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800 pb-6">
-      <div>
-        <h2 class="text-5xl font-bold uppercase text-amber-500 font-heading">Galeria da Estrada</h2>
-        <p class="text-zinc-400 text-sm mt-1">Motocicletas alinhadas, noites de show e momentos no balcão</p>
-      </div>
-      <button onclick="toggleElement('upload-photo-modal')" class="bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-3 rounded-xl transition flex items-center gap-2 uppercase tracking-wider text-xs font-heading">
-        <i class="fa-solid fa-upload"></i> Enviar Foto
-      </button>
-    </div>
-
-    <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Dynamic Render -->
-    </div>
-  </section>
-
-  <!-- ================= TRADIÇÃO & MANIFESTO ================= -->
-  <section id="sec-manifesto" class="hidden max-w-4xl mx-auto px-4 py-10">
-    <div class="bg-brand-card border border-brand-border rounded-2xl p-8 sm:p-12 space-y-8 shadow-2xl relative overflow-hidden">
-      <div class="text-center space-y-3">
-        <div class="w-16 h-16 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-full flex items-center justify-center mx-auto text-3xl">
-          <i class="fa-solid fa-shield-halved"></i>
-        </div>
-        <h2 class="text-4xl sm:text-5xl font-bold uppercase text-zinc-100 font-heading">Tradição & Código da Casa</h2>
-        <p class="text-amber-500 font-semibold tracking-widest uppercase text-xs">Liberdade • Respeito • Irmandade</p>
-      </div>
-
-      <div class="space-y-6 text-zinc-300 leading-relaxed text-base border-t border-zinc-800 pt-8">
-        <div class="flex gap-4 items-start">
-          <span class="text-amber-500 font-bold font-heading text-xl">01</span>
-          <div>
-            <h4 class="font-bold text-zinc-100 mb-1">Respeito à Estrada e aos Clientes</h4>
-            <p class="text-sm text-zinc-400">O Rota 69 é um território neutro e um porto seguro para todos os motociclistas e viajantes da rodovia. Confusões e desrespeito não são tolerados no estabelecimento.</p>
-          </div>
-        </div>
-
-        <div class="flex gap-4 items-start">
-          <span class="text-amber-500 font-bold font-heading text-xl">02</span>
-          <div>
-            <h4 class="font-bold text-zinc-100 mb-1">Irmandade Duas Rodas</h4>
-            <p class="text-sm text-zinc-400">Não importa se você roda em uma Chopper customizada, uma Cruiser clássica ou uma Touring. Aqui valorizamos o amor pelos motores e pela estrada aberta.</p>
-          </div>
-        </div>
-
-        <div class="flex gap-4 items-start">
-          <span class="text-amber-500 font-bold font-heading text-xl">03</span>
-          <div>
-            <h4 class="font-bold text-zinc-100 mb-1">Cerveja Gelada & Boa Música</h4>
-            <p class="text-sm text-zinc-400">Honramos o autêntico rock 'n' roll, a culinária defumada e o bom atendimento. Trate nossa equipe com respeito e aproveite o ambiente.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= PAINEL ADMINISTRATIVO ================= -->
-  <section id="sec-admin" class="hidden max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-8">
-    <div class="bg-zinc-900 border border-amber-500/30 p-6 rounded-2xl flex flex-wrap justify-between items-center gap-4">
-      <div>
-        <h2 class="text-3xl font-bold text-amber-500 uppercase flex items-center gap-3 font-heading">
-          <i class="fa-solid fa-user-shield"></i> Painel da Gerência
-        </h2>
-        <p class="text-xs text-zinc-400">Controle de funcionamento, cardápio, mural e anúncios em tempo real</p>
-      </div>
-      <div class="flex items-center gap-3">
-        <button id="btn-toggle-bar" onclick="toggleBarStatus()" class="px-5 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider transition flex items-center gap-2">
-          Alternar Status
-        </button>
-        <button onclick="logoutAdmin()" class="bg-zinc-800 hover:bg-red-600 text-zinc-200 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition flex items-center gap-2">
-          <i class="fa-solid fa-right-from-bracket"></i> Sair
-        </button>
-      </div>
-    </div>
-
-    <!-- Admin Modules -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-      <!-- Modulo 1: Jukebox Track Update -->
-      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
-        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
-          <i class="fa-solid fa-music text-xs"></i> Faixa da Jukebox
-        </h3>
-        <input id="adm-jukebox-input" type="text" placeholder="Artista — Nome da Música" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
-        <button onclick="updateJukeboxTrack()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-lg transition text-xs uppercase tracking-wider">Atualizar Música</button>
-      </div>
-
-      <!-- Modulo 2: Anúncios -->
-      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
-        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
-          <i class="fa-solid fa-bullhorn text-xs"></i> Publicar Aviso
-        </h3>
-        <input id="adm-announcement-title" type="text" placeholder="Título do Aviso" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
-        <textarea id="adm-announcement-text" placeholder="Conteúdo do comunicado..." rows="2" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100"></textarea>
-        <button onclick="addAnnouncement()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-lg transition text-xs uppercase tracking-wider">Publicar</button>
-      </div>
-
-      <!-- Modulo 3: Cardápio Item -->
-      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
-        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
-          <i class="fa-solid fa-beer-mug-empty text-xs"></i> Adicionar Item ao Menu
-        </h3>
-        <input id="adm-menu-title" type="text" placeholder="Nome do Prato/Bebida" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
-        <input id="adm-menu-price" type="number" placeholder="Preço ($)" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
-        <select id="adm-menu-cat" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
-          <option value="Cervejas & Bourbon">Cervejas & Bourbon</option>
-          <option value="Burgers & BBQ">Burgers & BBQ</option>
-          <option value="Bebidas Sem Álcool">Bebidas Sem Álcool</option>
-        </select>
-        <button onclick="addMenuItem()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-lg transition text-xs uppercase tracking-wider">Salvar Item</button>
-      </div>
-
-      <!-- Modulo 4: Eventos -->
-      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
-        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
-          <i class="fa-solid fa-calendar-plus text-xs"></i> Agendar Evento
-        </h3>
-        <input id="adm-event-title" type="text" placeholder="Nome do Evento" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
-        <input id="adm-event-date" type="text" placeholder="Data/Horário (Ex: Sábado - 21h)" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100">
-        <textarea id="adm-event-desc" placeholder="Detalhes da atração..." rows="2" class="w-full bg-zinc-950 border border-zinc-800 p-2.5 rounded-lg text-sm text-zinc-100"></textarea>
-        <button onclick="addEvent()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-2 rounded-lg transition text-xs uppercase tracking-wider">Cadastrar Evento</button>
-      </div>
-
-      <!-- Modulo 5: Moderação de Fotos -->
-      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
-        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
-          <i class="fa-solid fa-images text-xs"></i> Moderação de Fotos
-        </h3>
-        <div id="adm-pending-gallery" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-          <!-- Dynamic Render -->
-        </div>
-      </div>
-
-      <!-- Modulo 6: Moderação do Mural -->
-      <div class="bg-brand-card p-5 rounded-xl border border-brand-border space-y-4">
-        <h3 class="text-lg font-bold text-amber-500 uppercase font-heading flex items-center gap-2">
-          <i class="fa-solid fa-pen-nib text-xs"></i> Moderação do Mural
-        </h3>
-        <div id="adm-wall-messages" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-          <!-- Dynamic Render -->
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================= MODAL: ASSINAR MURAL ================= -->
-  <div id="sign-wall-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl max-w-md w-full space-y-4 shadow-2xl">
-      <div class="flex justify-between items-center">
-        <h3 class="text-xl font-bold text-amber-500 uppercase font-heading">Deixar Marca no Mural</h3>
-        <button onclick="toggleElement('sign-wall-modal')" class="text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-      </div>
-      <input id="pub-wall-name" type="text" placeholder="Seu Nome / Apelido ou Moto Clube" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-sm text-zinc-100">
-      <textarea id="pub-wall-msg" placeholder="Escreva sua mensagem, frase ou saudação..." rows="3" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-sm text-zinc-100"></textarea>
-      <button onclick="submitWallMessage()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-3 rounded-lg transition uppercase tracking-wider text-xs font-heading">Gravar no Mural</button>
+      <div id="announcements-list" class="grid md:grid-cols-2 gap-5"></div>
     </div>
   </div>
+</section>
 
-  <!-- ================= MODAL: UPLOAD FOTO ================= -->
-  <div id="upload-photo-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl max-w-md w-full space-y-4 shadow-2xl">
-      <div class="flex justify-between items-center">
-        <h3 class="text-xl font-bold text-amber-500 uppercase font-heading">Enviar Foto para a Galeria</h3>
-        <button onclick="toggleElement('upload-photo-modal')" class="text-zinc-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-      </div>
-      <input id="pub-photo-author" type="text" placeholder="Seu Nome / Apelido" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-sm text-zinc-100">
-      <input id="pub-photo-url" type="url" placeholder="URL da Imagem (Imgur, Discord, Unsplash)" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-sm text-zinc-100">
-      <textarea id="pub-photo-caption" placeholder="Legenda da foto..." rows="2" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-sm text-zinc-100"></textarea>
-      <button onclick="submitPhoto()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold py-3 rounded-lg transition uppercase tracking-wider text-xs font-heading">Enviar Foto</button>
+<!-- CARDAPIO -->
+<section id="sec-cardapio" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
+  <div class="border-b border-[#3a2d20] pb-5">
+    <h2 class="sec-title">Cardápio</h2>
+    <p class="text-zinc-400 mt-2">Defumado na lenha, grelhado na brasa e servido sem frescura. Preços em reais.</p>
+  </div>
+  <div id="menu-container" class="space-y-10"></div>
+</section>
+
+<!-- EVENTOS -->
+<section id="sec-eventos" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
+  <div class="border-b border-[#3a2d20] pb-5">
+    <h2 class="sec-title">Programação</h2>
+    <p class="text-zinc-400 mt-2">Rock ao vivo, comboios e noites de sinuca.</p>
+  </div>
+  <div id="events-list" class="grid md:grid-cols-2 gap-5"></div>
+</section>
+
+<!-- MURAL -->
+<section id="sec-mural" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
+  <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#3a2d20] pb-5">
+    <div><h2 class="sec-title">Mural dos viajantes</h2><p class="text-zinc-400 mt-2">Deixe sua marca na parede do saloon.</p></div>
+    <button class="btn" onclick="toggleElement('sign-wall-modal')"><i class="fa-solid fa-pen mr-2"></i>Assinar o mural</button>
+  </div>
+  <div id="wall-messages-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</section>
+
+<!-- GALERIA -->
+<section id="sec-galeria" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
+  <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#3a2d20] pb-5">
+    <div><h2 class="sec-title">Galeria</h2><p class="text-zinc-400 mt-2">Motos alinhadas, noites de show e balcão cheio.</p></div>
+    <button class="btn" onclick="toggleElement('upload-photo-modal')"><i class="fa-solid fa-camera mr-2"></i>Enviar foto</button>
+  </div>
+  <div id="gallery-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</section>
+
+<!-- MANIFESTO -->
+<section id="sec-manifesto" class="hidden max-w-3xl mx-auto px-4 py-10">
+  <div class="card p-8 sm:p-12 space-y-8">
+    <div class="text-center space-y-2">
+      <div class="shield w-16 h-[4.5rem] mx-auto flex items-start justify-center pt-2"><span class="f-bebas text-3xl">69</span></div>
+      <h2 class="sec-title">Código da Casa</h2>
+      <p class="f-bebas text-xl text-zinc-400 tracking-widest">Liberdade, respeito e irmandade</p>
+    </div>
+    <div class="space-y-6 border-t border-[#3a2d20] pt-8">
+      <div><h4 class="f-bebas text-2xl text-amber-400">Respeito à estrada e a quem chega</h4><p class="text-zinc-300">O Rota 69 é território neutro. Todo motociclista e viajante é bem-vindo. Confusão e desrespeito ficam do lado de fora.</p></div>
+      <div><h4 class="f-bebas text-2xl text-amber-400">Irmandade sobre duas rodas</h4><p class="text-zinc-300">Chopper, custom, big trail ou scooter: o que vale é o amor pela estrada. Moto clube ou lobo solitário, a mesa é de todos.</p></div>
+      <div><h4 class="f-bebas text-2xl text-amber-400">Cerveja gelada e boa música</h4><p class="text-zinc-300">Rock de verdade, comida defumada e atendimento de casa. Trate a equipe bem e quem for dirigir, beba com cabeça.</p></div>
     </div>
   </div>
+</section>
 
-  <!-- ================= MODAL: LOGIN GERÊNCIA ================= -->
-  <div id="admin-login-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-zinc-900 border border-amber-500/30 p-8 rounded-2xl max-w-sm w-full space-y-6 text-center shadow-2xl">
-      <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-full flex items-center justify-center mx-auto text-2xl border border-amber-500/30">
-        <i class="fa-solid fa-lock"></i>
-      </div>
-      <div>
-        <h3 class="text-2xl font-bold text-amber-500 uppercase font-heading">Acesso da Gerência</h3>
-        <p class="text-xs text-zinc-400">Área restrita de administração</p>
-      </div>
-      <input id="admin-pass-input" type="password" placeholder="Digite a Senha" class="w-full bg-zinc-950 border border-zinc-800 p-3 rounded-lg text-center text-zinc-100 focus:border-amber-500 outline-none">
-      <div class="flex gap-2">
-        <button onclick="toggleElement('admin-login-modal')" class="w-1/2 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold py-2.5 rounded-lg transition text-xs uppercase">Cancelar</button>
-        <button onclick="loginAdmin()" class="w-1/2 bg-amber-500 hover:bg-amber-400 text-black font-bold py-2.5 rounded-lg transition text-xs uppercase">Entrar</button>
-      </div>
+<!-- ADMIN -->
+<section id="sec-admin" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
+  <div class="card p-6 flex flex-wrap items-center justify-between gap-4">
+    <div><h2 class="f-rye text-3xl text-amber-500"><i class="fa-solid fa-user-shield mr-2"></i>Painel da Gerência</h2><p class="text-sm text-zinc-400">Status, cardápio, avisos, eventos e moderação em tempo real</p></div>
+    <div class="flex gap-3">
+      <button id="btn-toggle-bar" onclick="toggleBarStatus()" class="btn">Alternar status</button>
+      <button onclick="logoutAdmin()" class="btn btn-dark"><i class="fa-solid fa-right-from-bracket mr-1"></i>Sair</button>
     </div>
   </div>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Faixa da jukebox</h3>
+      <input id="adm-jukebox-input" class="input" placeholder="Artista — Música">
+      <button onclick="updateJukeboxTrack()" class="btn w-full">Atualizar</button></div>
+    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Publicar aviso</h3>
+      <input id="adm-announcement-title" class="input" placeholder="Título">
+      <textarea id="adm-announcement-text" class="input" rows="2" placeholder="Comunicado"></textarea>
+      <button onclick="addAnnouncement()" class="btn w-full">Publicar</button></div>
+    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Novo item no cardápio</h3>
+      <input id="adm-menu-title" class="input" placeholder="Nome do prato ou bebida">
+      <input id="adm-menu-price" type="number" class="input" placeholder="Preço (R$)">
+      <select id="adm-menu-cat" class="input">
+        <option value="Cervejas & Bourbon">Cervejas & Bourbon</option>
+        <option value="Burgers & BBQ">Burgers & BBQ</option>
+        <option value="Bebidas Sem Álcool">Bebidas Sem Álcool</option>
+      </select>
+      <button onclick="addMenuItem()" class="btn w-full">Salvar item</button></div>
+    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Agendar evento</h3>
+      <input id="adm-event-title" class="input" placeholder="Nome do evento">
+      <input id="adm-event-date" class="input" placeholder="Sábado • 21h">
+      <textarea id="adm-event-desc" class="input" rows="2" placeholder="Detalhes"></textarea>
+      <button onclick="addEvent()" class="btn w-full">Cadastrar</button></div>
+    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Moderação de fotos</h3>
+      <div id="adm-pending-gallery" class="space-y-2 max-h-52 overflow-y-auto"></div></div>
+    <div class="card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Moderação do mural</h3>
+      <div id="adm-wall-messages" class="space-y-2 max-h-52 overflow-y-auto"></div></div>
+  </div>
+</section>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="bg-zinc-950 border-t border-brand-border py-10 text-center text-xs text-zinc-500 mt-16">
-    <div class="max-w-7xl mx-auto px-4 space-y-4">
-      <div class="flex justify-center items-center gap-2 text-amber-500 font-heading text-lg">
-        <i class="fa-solid fa-shield"></i> ROTA 69 ROADSIDE SALOON & GRILL
-      </div>
-      <p class="font-bold text-zinc-400 uppercase tracking-widest">HISTORIC ROUTE 66 • FLINT COUNTY, USA</p>
-      <p>© 2026 Todos os direitos reservados.</p>
+<!-- MODAIS -->
+<div id="sign-wall-modal" class="hidden fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4">
+  <div class="card p-6 max-w-md w-full space-y-4">
+    <div class="flex justify-between items-center"><h3 class="f-rye text-xl text-amber-500">Assinar o mural</h3><button onclick="toggleElement('sign-wall-modal')" aria-label="Fechar"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+    <input id="pub-wall-name" class="input" placeholder="Seu nome, apelido ou moto clube">
+    <textarea id="pub-wall-msg" class="input" rows="3" placeholder="Sua mensagem"></textarea>
+    <button onclick="submitWallMessage()" class="btn w-full">Gravar no mural</button>
+  </div>
+</div>
+<div id="upload-photo-modal" class="hidden fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4">
+  <div class="card p-6 max-w-md w-full space-y-4">
+    <div class="flex justify-between items-center"><h3 class="f-rye text-xl text-amber-500">Enviar foto</h3><button onclick="toggleElement('upload-photo-modal')" aria-label="Fechar"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+    <input id="pub-photo-author" class="input" placeholder="Seu nome ou apelido">
+    <input id="pub-photo-url" type="url" class="input" placeholder="Link da imagem (Imgur, Discord, Unsplash)">
+    <textarea id="pub-photo-caption" class="input" rows="2" placeholder="Legenda"></textarea>
+    <button onclick="submitPhoto()" class="btn w-full">Enviar foto</button>
+  </div>
+</div>
+<div id="admin-login-modal" class="hidden fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4">
+  <div class="card p-8 max-w-sm w-full space-y-5 text-center">
+    <i class="fa-solid fa-lock text-3xl text-amber-500"></i>
+    <h3 class="f-rye text-xl text-amber-500">Acesso da gerência</h3>
+    <input id="admin-pass-input" type="password" class="input text-center" placeholder="Senha" onkeydown="if(event.key==='Enter')loginAdmin()">
+    <div class="flex gap-2">
+      <button onclick="toggleElement('admin-login-modal')" class="btn btn-dark w-1/2">Cancelar</button>
+      <button onclick="loginAdmin()" class="btn w-1/2">Entrar</button>
     </div>
-  </footer>
+  </div>
+</div>
 
-  <!-- ================= FIREBASE REALTIME DB & APP LOGIC ================= -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+<footer class="mt-16">
+  <div class="estrada"></div>
+  <div class="bg-black py-10 text-center text-sm text-zinc-500 px-4 space-y-2">
+    <div class="f-rye text-2xl text-amber-500">Rota 69</div>
+    <p class="tracking-widest text-zinc-400">Rodovia SP-330 • Flint County • Entrada da Rota 66</p>
+    <p>Se beber, não dirija. Capacete sempre. © 2026 Rota 69.</p>
+  </div>
+  <div class="bandeira"></div>
+</footer>
 
-    // Configuração apontando para o seu Realtime Database
-    const firebaseConfig = {
-      apiKey: "COLE_SUA_API_KEY_AQUI", // Obtenha em Configurações do Projeto no Firebase Console se desejar
-      authDomain: "rota69-6b9cf.firebaseapp.com",
-      databaseURL: "https://rota69-6b9cf-default-rtdb.firebaseio.com",
-      projectId: "rota69-6b9cf",
-      storageBucket: "rota69-6b9cf.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:abcdef"
-    };
+<!-- RÁDIO FIXA -->
+<div class="fixed bottom-0 inset-x-0 z-40 bg-[#100c09]/97 backdrop-blur border-t-2 border-amber-500/50">
+  <audio id="radio-audio" preload="none"></audio>
+  <div class="max-w-7xl mx-auto px-3 py-2 flex items-center gap-3 flex-wrap">
+    <button id="radio-btn" onclick="toggleRadio()" class="w-12 h-12 rounded-full bg-amber-500 text-black text-lg flex items-center justify-center shrink-0 hover:bg-amber-400" aria-label="Tocar ou pausar rádio"><i class="fa-solid fa-play"></i></button>
+    <div id="disco" class="disco hidden sm:flex w-10 h-10 rounded-full bg-[radial-gradient(circle,#e8a317_0 14%,#111_15% 40%,#222_41% 44%,#111_45%)] shrink-0"></div>
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center gap-2 text-[11px] text-zinc-500 tracking-widest">
+        <span class="eq" id="eq"><span></span><span></span><span></span><span></span><span></span></span>
+        <span id="radio-status">RÁDIO DO SALOON</span>
+      </div>
+      <div id="radio-name" class="f-bebas text-xl text-amber-400 truncate leading-tight">Left Coast 70s — Rock clássico</div>
+      <div class="text-xs text-zinc-400 truncate">Na jukebox: <span id="jukebox-track-name">Lynyrd Skynyrd — Simple Man</span></div>
+    </div>
+    <select id="radio-select" onchange="changeStation(this.value)" class="input !w-auto text-xs" aria-label="Estação">
+      <option value="0">Rock clássico 70s</option>
+      <option value="1">Metal pesado</option>
+      <option value="2">Rock anos 80</option>
+      <option value="3">Americana & Boot Liquor</option>
+    </select>
+    <input id="radio-vol" type="range" min="0" max="1" step="0.05" value="0.6" oninput="document.getElementById('radio-audio').volume=this.value" class="w-24 accent-amber-500" aria-label="Volume">
+  </div>
+</div>
 
-    let db = null;
-    let mainRef = null;
-    let isFirebaseReady = false;
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    try {
-      const app = initializeApp(firebaseConfig);
-      db = getDatabase(app);
-      mainRef = ref(db, 'mainState');
-      isFirebaseReady = true;
-    } catch (e) {
-      console.warn("Firebase operando em modo demonstrativo.");
-    }
+const firebaseConfig = {
+  apiKey: "COLE_SUA_API_KEY_AQUI",
+  authDomain: "rota69-6b9cf.firebaseapp.com",
+  databaseURL: "https://rota69-6b9cf-default-rtdb.firebaseio.com",
+  projectId: "rota69-6b9cf",
+  storageBucket: "rota69-6b9cf.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abcdef"
+};
 
-    // Estado Padrão dos Dados
-    window.appState = {
-      barOpen: true,
-      jukeboxTrack: 'Lynyrd Skynyrd — Simple Man',
-      announcements: [
-        { 
-          id: 1, 
-          title: 'Sexta do Classic Rock & Bourbon', 
-          text: 'Banda ao vivo tocando o melhor do rock das antigas a partir das 21h. Chopp trincando e dose dupla de Bourbon para quem vier de motocicleta!' 
-        },
-        { 
-          id: 2, 
-          title: 'Encontro Anual de Choppers & Customs', 
-          text: 'Neste domingo teremos alinhamento especial de motocicletas no pátio com barbecue texano servido o dia todo.' 
-        }
-      ],
-      menu: [
-        { id: 1, title: 'Draft Beer Long Neck (Ice Cold)', price: 8, category: 'Cervejas & Bourbon', available: true },
-        { id: 2, title: 'Kentucky Straight Bourbon Whiskey', price: 14, category: 'Cervejas & Bourbon', available: true },
-        { id: 3, title: 'Texas Smoked BBQ Ribs', price: 28, category: 'Burgers & BBQ', available: true },
-        { id: 4, title: 'Double Bacon Road Burger', price: 18, category: 'Burgers & BBQ', available: true },
-        { id: 5, title: 'Soda & Ice Tea Refill', price: 6, category: 'Bebidas Sem Álcool', available: true }
-      ],
-      events: [
-        { id: 1, title: 'Comboio pela Rota 66', date: 'Sábado - 19:00', desc: 'Ponto de encontro no pátio do Saloon para um rolê em comboio ao pôr do sol.' },
-        { id: 2, title: 'Noite da Sinuca & BBQ', date: 'Quarta - 20:00', desc: 'Torneio aberto de sinuca com porções de costela defumada em promoção.' }
-      ],
-      wallMessages: [
-        { id: 1, name: 'Vince "Lone Wolf"', msg: 'Melhor bourbon da Rota 66. Passagem obrigatória em toda viagem!' },
-        { id: 2, name: 'Thunderbirds MC', msg: 'Sempre somos bem recebidos aqui. Respeito e cerveja trincando!' }
-      ],
-      photos: [
-        { 
-          id: 1, 
-          author: 'Jake "Big Dog"', 
-          url: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=800', 
-          caption: 'Moscas alinhadas na entrada do Saloon!', 
-          status: 'approved' 
-        },
-        { 
-          id: 2, 
-          author: 'Sarah M.', 
-          url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=800', 
-          caption: 'Luzes acesas e cerveja gelada no balcão.', 
-          status: 'approved' 
-        }
-      ]
-    };
+let db=null, mainRef=null, isFirebaseReady=false;
+try{ const app=initializeApp(firebaseConfig); db=getDatabase(app); mainRef=ref(db,'mainState'); isFirebaseReady=true; }
+catch(e){ console.warn("Firebase em modo demonstrativo."); }
 
-    // Função Principal de Renderização da Interface
-    window.renderUI = function() {
-      // 1. Status Indicator
-      const statusBadge = document.getElementById('bar-status-badge');
-      const statusIcon = document.getElementById('bar-status-icon');
-      const statusText = document.getElementById('bar-status-text');
-      const adminToggleBtn = document.getElementById('btn-toggle-bar');
+window.appState = {
+  barOpen:true,
+  jukeboxTrack:'Lynyrd Skynyrd — Simple Man',
+  announcements:[
+    {id:1,title:'Sexta do Classic Rock & Bourbon',text:'Banda ao vivo a partir das 21h, com o melhor do rock das antigas. Chopp trincando e dose dupla de bourbon para quem chegar de moto.'},
+    {id:2,title:'Encontro de Choppers & Customs',text:'Domingo tem alinhamento de motos no pátio e churrasco texano-brasileiro o dia todo: costela, linguiça e picanha.'}
+  ],
+  menu:[
+    {id:1,title:'Chopp Gelado 500ml',price:16,category:'Cervejas & Bourbon',available:true},
+    {id:2,title:'Kentucky Bourbon (dose)',price:32,category:'Cervejas & Bourbon',available:true},
+    {id:3,title:'Caipirinha do Motoqueiro',price:24,category:'Cervejas & Bourbon',available:true},
+    {id:4,title:'Costela Defumada na Lenha',price:89,category:'Burgers & BBQ',available:true},
+    {id:5,title:'Road Burger Duplo com Bacon',price:42,category:'Burgers & BBQ',available:true},
+    {id:6,title:'Picanha na Brasa com Fritas',price:96,category:'Burgers & BBQ',available:true},
+    {id:7,title:'Refrigerante ou Chá Gelado (refil)',price:12,category:'Bebidas Sem Álcool',available:true}
+  ],
+  events:[
+    {id:1,title:'Comboio pela Rota 66',date:'Sábado • 19h',desc:'Saída do pátio do saloon para um rolê em comboio ao pôr do sol.'},
+    {id:2,title:'Noite da Sinuca & BBQ',date:'Quarta • 20h',desc:'Torneio aberto de sinuca, com costela defumada em promoção.'}
+  ],
+  wallMessages:[
+    {id:1,name:'Vince "Lone Wolf"',msg:'Melhor bourbon da Rota 66. Parada obrigatória em toda viagem!'},
+    {id:2,name:'Thunderbirds MC',msg:'Sempre bem recebidos aqui. Respeito e cerveja gelada!'}
+  ],
+  photos:[
+    {id:1,author:'Jake "Big Dog"',url:'https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=800',caption:'Motos alinhadas na entrada do saloon.',status:'approved'},
+    {id:2,author:'Sarah M.',url:'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=800',caption:'Luzes acesas e cerveja gelada no balcão.',status:'approved'}
+  ]
+};
 
-      if (window.appState.barOpen) {
-        statusBadge.className = "px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 bg-emerald-950/80 text-emerald-400 border-emerald-800 shadow-emerald-900/30";
-        statusIcon.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>`;
-        statusText.innerText = "SALOON ABERTO";
-        if (adminToggleBtn) {
-          adminToggleBtn.className = "px-5 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider bg-red-600 hover:bg-red-500 text-white transition";
-          adminToggleBtn.innerText = "Fechar Saloon";
-        }
-      } else {
-        statusBadge.className = "px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 bg-rose-950/80 text-rose-400 border-rose-800 shadow-rose-900/30";
-        statusIcon.innerHTML = `<span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>`;
-        statusText.innerText = "SALOON FECHADO";
-        if (adminToggleBtn) {
-          adminToggleBtn.className = "px-5 py-2.5 rounded-xl font-bold uppercase text-xs tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white transition";
-          adminToggleBtn.innerText = "Abrir Saloon";
-        }
-      }
+const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const isAdmin = () => sessionStorage.getItem('rota69_admin')==='true';
 
-      // 2. Jukebox Track
-      const jukeboxEl = document.getElementById('jukebox-track-name');
-      if (jukeboxEl && window.appState.jukeboxTrack) {
-        jukeboxEl.innerText = window.appState.jukeboxTrack;
-      }
+window.renderUI = function(){
+  const S = window.appState;
+  const badge=document.getElementById('bar-status-badge'), icon=document.getElementById('bar-status-icon'),
+        txt=document.getElementById('bar-status-text'), tg=document.getElementById('btn-toggle-bar');
+  if(S.barOpen){
+    badge.className="px-3 py-1 rounded-full text-xs font-bold tracking-wider flex items-center gap-2 border bg-emerald-950/80 text-emerald-400 border-emerald-800";
+    icon.innerHTML='<span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse inline-block"></span>';
+    txt.innerText="SALOON ABERTO"; if(tg) tg.innerText="Fechar saloon";
+  }else{
+    badge.className="px-3 py-1 rounded-full text-xs font-bold tracking-wider flex items-center gap-2 border bg-rose-950/80 text-rose-400 border-rose-800";
+    icon.innerHTML='<span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span>';
+    txt.innerText="SALOON FECHADO"; if(tg) tg.innerText="Abrir saloon";
+  }
+  const j=document.getElementById('jukebox-track-name'); if(j&&S.jukeboxTrack) j.innerText=S.jukeboxTrack;
 
-      // 3. Announcements
-      const annList = document.getElementById('announcements-list');
-      if (annList) {
-        annList.innerHTML = (window.appState.announcements || []).map(a => `
-          <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative shadow-xl">
-            <h3 class="text-2xl font-bold text-amber-500 font-heading mb-2">${a.title}</h3>
-            <p class="text-zinc-300 text-sm leading-relaxed">${a.text}</p>
+  document.getElementById('announcements-list').innerHTML=(S.announcements||[]).map(a=>`
+    <div class="card p-6"><h3 class="f-bebas text-3xl text-amber-400 mb-2">${esc(a.title)}</h3><p class="text-zinc-300">${esc(a.text)}</p></div>`).join('');
+
+  const cats=['Cervejas & Bourbon','Burgers & BBQ','Bebidas Sem Álcool'];
+  const icons={'Cervejas & Bourbon':'fa-beer-mug-empty','Burgers & BBQ':'fa-fire-flame-curved','Bebidas Sem Álcool':'fa-glass-water'};
+  document.getElementById('menu-container').innerHTML=cats.map(cat=>{
+    const items=(S.menu||[]).filter(m=>m.category===cat); if(!items.length) return '';
+    return `<div class="space-y-4">
+      <h3 class="f-rye text-2xl text-amber-500 border-b border-[#3a2d20] pb-2"><i class="fa-solid ${icons[cat]} mr-2 text-xl"></i>${cat}</h3>
+      <div class="grid md:grid-cols-2 gap-4">${items.map(i=>`
+        <div class="card p-4 flex justify-between items-center gap-3">
+          <div><h4 class="font-bold text-lg">${esc(i.title)}</h4>
+            <span class="text-xs font-semibold ${i.available?'text-emerald-400':'text-rose-500'}">${i.available?'Disponível no balcão':'Esgotado hoje'}</span></div>
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="f-bebas text-3xl text-amber-400">R$ ${esc(i.price)}</span>
+            ${isAdmin()?`<button onclick="toggleItemAvailability(${i.id})" class="text-xs px-2 py-1 rounded bg-zinc-800 border border-zinc-700">${i.available?'Esgotar':'Liberar'}</button>`:''}
           </div>
-        `).join('');
-      }
+        </div>`).join('')}</div></div>`;
+  }).join('');
 
-      // 4. Cardápio Categorizado com Toggle de Disponibilidade
-      const menuContainer = document.getElementById('menu-container');
-      if (menuContainer) {
-        const categories = ['Cervejas & Bourbon', 'Burgers & BBQ', 'Bebidas Sem Álcool'];
-        menuContainer.innerHTML = categories.map(cat => {
-          const items = (window.appState.menu || []).filter(m => m.category === cat);
-          if (items.length === 0) return '';
-          return `
-            <div class="space-y-4">
-              <h3 class="text-2xl font-bold text-amber-500 border-b border-zinc-800 pb-2 font-heading tracking-wider">${cat}</h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                ${items.map(i => `
-                  <div class="bg-brand-card p-4 rounded-xl border border-brand-border flex justify-between items-center shadow-md">
-                    <div>
-                      <h4 class="font-bold text-zinc-100">${i.title}</h4>
-                      <span class="text-[11px] ${i.available ? 'text-emerald-400' : 'text-rose-500'} font-semibold block mt-0.5">
-                        ${i.available ? '• Disponível no Balcão' : '• Esgotado Hoje'}
-                      </span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                      <span class="text-2xl font-bold text-amber-500 font-heading">$ ${i.price}</span>${sessionStorage.getItem('rota69_admin') === 'true' ? `
-                        <button onclick="toggleItemAvailability(${i.id})" class="text-xs px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700">
-                          ${i.available ? 'Marcar Esgotado' : 'Marcar Disponível'}
-                        </button>
-                      ` : ''}
-                    </div>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `;
-        }).join('');
-      }
+  document.getElementById('wall-messages-grid').innerHTML=(S.wallMessages||[]).map((w,idx)=>`
+    <div class="card mural-card p-6 space-y-3" style="--r:${(idx%3-1)*0.8}deg">
+      <i class="fa-solid fa-quote-left text-amber-500 text-xl"></i>
+      <p class="italic text-zinc-200">"${esc(w.msg)}"</p>
+      <span class="f-bebas text-lg text-amber-500">— ${esc(w.name)}</span></div>`).join('');
 
-      // 5. Mural dos Viajantes
-      const wallGrid = document.getElementById('wall-messages-grid');
-      if (wallGrid) {
-        wallGrid.innerHTML = (window.appState.wallMessages || []).map(w => `
-          <div class="bg-brand-card border border-brand-border p-6 rounded-xl space-y-3 shadow-xl relative overflow-hidden">
-            <div class="text-amber-500 text-2xl"><i class="fa-solid fa-quote-left"></i></div>
-            <p class="text-zinc-200 text-sm italic">"${w.msg}"</p>
-            <span class="text-xs font-bold text-amber-500 font-heading tracking-wider uppercase block">— ${w.name}</span>
-          </div>
-        `).join('');
-      }
+  document.getElementById('gallery-grid').innerHTML=(S.photos||[]).filter(p=>p.status==='approved').map(p=>`
+    <div class="card overflow-hidden group">
+      <div class="h-60 overflow-hidden"><img src="${esc(p.url)}" loading="lazy" class="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 group-hover:scale-105 transition duration-500" alt="${esc(p.caption)}"></div>
+      <div class="p-4"><p class="font-semibold">"${esc(p.caption)}"</p><span class="f-bebas text-amber-500">— ${esc(p.author)}</span></div></div>`).join('');
 
-      // 6. Galeria de Fotos
-      const galleryGrid = document.getElementById('gallery-grid');
-      if (galleryGrid) {
-        const approvedPhotos = (window.appState.photos || []).filter(p => p.status === 'approved');
-        galleryGrid.innerHTML = approvedPhotos.map(p => `
-          <div class="bg-brand-card border border-brand-border rounded-xl overflow-hidden group shadow-xl">
-            <div class="h-60 overflow-hidden relative">
-              <img src="${p.url}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="Galeria Rota 69">
-            </div>
-            <div class="p-4 space-y-1">
-              <p class="text-sm font-semibold text-zinc-200">"${p.caption}"</p>
-              <span class="text-xs text-amber-500 font-bold uppercase block">— ${p.author}</span>
-            </div>
-          </div>
-        `).join('');
-      }
+  document.getElementById('adm-pending-gallery').innerHTML=(S.photos||[]).map(p=>`
+    <div class="bg-black/40 p-2.5 rounded border border-[#3a2d20] flex items-center justify-between gap-2 text-xs">
+      <div class="truncate"><b class="block">${esc(p.author)}</b><span class="text-zinc-400">${esc(p.caption)}</span></div>
+      <div class="flex gap-1 shrink-0">${p.status==='pending'?`<button onclick="approvePhoto(${p.id})" class="bg-emerald-600 text-white px-2 py-1 rounded font-bold">Aprovar</button>`:''}
+      <button onclick="deletePhoto(${p.id})" class="bg-rose-600 text-white px-2 py-1 rounded font-bold">Excluir</button></div></div>`).join('');
 
-      // 7. Moderação do Painel Admin
-      const admPending = document.getElementById('adm-pending-gallery');
-      if (admPending) {
-        admPending.innerHTML = (window.appState.photos || []).map(p => `
-          <div class="bg-zinc-950 p-2.5 rounded-lg border border-zinc-800 flex items-center justify-between gap-2 text-xs">
-            <div class="truncate">
-              <span class="font-bold text-zinc-200 block">${p.author}</span>
-              <span class="text-zinc-400 truncate block">${p.caption}</span>
-            </div>
-            <div class="flex gap-1">
-              ${p.status === 'pending' ? `<button onclick="approvePhoto(${p.id})" class="bg-emerald-600 text-white px-2 py-1 rounded font-bold">Aprovar</button>` : ''}
-              <button onclick="deletePhoto(${p.id})" class="bg-rose-600 text-white px-2 py-1 rounded font-bold">Excluir</button>
-            </div>
-          </div>
-        `).join('');
-      }
+  document.getElementById('adm-wall-messages').innerHTML=(S.wallMessages||[]).map(w=>`
+    <div class="bg-black/40 p-2.5 rounded border border-[#3a2d20] flex items-center justify-between gap-2 text-xs">
+      <div class="truncate"><b class="block">${esc(w.name)}</b><span class="text-zinc-400">${esc(w.msg)}</span></div>
+      <button onclick="deleteWallMessage(${w.id})" class="bg-rose-600 text-white px-2 py-1 rounded font-bold shrink-0">Remover</button></div>`).join('');
 
-      const admWall = document.getElementById('adm-wall-messages');
-      if (admWall) {
-        admWall.innerHTML = (window.appState.wallMessages || []).map(w => `
-          <div class="bg-zinc-950 p-2.5 rounded-lg border border-zinc-800 flex items-center justify-between gap-2 text-xs">
-            <div class="truncate">
-              <span class="font-bold text-zinc-200 block">${w.name}</span>
-              <span class="text-zinc-400 truncate block">${w.msg}</span>
-            </div>
-            <button onclick="deleteWallMessage(${w.id})" class="bg-rose-600 text-white px-2 py-1 rounded font-bold">Remover</button>
-          </div>
-        `).join('');
-      }
+  document.getElementById('events-list').innerHTML=(S.events||[]).map(e=>`
+    <div class="card p-6 flex items-start gap-4">
+      <div class="stitch p-4 text-amber-500 text-3xl"><i class="fa-solid fa-guitar"></i></div>
+      <div><span class="f-bebas text-lg text-amber-500">${esc(e.date)}</span>
+        <h3 class="f-bebas text-3xl leading-tight">${esc(e.title)}</h3>
+        <p class="text-zinc-400">${esc(e.desc)}</p></div></div>`).join('');
+};
 
-      // 8. Eventos
-      const eventsList = document.getElementById('events-list');
-      if (eventsList) {
-        eventsList.innerHTML = (window.appState.events || []).map(e => `
-          <div class="bg-brand-card border border-brand-border p-6 rounded-2xl flex items-start gap-4 shadow-xl">
-            <div class="bg-amber-500/10 border border-amber-500/30 text-amber-500 p-4 rounded-xl text-center min-w-[85px]">
-              <i class="fa-solid fa-calendar-day text-2xl block mb-1"></i>
-            </div>
-            <div class="space-y-1">
-              <span class="text-xs text-amber-500 font-bold uppercase tracking-wider">${e.date}</span>
-              <h3 class="text-2xl font-bold text-zinc-100 font-heading">${e.title}</h3>
-              <p class="text-zinc-400 text-sm leading-relaxed">${e.desc}</p>
-            </div>
-          </div>
-        `).join('');
-      }
-    };
+if(isFirebaseReady){
+  onValue(mainRef,snap=>{ const d=snap.val(); if(d){window.appState=d;} else {set(mainRef,window.appState);} window.renderUI(); });
+}else{ window.renderUI(); }
 
-    // Sincronização em Tempo Real com Firebase Realtime Database
-    if (isFirebaseReady) {
-      onValue(mainRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          window.appState = data;
-        } else {
-          set(mainRef, window.appState);
-        }
-        window.renderUI();
-      });
-    } else {
-      window.renderUI();
-    }
+window.syncState = async function(){
+  if(isFirebaseReady){ try{ await set(mainRef,window.appState);}catch(e){ console.error(e); alert('Não foi possível salvar. Verifique as regras do banco.'); } }
+  else window.renderUI();
+};
+</script>
 
-    // Função Global de Atualização
-    window.syncState = async function() {
-      if (isFirebaseReady) {
-        await set(mainRef, window.appState);
-      } else {
-        window.renderUI();
-      }
-    };
-  </script>
+<script>
+const STATIONS=[
+  {name:'Left Coast 70s — Rock clássico',url:'https://ice1.somafm.com/seventies-128-mp3'},
+  {name:'Metal Detector — Rock pesado',url:'https://ice1.somafm.com/metal-128-mp3'},
+  {name:'Underground 80s — Rock anos 80',url:'https://ice1.somafm.com/u80s-128-mp3'},
+  {name:'Boot Liquor — Americana & country rock',url:'https://ice1.somafm.com/bootliquor-128-mp3'}
+];
+let curStation=0;
+const audio=()=>document.getElementById('radio-audio');
+function setPlayingUI(on,status){
+  document.getElementById('radio-btn').innerHTML=`<i class="fa-solid ${on?'fa-pause':'fa-play'}"></i>`;
+  document.getElementById('eq').classList.toggle('on',on);
+  document.getElementById('disco').classList.toggle('on',on);
+  document.getElementById('radio-status').innerText=status||(on?'NO AR':'RÁDIO DO SALOON');
+}
+function changeStation(i){
+  curStation=Number(i);
+  document.getElementById('radio-name').innerText=STATIONS[curStation].name;
+  const a=audio(); const was=!a.paused;
+  a.src=STATIONS[curStation].url;
+  if(was) playRadio();
+}
+function playRadio(){
+  const a=audio();
+  if(!a.src) a.src=STATIONS[curStation].url;
+  a.volume=Number(document.getElementById('radio-vol').value);
+  setPlayingUI(false,'CONECTANDO...');
+  a.play().then(()=>setPlayingUI(true)).catch(()=>setPlayingUI(false,'FALHA NA CONEXÃO, TENTE OUTRA ESTAÇÃO'));
+}
+function toggleRadio(){ const a=audio(); (a.paused||!a.src)?playRadio():(a.pause(),setPlayingUI(false)); }
+audio().addEventListener('error',()=>setPlayingUI(false,'ESTAÇÃO INDISPONÍVEL, TENTE OUTRA'));
 
-  <!-- ================= INTERACTIVE JS CONTROLE ================= -->
-  <script>
-    function showSection(sectionId) {
-      const sections = ['home', 'cardapio', 'eventos', 'mural', 'galeria', 'manifesto', 'admin'];
-      sections.forEach(s => {
-        const el = document.getElementById(`sec-${s}`);
-        if (el) el.classList.add('hidden');
-      });
-      document.getElementById(`sec-${sectionId}`).classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+function showSection(id){
+  ['home','cardapio','eventos','mural','galeria','manifesto','admin'].forEach(s=>document.getElementById('sec-'+s).classList.add('hidden'));
+  document.getElementById('sec-'+id).classList.remove('hidden');
+  document.querySelectorAll('#main-nav [data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleElement(id){document.getElementById(id).classList.toggle('hidden')}
+function copyAddress(){
+  const t='Rodovia SP-330, Flint County, Route 66';
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>alert('Endereço copiado!')).catch(()=>prompt('Copie o endereço:',t));
+}
+function openAdminModal(){ sessionStorage.getItem('rota69_admin')==='true'?showSection('admin'):toggleElement('admin-login-modal'); }
+function loginAdmin(){
+  const pass=document.getElementById('admin-pass-input').value;
+  if(pass==='rota69admin'){
+    sessionStorage.setItem('rota69_admin','true');
+    document.getElementById('admin-pass-input').value='';
+    toggleElement('admin-login-modal'); showSection('admin'); window.renderUI();
+  }else alert('Senha incorreta!');
+}
+function logoutAdmin(){ sessionStorage.removeItem('rota69_admin'); showSection('home'); window.renderUI(); }
 
-    function toggleElement(id) {
-      document.getElementById(id).classList.toggle('hidden');
-    }
-
-    function copyAddress() {
-      navigator.clipboard.writeText('Rodovia SP-330, Flint County, Route 66');
-      alert('Endereço do Rota 69 copiado com sucesso!');
-    }
-
-    function openAdminModal() {
-      if (sessionStorage.getItem('rota69_admin') === 'true') {
-        showSection('admin');
-      } else {
-        toggleElement('admin-login-modal');
-      }
-    }
-
-    function loginAdmin() {
-      const pass = document.getElementById('admin-pass-input').value;
-      if (pass === 'rota69admin') {
-        sessionStorage.setItem('rota69_admin', 'true');
-        toggleElement('admin-login-modal');
-        showSection('admin');
-      } else {
-        alert('Senha incorreta!');
-      }
-    }
-
-    function logoutAdmin() {
-      sessionStorage.removeItem('rota69_admin');
-      showSection('home');
-    }
-
-    // Jukebox Audio Player Toggle
-    function toggleJukeboxPlay() {
-      const audio = document.getElementById('saloon-audio-player');
-      const btn = document.getElementById('jukebox-play-btn');
-      if (audio.paused) {
-        audio.play();
-        btn.innerHTML = `<i class="fa-solid fa-pause"></i> Pausar Rádio`;
-      } else {
-        audio.pause();
-        btn.innerHTML = `<i class="fa-solid fa-play"></i> Ouvir Rádio`;
-      }
-    }
-
-    // Ações de Atualização com o Banco de Dados
-    async function toggleBarStatus() {
-      window.appState.barOpen = !window.appState.barOpen;
-      await window.syncState();
-    }
-
-    async function updateJukeboxTrack() {
-      const track = document.getElementById('adm-jukebox-input').value;
-      if (!track) return alert('Digite o nome da música!');
-      window.appState.jukeboxTrack = track;
-      await window.syncState();
-      document.getElementById('adm-jukebox-input').value = '';
-    }
-
-    async function addAnnouncement() {
-      const title = document.getElementById('adm-announcement-title').value;
-      const text = document.getElementById('adm-announcement-text').value;
-      if (!title || !text) return alert('Preencha os campos do anúncio!');
-      
-      if (!window.appState.announcements) window.appState.announcements = [];
-      window.appState.announcements.unshift({ id: Date.now(), title, text });
-      await window.syncState();
-      document.getElementById('adm-announcement-title').value = '';
-      document.getElementById('adm-announcement-text').value = '';
-    }
-
-    async function addMenuItem() {
-      const title = document.getElementById('adm-menu-title').value;
-      const price = Number(document.getElementById('adm-menu-price').value);
-      const category = document.getElementById('adm-menu-cat').value;
-      if (!title || !price) return alert('Preencha nome e preço!');
-
-      if (!window.appState.menu) window.appState.menu = [];
-      window.appState.menu.push({ id: Date.now(), title, price, category, available: true });
-      await window.syncState();
-      document.getElementById('adm-menu-title').value = '';
-      document.getElementById('adm-menu-price').value = '';
-    }
-
-    async function toggleItemAvailability(id) {
-      const item = window.appState.menu.find(m => m.id === id);
-      if (item) {
-        item.available = !item.available;
-        await window.syncState();
-      }
-    }
-
-    async function addEvent() {
-      const title = document.getElementById('adm-event-title').value;
-      const date = document.getElementById('adm-event-date').value;
-      const desc = document.getElementById('adm-event-desc').value;
-      if (!title || !date) return alert('Preencha os dados do evento!');
-
-      if (!window.appState.events) window.appState.events = [];
-      window.appState.events.push({ id: Date.now(), title, date, desc });
-      await window.syncState();
-      document.getElementById('adm-event-title').value = '';
-      document.getElementById('adm-event-date').value = '';
-      document.getElementById('adm-event-desc').value = '';
-    }
-
-    async function submitWallMessage() {
-      const name = document.getElementById('pub-wall-name').value;
-      const msg = document.getElementById('pub-wall-msg').value;
-      if (!name || !msg) return alert('Preencha seu nome e mensagem!');
-
-      if (!window.appState.wallMessages) window.appState.wallMessages = [];
-      window.appState.wallMessages.unshift({ id: Date.now(), name, msg });
-      await window.syncState();
-      toggleElement('sign-wall-modal');
-      document.getElementById('pub-wall-name').value = '';
-      document.getElementById('pub-wall-msg').value = '';
-    }
-
-    async function deleteWallMessage(id) {
-      window.appState.wallMessages = window.appState.wallMessages.filter(w => w.id !== id);
-      await window.syncState();
-    }
-
-    async function submitPhoto() {
-      const author = document.getElementById('pub-photo-author').value;
-      const url = document.getElementById('pub-photo-url').value;
-      const caption = document.getElementById('pub-photo-caption').value;
-      if (!author || !url) return alert('Preencha seu nome e a URL da foto!');
-
-      if (!window.appState.photos) window.appState.photos = [];
-      window.appState.photos.push({ id: Date.now(), author, url, caption, status: 'pending' });
-      await window.syncState();
-      toggleElement('upload-photo-modal');
-      alert('Foto enviada! Ela ficará visível na galeria após aprovação da gerência.');
-    }
-
-    async function approvePhoto(id) {
-      const photo = window.appState.photos.find(p => p.id === id);
-      if (photo) photo.status = 'approved';
-      await window.syncState();
-    }
-
-    async function deletePhoto(id) {
-      window.appState.photos = window.appState.photos.filter(p => p.id !== id);
-      await window.syncState();
-    }
-  </script>
+async function toggleBarStatus(){ appState.barOpen=!appState.barOpen; await syncState(); }
+async function updateJukeboxTrack(){
+  const t=document.getElementById('adm-jukebox-input').value.trim(); if(!t) return alert('Digite o nome da música!');
+  appState.jukeboxTrack=t; await syncState(); document.getElementById('adm-jukebox-input').value='';
+}
+async function addAnnouncement(){
+  const title=document.getElementById('adm-announcement-title').value.trim(), text=document.getElementById('adm-announcement-text').value.trim();
+  if(!title||!text) return alert('Preencha os campos do aviso!');
+  (appState.announcements=appState.announcements||[]).unshift({id:Date.now(),title,text});
+  await syncState(); document.getElementById('adm-announcement-title').value=''; document.getElementById('adm-announcement-text').value='';
+}
+async function addMenuItem(){
+  const title=document.getElementById('adm-menu-title').value.trim(), price=Number(document.getElementById('adm-menu-price').value), category=document.getElementById('adm-menu-cat').value;
+  if(!title||!price) return alert('Preencha nome e preço!');
+  (appState.menu=appState.menu||[]).push({id:Date.now(),title,price,category,available:true});
+  await syncState(); document.getElementById('adm-menu-title').value=''; document.getElementById('adm-menu-price').value='';
+}
+async function toggleItemAvailability(id){ const i=(appState.menu||[]).find(m=>m.id===id); if(i){i.available=!i.available; await syncState();} }
+async function addEvent(){
+  const title=document.getElementById('adm-event-title').value.trim(), date=document.getElementById('adm-event-date').value.trim(), desc=document.getElementById('adm-event-desc').value.trim();
+  if(!title||!date) return alert('Preencha os dados do evento!');
+  (appState.events=appState.events||[]).push({id:Date.now(),title,date,desc});
+  await syncState(); ['title','date','desc'].forEach(k=>document.getElementById('adm-event-'+k).value='');
+}
+async function submitWallMessage(){
+  const name=document.getElementById('pub-wall-name').value.trim(), msg=document.getElementById('pub-wall-msg').value.trim();
+  if(!name||!msg) return alert('Preencha seu nome e a mensagem!');
+  (appState.wallMessages=appState.wallMessages||[]).unshift({id:Date.now(),name,msg});
+  await syncState(); toggleElement('sign-wall-modal');
+  document.getElementById('pub-wall-name').value=''; document.getElementById('pub-wall-msg').value='';
+}
+async function deleteWallMessage(id){ appState.wallMessages=(appState.wallMessages||[]).filter(w=>w.id!==id); await syncState(); }
+async function submitPhoto(){
+  const author=document.getElementById('pub-photo-author').value.trim(), url=document.getElementById('pub-photo-url').value.trim(), caption=document.getElementById('pub-photo-caption').value.trim();
+  if(!author||!url) return alert('Preencha seu nome e o link da foto!');
+  if(!/^https?:\/\//i.test(url)) return alert('O link precisa começar com http:// ou https://');
+  (appState.photos=appState.photos||[]).push({id:Date.now(),author,url,caption,status:'pending'});
+  await syncState(); toggleElement('upload-photo-modal'); alert('Foto enviada! Ela aparece na galeria depois da aprovação da gerência.');
+}
+async function approvePhoto(id){ const p=(appState.photos||[]).find(p=>p.id===id); if(p){p.status='approved'; await syncState();} }
+async function deletePhoto(id){ appState.photos=(appState.photos||[]).filter(p=>p.id!==id); await syncState(); }
+</script>
 </body>
 </html>
