@@ -14,7 +14,7 @@
 html{scroll-behavior:smooth}
 body{font-family:'Barlow',sans-serif;color:var(--osso);background:
  radial-gradient(ellipse at top,rgba(232,163,23,.08),transparent 60%),
- repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0 2px,transparent 2px 6px),var(--asfalto);padding-bottom:84px}
+ repeating-linear-gradient(45deg,rgba(255,255,255,.012) 0 2px,transparent 2px 6px),var(--asfalto);padding-bottom:64px}
 .f-rye{font-family:'Rye',serif}.f-bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:.06em}
 .neon{color:#ffb347;text-shadow:0 0 6px #ff9500,0 0 18px #ff6a00,0 0 40px rgba(255,80,0,.6);animation:flick 5s infinite}
 .neon-red{color:#ff7a70;text-shadow:0 0 6px #ff3b30,0 0 22px #ff3b30}
@@ -31,7 +31,7 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 .shield{clip-path:polygon(0 0,100% 0,100% 72%,50% 100%,0 72%);background:#f4efe2;color:#111}
 .nav-btn{padding:.5rem .8rem;border-radius:4px;font-family:'Bebas Neue';letter-spacing:.08em;font-size:1.1rem;color:#d8cbb4;transition:.15s}
 .nav-btn:hover,.nav-btn.on{background:rgba(232,163,23,.15);color:var(--bourbon)}
-.sec-title{font-family:'Rye';color:var(--bourbon);font-size:clamp(2rem,6vw,3.4rem);line-height:1.05}
+.sec-title{font-family:'Rye';color:var(--bourbon);font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.05}
 .hero{background:linear-gradient(180deg,rgba(13,11,9,.55),var(--asfalto)),url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1920') center/cover}
 .estrada{height:10px;background:repeating-linear-gradient(90deg,var(--amarelo) 0 40px,transparent 40px 80px);opacity:.8}
 .eq span{display:inline-block;width:4px;background:var(--bourbon);margin-right:2px;height:6px;border-radius:1px}
@@ -40,6 +40,22 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 @keyframes eq{0%,100%{height:5px}50%{height:22px}}
 .disco.on{animation:spin 3s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 .mural-card{transform:rotate(var(--r,0deg))}
+
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(82vw,320px);z-index:60;background:#120d09;border-left:2px solid rgba(232,163,23,.5);transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+.drawer.open{transform:none}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:55;opacity:0;pointer-events:none;transition:.25s}
+.scrim.open{opacity:1;pointer-events:auto}
+.d-link{display:flex;align-items:center;gap:.8rem;padding:.8rem 1.2rem;font-family:'Bebas Neue';letter-spacing:.08em;font-size:1.4rem;color:#d8cbb4;border-bottom:1px solid #2a2118;width:100%;text-align:left}
+.d-link i{width:1.4rem;color:var(--bourbon);font-size:1rem}
+.d-link:hover,.d-link.on{background:rgba(232,163,23,.12);color:var(--bourbon)}
+.quick{display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:1rem .5rem;text-align:center}
+.quick i{font-size:1.6rem;color:var(--bourbon)}
+.quick span{font-family:'Bebas Neue';letter-spacing:.08em;font-size:1.15rem}
+.quick:hover{border-color:var(--bourbon)}
+#radio-panel{max-height:0;overflow:hidden;transition:max-height .25s ease}
+#radio-panel.open{max-height:340px}
+.st{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;padding:.55rem .8rem;border-radius:4px;font-size:.9rem;color:#d8cbb4}
+.st:hover{background:rgba(232,163,23,.12)}.st.on{background:rgba(232,163,23,.2);color:var(--bourbon);font-weight:700}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}}
 ::-webkit-scrollbar{width:9px}::-webkit-scrollbar-track{background:var(--asfalto)}::-webkit-scrollbar-thumb{background:var(--borda)}
 </style>
@@ -49,61 +65,75 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 <!-- HEADER -->
 <header class="sticky top-0 z-40 bg-[#100c09]/95 backdrop-blur border-b border-[#3a2d20]">
   <div class="bandeira"></div>
-  <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
-    <a href="#" onclick="showSection('home');return false" class="flex items-center gap-3">
-      <div class="shield w-11 h-12 flex items-start justify-center pt-1 font-bold shadow-lg"><span class="f-bebas text-2xl leading-none">69</span></div>
-      <div>
-        <div class="f-rye text-2xl text-amber-500 leading-none">Rota 69</div>
-        <div class="text-[11px] text-zinc-400 tracking-widest">SALOON • MOTO BAR • CHURRASCO</div>
+  <div class="max-w-6xl mx-auto px-3 py-2 flex items-center justify-between gap-3">
+    <a href="#" onclick="showSection('home');return false" class="flex items-center gap-2.5 min-w-0">
+      <div class="shield w-9 h-10 flex items-start justify-center pt-0.5 shrink-0"><span class="f-bebas text-xl leading-none">69</span></div>
+      <div class="min-w-0">
+        <div class="f-rye text-xl text-amber-500 leading-none">Rota 69</div>
+        <div class="text-[10px] text-zinc-400 tracking-widest truncate">SALOON • MOTO BAR</div>
       </div>
     </a>
-    <div id="bar-status-badge" class="px-3 py-1 rounded-full text-xs font-bold tracking-wider flex items-center gap-2 border">
-      <span id="bar-status-icon"></span><span id="bar-status-text">Carregando...</span>
+    <div class="flex items-center gap-2">
+      <div id="bar-status-badge" class="px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wider flex items-center gap-1.5 border">
+        <span id="bar-status-icon"></span><span id="bar-status-text">...</span>
+      </div>
+      <button onclick="toggleDrawer()" class="w-10 h-10 rounded bg-[#241c15] border border-[#3a2d20] text-amber-500 text-lg hover:bg-amber-500 hover:text-black transition" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
     </div>
-    <nav class="flex flex-wrap items-center gap-1" id="main-nav">
-      <button data-s="home" onclick="showSection('home')" class="nav-btn on">Início</button>
-      <button data-s="cardapio" onclick="showSection('cardapio')" class="nav-btn">Cardápio</button>
-      <button data-s="eventos" onclick="showSection('eventos')" class="nav-btn">Programação</button>
-      <button data-s="mural" onclick="showSection('mural')" class="nav-btn">Mural</button>
-      <button data-s="galeria" onclick="showSection('galeria')" class="nav-btn">Galeria</button>
-      <button data-s="manifesto" onclick="showSection('manifesto')" class="nav-btn">Código da Casa</button>
-      <button onclick="openAdminModal()" class="nav-btn border border-[#3a2d20]"><i class="fa-solid fa-lock text-xs"></i> Gerência</button>
-    </nav>
   </div>
 </header>
 
+<!-- MENU HAMBÚRGUER -->
+<div id="scrim" class="scrim" onclick="toggleDrawer(false)"></div>
+<aside id="drawer" class="drawer" aria-label="Menu">
+  <div class="flex items-center justify-between px-5 py-4 border-b border-[#3a2d20]">
+    <span class="f-rye text-xl text-amber-500">Menu</span>
+    <button onclick="toggleDrawer(false)" aria-label="Fechar menu"><i class="fa-solid fa-xmark text-xl"></i></button>
+  </div>
+  <nav id="main-nav" class="flex-1 overflow-y-auto">
+    <button data-s="home" onclick="showSection('home')" class="d-link on"><i class="fa-solid fa-house"></i>Início</button>
+    <button data-s="cardapio" onclick="showSection('cardapio')" class="d-link"><i class="fa-solid fa-utensils"></i>Cardápio</button>
+    <button data-s="eventos" onclick="showSection('eventos')" class="d-link"><i class="fa-solid fa-calendar-days"></i>Programação</button>
+    <button data-s="mural" onclick="showSection('mural')" class="d-link"><i class="fa-solid fa-pen-nib"></i>Mural</button>
+    <button data-s="galeria" onclick="showSection('galeria')" class="d-link"><i class="fa-solid fa-camera"></i>Galeria</button>
+    <button data-s="manifesto" onclick="showSection('manifesto')" class="d-link"><i class="fa-solid fa-shield-halved"></i>Código da Casa</button>
+    <button onclick="copyAddress();toggleDrawer(false)" class="d-link"><i class="fa-solid fa-location-dot"></i>Copiar endereço</button>
+    <button onclick="openAdminModal()" class="d-link"><i class="fa-solid fa-lock"></i>Gerência</button>
+  </nav>
+  <div class="p-4 text-xs text-zinc-500 border-t border-[#3a2d20]">Ter a Dom, 18h às 04h<br>Rodovia SP-330, Flint County</div>
+</aside>
+
 <!-- HOME -->
 <section id="sec-home">
-  <div class="hero relative px-4 py-24 sm:py-32 text-center">
-    <div class="max-w-5xl mx-auto space-y-6">
-      <div class="inline-flex items-center gap-2 px-4 py-1 border border-amber-500/40 rounded text-amber-300 text-sm tracking-widest bg-black/40">
-        <i class="fa-solid fa-star text-xs"></i> ESTRADA ABERTA DESDE 1969 <i class="fa-solid fa-star text-xs"></i>
-      </div>
-      <h1 class="f-rye neon text-5xl sm:text-7xl md:text-8xl leading-[1.05]">Rota 69</h1>
-      <p class="f-bebas text-3xl sm:text-5xl text-[#efe6d6] tracking-widest">Gasolina, Rock & Churrasco</p>
-      <p class="max-w-2xl mx-auto text-zinc-300 text-lg">Saloon de beira de estrada onde a Route 66 encontra o Brasil: chopp gelado, bourbon, costela defumada, picanha na brasa e rock rolando a noite toda. Estacione a moto e fique à vontade.</p>
-      <div class="flex flex-wrap justify-center gap-3 pt-3">
-        <button class="btn" onclick="showSection('cardapio')"><i class="fa-solid fa-utensils mr-2"></i>Ver cardápio</button>
-        <button class="btn btn-dark" onclick="copyAddress()"><i class="fa-solid fa-location-dot mr-2"></i>Copiar endereço</button>
+  <div class="hero relative px-4 py-14 sm:py-20 text-center">
+    <div class="max-w-3xl mx-auto space-y-4">
+      <h1 class="f-rye neon text-5xl sm:text-6xl leading-[1.05]">Rota 69</h1>
+      <p class="f-bebas text-2xl sm:text-3xl tracking-widest">Gasolina, Rock & Churrasco</p>
+      <p class="max-w-xl mx-auto text-zinc-300">Saloon de beira de estrada onde a Route 66 encontra o Brasil. Chopp gelado, bourbon, costela defumada e rock a noite toda.</p>
+      <div class="flex flex-wrap justify-center gap-3 pt-2">
+        <button class="btn" onclick="showSection('cardapio')"><i class="fa-solid fa-utensils mr-2"></i>Cardápio</button>
         <button class="btn btn-dark" onclick="toggleRadio()"><i class="fa-solid fa-radio mr-2"></i>Ligar rádio</button>
       </div>
     </div>
   </div>
   <div class="estrada"></div>
 
-  <div class="max-w-7xl mx-auto px-4 py-12 space-y-14">
-    <div class="grid md:grid-cols-3 gap-5">
-      <div class="card p-5 flex items-center gap-4"><i class="fa-solid fa-clock text-3xl text-amber-500"></i><div><div class="f-bebas text-xl text-amber-400">Horário</div><div class="font-semibold">Ter a Dom, 18h às 04h</div></div></div>
-      <div class="card p-5 flex items-center gap-4"><i class="fa-solid fa-whiskey-glass text-3xl text-amber-500"></i><div><div class="f-bebas text-xl text-amber-400">Happy hour dobrado</div><div class="font-semibold">18h às 21h, todos os bourbons</div></div></div>
-      <div class="card p-5 flex items-center gap-4"><i class="fa-solid fa-motorcycle text-3xl text-amber-500"></i><div><div class="f-bebas text-xl text-amber-400">Vaga pra moto</div><div class="font-semibold">Pátio coberto para motos e trucks</div></div></div>
+  <div class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <button class="card quick" onclick="showSection('cardapio')"><i class="fa-solid fa-utensils"></i><span>Cardápio</span></button>
+      <button class="card quick" onclick="showSection('eventos')"><i class="fa-solid fa-guitar"></i><span>Programação</span></button>
+      <button class="card quick" onclick="showSection('mural')"><i class="fa-solid fa-pen-nib"></i><span>Mural</span></button>
+      <button class="card quick" onclick="showSection('galeria')"><i class="fa-solid fa-camera"></i><span>Galeria</span></button>
+    </div>
+
+    <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-zinc-300">
+      <span><i class="fa-solid fa-clock text-amber-500 mr-1.5"></i>Ter a Dom, 18h às 04h</span>
+      <span><i class="fa-solid fa-whiskey-glass text-amber-500 mr-1.5"></i>Bourbon em dobro, 18h às 21h</span>
+      <span><i class="fa-solid fa-motorcycle text-amber-500 mr-1.5"></i>Pátio para motos</span>
     </div>
 
     <div>
-      <div class="flex items-end justify-between border-b border-[#3a2d20] pb-3 mb-6">
-        <h2 class="sec-title !text-3xl sm:!text-4xl"><i class="fa-solid fa-bullhorn text-2xl mr-2"></i>Quadro de avisos</h2>
-        <span class="text-xs text-zinc-500">Atualizado pela gerência</span>
-      </div>
-      <div id="announcements-list" class="grid md:grid-cols-2 gap-5"></div>
+      <h2 class="f-bebas text-3xl text-amber-400 border-b border-[#3a2d20] pb-2 mb-4"><i class="fa-solid fa-bullhorn text-xl mr-2"></i>Quadro de avisos</h2>
+      <div id="announcements-list" class="grid md:grid-cols-2 gap-4"></div>
     </div>
   </div>
 </section>
@@ -241,24 +271,23 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 <!-- RÁDIO FIXA -->
 <div class="fixed bottom-0 inset-x-0 z-40 bg-[#100c09]/97 backdrop-blur border-t-2 border-amber-500/50">
   <audio id="radio-audio" preload="none"></audio>
-  <div class="max-w-7xl mx-auto px-3 py-2 flex items-center gap-3 flex-wrap">
-    <button id="radio-btn" onclick="toggleRadio()" class="w-12 h-12 rounded-full bg-amber-500 text-black text-lg flex items-center justify-center shrink-0 hover:bg-amber-400" aria-label="Tocar ou pausar rádio"><i class="fa-solid fa-play"></i></button>
-    <div id="disco" class="disco hidden sm:flex w-10 h-10 rounded-full bg-[radial-gradient(circle,#e8a317_0 14%,#111_15% 40%,#222_41% 44%,#111_45%)] shrink-0"></div>
-    <div class="min-w-0 flex-1">
-      <div class="flex items-center gap-2 text-[11px] text-zinc-500 tracking-widest">
-        <span class="eq" id="eq"><span></span><span></span><span></span><span></span><span></span></span>
-        <span id="radio-status">RÁDIO DO SALOON</span>
+  <div id="radio-panel" class="border-b border-[#3a2d20]">
+    <div class="max-w-6xl mx-auto px-3 py-3 grid sm:grid-cols-2 gap-3 items-start">
+      <div id="station-list" class="space-y-1"></div>
+      <div class="space-y-3">
+        <div class="text-xs text-zinc-400">Na jukebox: <span id="jukebox-track-name" class="text-amber-400 font-semibold">Lynyrd Skynyrd — Simple Man</span></div>
+        <label class="flex items-center gap-3 text-xs text-zinc-400"><i class="fa-solid fa-volume-low"></i>
+          <input id="radio-vol" type="range" min="0" max="1" step="0.05" value="0.6" oninput="audio().volume=this.value" class="flex-1 accent-amber-500" aria-label="Volume"><i class="fa-solid fa-volume-high"></i></label>
       </div>
-      <div id="radio-name" class="f-bebas text-xl text-amber-400 truncate leading-tight">Left Coast 70s — Rock clássico</div>
-      <div class="text-xs text-zinc-400 truncate">Na jukebox: <span id="jukebox-track-name">Lynyrd Skynyrd — Simple Man</span></div>
     </div>
-    <select id="radio-select" onchange="changeStation(this.value)" class="input !w-auto text-xs" aria-label="Estação">
-      <option value="0">Rock clássico 70s</option>
-      <option value="1">Metal pesado</option>
-      <option value="2">Rock anos 80</option>
-      <option value="3">Americana & Boot Liquor</option>
-    </select>
-    <input id="radio-vol" type="range" min="0" max="1" step="0.05" value="0.6" oninput="document.getElementById('radio-audio').volume=this.value" class="w-24 accent-amber-500" aria-label="Volume">
+  </div>
+  <div class="max-w-6xl mx-auto px-3 py-1.5 flex items-center gap-3">
+    <button id="radio-btn" onclick="toggleRadio()" class="w-10 h-10 rounded-full bg-amber-500 text-black flex items-center justify-center shrink-0 hover:bg-amber-400" aria-label="Tocar ou pausar rádio"><i class="fa-solid fa-play"></i></button>
+    <div class="min-w-0 flex-1">
+      <div class="flex items-center gap-2 text-[10px] text-zinc-500 tracking-widest"><span class="eq" id="eq"><span></span><span></span><span></span><span></span><span></span></span><span id="radio-status" class="truncate">RÁDIO DO SALOON</span></div>
+      <div id="radio-name" class="f-bebas text-lg text-amber-400 truncate leading-tight">Rock clássico</div>
+    </div>
+    <button onclick="toggleRadioPanel()" class="w-10 h-10 rounded bg-[#241c15] border border-[#3a2d20] text-amber-500 shrink-0" aria-label="Estações e volume"><i id="radio-chev" class="fa-solid fa-chevron-up"></i></button>
   </div>
 </div>
 
@@ -391,40 +420,62 @@ window.syncState = async function(){
 
 <script>
 const STATIONS=[
-  {name:'Left Coast 70s — Rock clássico',url:'https://ice1.somafm.com/seventies-128-mp3'},
-  {name:'Metal Detector — Rock pesado',url:'https://ice1.somafm.com/metal-128-mp3'},
-  {name:'Underground 80s — Rock anos 80',url:'https://ice1.somafm.com/u80s-128-mp3'},
-  {name:'Boot Liquor — Americana & country rock',url:'https://ice1.somafm.com/bootliquor-128-mp3'}
+  {name:'Rock clássico 70s',urls:['https://ice1.somafm.com/seventies-128-mp3','https://ice2.somafm.com/seventies-128-mp3','https://ice4.somafm.com/seventies-128-mp3']},
+  {name:'Radio Paradise — Rock Mix',urls:['https://stream.radioparadise.com/rock-128','https://stream.radioparadise.com/rock-192']},
+  {name:'Metal pesado',urls:['https://ice1.somafm.com/metal-128-mp3','https://ice2.somafm.com/metal-128-mp3','https://ice4.somafm.com/metal-128-mp3']},
+  {name:'Rock anos 80',urls:['https://ice1.somafm.com/u80s-128-mp3','https://ice2.somafm.com/u80s-128-mp3','https://ice4.somafm.com/u80s-128-mp3']},
+  {name:'Americana & country rock',urls:['https://ice1.somafm.com/bootliquor-128-mp3','https://ice2.somafm.com/bootliquor-128-mp3','https://ice4.somafm.com/bootliquor-128-mp3']}
 ];
-let curStation=0;
+let curStation=0, curUrl=0, wantPlay=false;
 const audio=()=>document.getElementById('radio-audio');
 function setPlayingUI(on,status){
   document.getElementById('radio-btn').innerHTML=`<i class="fa-solid ${on?'fa-pause':'fa-play'}"></i>`;
   document.getElementById('eq').classList.toggle('on',on);
-  document.getElementById('disco').classList.toggle('on',on);
   document.getElementById('radio-status').innerText=status||(on?'NO AR':'RÁDIO DO SALOON');
 }
-function changeStation(i){
-  curStation=Number(i);
+function renderStations(){
+  document.getElementById('station-list').innerHTML=STATIONS.map((st,i)=>`<button class="st ${i===curStation?'on':''}" onclick="changeStation(${i})"><i class="fa-solid ${i===curStation?'fa-volume-high':'fa-music'}"></i>${st.name}</button>`).join('');
   document.getElementById('radio-name').innerText=STATIONS[curStation].name;
-  const a=audio(); const was=!a.paused;
-  a.src=STATIONS[curStation].url;
-  if(was) playRadio();
 }
-function playRadio(){
+function loadAndPlay(){
   const a=audio();
-  if(!a.src) a.src=STATIONS[curStation].url;
+  a.src=STATIONS[curStation].urls[curUrl]+(STATIONS[curStation].urls[curUrl].includes('?')?'&':'?')+'t='+Date.now();
   a.volume=Number(document.getElementById('radio-vol').value);
+  a.load();
   setPlayingUI(false,'CONECTANDO...');
-  a.play().then(()=>setPlayingUI(true)).catch(()=>setPlayingUI(false,'FALHA NA CONEXÃO, TENTE OUTRA ESTAÇÃO'));
+  const p=a.play();
+  if(p&&p.catch) p.catch(err=>{ if(err&&err.name==='NotAllowedError'){wantPlay=false;setPlayingUI(false,'TOQUE NO PLAY PARA OUVIR');} });
 }
-function toggleRadio(){ const a=audio(); (a.paused||!a.src)?playRadio():(a.pause(),setPlayingUI(false)); }
-audio().addEventListener('error',()=>setPlayingUI(false,'ESTAÇÃO INDISPONÍVEL, TENTE OUTRA'));
+function playRadio(){ wantPlay=true; curUrl=0; loadAndPlay(); }
+function pauseRadio(){ wantPlay=false; const a=audio(); a.pause(); a.removeAttribute('src'); a.load(); setPlayingUI(false); }
+function toggleRadio(){ wantPlay?pauseRadio():playRadio(); }
+function changeStation(i){ curStation=Number(i); curUrl=0; renderStations(); playRadio(); }
+function toggleRadioPanel(){ const o=document.getElementById('radio-panel').classList.toggle('open'); document.getElementById('radio-chev').className='fa-solid '+(o?'fa-chevron-down':'fa-chevron-up'); }
+(function(){
+  const a=audio();
+  a.addEventListener('playing',()=>setPlayingUI(true));
+  a.addEventListener('waiting',()=>{ if(wantPlay) setPlayingUI(false,'CARREGANDO...'); });
+  a.addEventListener('error',()=>{
+    if(!wantPlay) return;
+    const urls=STATIONS[curStation].urls;
+    if(curUrl<urls.length-1){ curUrl++; loadAndPlay(); }
+    else { wantPlay=false; setPlayingUI(false,'ESTAÇÃO FORA DO AR, ESCOLHA OUTRA'); }
+  });
+  renderStations();
+})();
+
+function toggleDrawer(force){
+  const open=typeof force==='boolean'?force:!document.getElementById('drawer').classList.contains('open');
+  document.getElementById('drawer').classList.toggle('open',open);
+  document.getElementById('scrim').classList.toggle('open',open);
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') toggleDrawer(false); });
 
 function showSection(id){
   ['home','cardapio','eventos','mural','galeria','manifesto','admin'].forEach(s=>document.getElementById('sec-'+s).classList.add('hidden'));
   document.getElementById('sec-'+id).classList.remove('hidden');
   document.querySelectorAll('#main-nav [data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
+  toggleDrawer(false);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function toggleElement(id){document.getElementById(id).classList.toggle('hidden')}
@@ -432,7 +483,7 @@ function copyAddress(){
   const t='Rodovia SP-330, Flint County, Route 66';
   (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>alert('Endereço copiado!')).catch(()=>prompt('Copie o endereço:',t));
 }
-function openAdminModal(){ sessionStorage.getItem('rota69_admin')==='true'?showSection('admin'):toggleElement('admin-login-modal'); }
+function openAdminModal(){ toggleDrawer(false); sessionStorage.getItem('rota69_admin')==='true'?showSection('admin'):toggleElement('admin-login-modal'); }
 function loginAdmin(){
   const pass=document.getElementById('admin-pass-input').value;
   if(pass==='rota69admin'){
