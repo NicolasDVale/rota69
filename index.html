@@ -420,13 +420,14 @@ window.syncState = async function(){
 
 <script>
 const STATIONS=[
-  {name:'Rock clássico 70s',urls:['https://ice1.somafm.com/seventies-128-mp3','https://ice2.somafm.com/seventies-128-mp3','https://ice4.somafm.com/seventies-128-mp3']},
-  {name:'Radio Paradise — Rock Mix',urls:['https://stream.radioparadise.com/rock-128','https://stream.radioparadise.com/rock-192']},
-  {name:'Metal pesado',urls:['https://ice1.somafm.com/metal-128-mp3','https://ice2.somafm.com/metal-128-mp3','https://ice4.somafm.com/metal-128-mp3']},
-  {name:'Rock anos 80',urls:['https://ice1.somafm.com/u80s-128-mp3','https://ice2.somafm.com/u80s-128-mp3','https://ice4.somafm.com/u80s-128-mp3']},
-  {name:'Americana & country rock',urls:['https://ice1.somafm.com/bootliquor-128-mp3','https://ice2.somafm.com/bootliquor-128-mp3','https://ice4.somafm.com/bootliquor-128-mp3']}
+  {name:'Rock clássico 70s',urls:[...['https://ice1.somafm.com/seventies-128-mp3','https://ice2.somafm.com/seventies-128-mp3','https://ice4.somafm.com/seventies-128-mp3','https://ice6.somafm.com/seventies-128-mp3','https://ice1.somafm.com/seventies-128-aac'],'https://stream.radioparadise.com/rock-128','https://stream.radioparadise.com/rock-192','https://stream.radioparadise.com/mp3-128'],fb:5},
+  {name:'Metal pesado',urls:[...['https://ice1.somafm.com/metal-128-mp3','https://ice2.somafm.com/metal-128-mp3','https://ice4.somafm.com/metal-128-mp3','https://ice6.somafm.com/metal-128-mp3','https://ice1.somafm.com/metal-128-aac'],'https://stream.radioparadise.com/rock-128','https://stream.radioparadise.com/rock-192','https://stream.radioparadise.com/mp3-128'],fb:5},
+  {name:'Rock anos 80',urls:[...['https://ice1.somafm.com/u80s-128-mp3','https://ice2.somafm.com/u80s-128-mp3','https://ice4.somafm.com/u80s-128-mp3','https://ice6.somafm.com/u80s-128-mp3','https://ice1.somafm.com/u80s-128-aac'],'https://stream.radioparadise.com/rock-128','https://stream.radioparadise.com/rock-192','https://stream.radioparadise.com/mp3-128'],fb:5},
+  {name:'Americana & country rock',urls:[...['https://ice1.somafm.com/bootliquor-128-mp3','https://ice2.somafm.com/bootliquor-128-mp3','https://ice4.somafm.com/bootliquor-128-mp3','https://ice6.somafm.com/bootliquor-128-mp3','https://ice1.somafm.com/bootliquor-128-aac'],'https://stream.radioparadise.com/rock-128','https://stream.radioparadise.com/rock-192','https://stream.radioparadise.com/mp3-128'],fb:5},
+  {name:'Radio Paradise — Rock Mix',urls:['https://stream.radioparadise.com/rock-128','https://stream.radioparadise.com/rock-192','https://stream.radioparadise.com/mp3-128'],fb:99}
 ];
 let curStation=0, curUrl=0, wantPlay=false;
+STATIONS.splice(1,0,STATIONS.pop());
 const audio=()=>document.getElementById('radio-audio');
 function setPlayingUI(on,status){
   document.getElementById('radio-btn').innerHTML=`<i class="fa-solid ${on?'fa-pause':'fa-play'}"></i>`;
@@ -439,10 +440,11 @@ function renderStations(){
 }
 function loadAndPlay(){
   const a=audio();
-  a.src=STATIONS[curStation].urls[curUrl]+(STATIONS[curStation].urls[curUrl].includes('?')?'&':'?')+'t='+Date.now();
+  a.referrerPolicy='no-referrer';
+  a.src=STATIONS[curStation].urls[curUrl];
   a.volume=Number(document.getElementById('radio-vol').value);
   a.load();
-  setPlayingUI(false,'CONECTANDO...');
+  setPlayingUI(false,curUrl>=(STATIONS[curStation].fb||99)?'ESTAÇÃO RESERVA...':'CONECTANDO...');
   const p=a.play();
   if(p&&p.catch) p.catch(err=>{ if(err&&err.name==='NotAllowedError'){wantPlay=false;setPlayingUI(false,'TOQUE NO PLAY PARA OUVIR');} });
 }
