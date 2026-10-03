@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20120%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%231d3f8f%22/%3E%3Cstop%20offset%3D%22.55%22%20stop-color%3D%22%23e8a317%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23ffd23f%22/%3E%3C/linearGradient%3E%3CclipPath%20id%3D%22c%22%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2260%22%20r%3D%2250%22/%3E%3C/clipPath%3E%3C/defs%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2260%22%20r%3D%2258%22%20fill%3D%22%2314100c%22%20stroke%3D%22%23e8a317%22%20stroke-width%3D%225%22/%3E%3Cg%20clip-path%3D%22url%28%23c%29%22%3E%3Crect%20width%3D%22120%22%20height%3D%22120%22%20fill%3D%22url%28%23g%29%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%2250%22%20r%3D%2220%22%20fill%3D%22%23fff1b8%22/%3E%3Cpath%20d%3D%22M10%2072%20L38%2058%20L55%2066%20L72%2056%20L95%2068%20L110%2062%20V120%20H10Z%22%20fill%3D%22%231fa35c%22/%3E%3Cpath%20d%3D%22M60%2068%20L92%20120%20H28Z%22%20fill%3D%22%231a1511%22/%3E%3Cpath%20d%3D%22M60%2074%20V84%20M60%2092%20V104%22%20stroke%3D%22%23ffd23f%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22/%3E%3C/g%3E%3C/svg%3E">
 <title>Rota 69 — Saloon & Moto Bar</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -17,6 +18,7 @@ body{overflow-x:hidden;max-width:100vw}
 @media(min-width:768px){.adm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(min-width:1024px){.adm-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .adm-card{min-width:0}
+input[type=date],input[type=time]{color-scheme:dark}
 .adm-card>h3{cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
 .adm-card>h3::after{content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;font-size:.75rem;color:var(--bourbon);transition:transform .2s}
 .adm-card.collapsed>h3::after{transform:rotate(-90deg)}
@@ -71,13 +73,38 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 </style>
 </head>
 <body class="min-h-screen selection:bg-amber-500 selection:text-black">
+<!-- LOGO ROTA 69 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="lg-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d3f8f"/><stop offset=".55" stop-color="#e8a317"/><stop offset="1" stop-color="#ffd23f"/></linearGradient>
+    <clipPath id="lg-clip"><circle cx="60" cy="60" r="34"/></clipPath>
+    <path id="lg-top" d="M 17 60 a 43 43 0 0 1 86 0"/>
+    <path id="lg-bot" d="M 9 60 a 51 51 0 0 0 102 0"/>
+  </defs>
+  <symbol id="logo" viewBox="0 0 120 120">
+    <circle cx="60" cy="60" r="58" fill="#14100c" stroke="#e8a317" stroke-width="3"/>
+    <circle cx="60" cy="60" r="55" fill="none" stroke="#e8a317" stroke-width=".9" stroke-dasharray="2 2.5" opacity=".75"/>
+    <circle cx="60" cy="60" r="36" fill="#0d0b09" stroke="#e8a317" stroke-width="1.6"/>
+    <g clip-path="url(#lg-clip)">
+      <rect x="20" y="20" width="80" height="80" fill="url(#lg-sky)"/>
+      <circle cx="60" cy="52" r="15" fill="#fff1b8"/>
+      <path d="M20 70 L40 60 L52 66 L66 58 L84 67 L100 62 V100 H20Z" fill="#1fa35c"/>
+      <path d="M60 67 L84 100 H36Z" fill="#1a1511"/>
+      <path d="M60 70 V75 M60 79 V86 M60 91 V99" stroke="#ffd23f" stroke-width="2.4" stroke-linecap="round"/>
+      <text x="60" y="59" text-anchor="middle" font-family="'Bebas Neue',Impact,sans-serif" font-size="21" letter-spacing="1" fill="#14100c" stroke="#14100c" stroke-width="1.1" stroke-linejoin="round">69</text>
+    </g>
+    <text font-family="'Bebas Neue',Impact,sans-serif" font-size="11.5" letter-spacing="2.4" fill="#e8a317"><textPath href="#lg-top" startOffset="50%" text-anchor="middle">ROTA 69 SALOON</textPath></text>
+    <text font-family="'Bebas Neue',Impact,sans-serif" font-size="9.5" letter-spacing="2.2" fill="#e8a317"><textPath href="#lg-bot" startOffset="50%" text-anchor="middle">• MOTO BAR •</textPath></text>
+  </symbol>
+</svg>
+
 
 <!-- HEADER -->
 <header class="sticky top-0 z-40 bg-[#100c09]/95 backdrop-blur border-b border-[#3a2d20]">
   <div class="bandeira"></div>
   <div class="max-w-6xl mx-auto px-3 py-2 flex items-center justify-between gap-3">
     <a href="#" onclick="showSection('home');return false" class="flex items-center gap-2.5 min-w-0">
-      <div class="shield w-9 h-10 flex items-start justify-center pt-0.5 shrink-0"><span class="f-bebas text-xl leading-none">69</span></div>
+      <svg class="w-11 h-11 shrink-0" role="img" aria-label="Rota 69"><use href="#logo"/></svg>
       <div class="min-w-0">
         <div class="f-rye text-xl text-amber-500 leading-none">Rota 69</div>
         <div class="text-[10px] text-zinc-400 tracking-widest truncate">SALOON • MOTO BAR</div>
@@ -117,6 +144,7 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 <section id="sec-home">
   <div class="hero relative px-4 py-14 sm:py-20 text-center">
     <div class="max-w-3xl mx-auto space-y-4">
+      <svg class="w-32 h-32 sm:w-36 sm:h-36 mx-auto drop-shadow-[0_0_18px_rgba(232,163,23,.45)]" role="img" aria-label="Rota 69"><use href="#logo"/></svg>
       <h1 class="f-rye neon text-5xl sm:text-6xl leading-[1.05]">Rota 69</h1>
       <p class="f-bebas text-2xl sm:text-3xl tracking-widest">Gasolina, Rock & Churrasco</p>
       <p class="max-w-xl mx-auto text-zinc-300">Saloon de beira de estrada onde a Route 66 encontra o Brasil. Chopp gelado, bourbon, costela defumada e rock a noite toda.</p>
@@ -199,7 +227,7 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 <section id="sec-manifesto" class="hidden max-w-3xl mx-auto px-4 py-10">
   <div class="card p-8 sm:p-12 space-y-8">
     <div class="text-center space-y-2">
-      <div class="shield w-16 h-[4.5rem] mx-auto flex items-start justify-center pt-2"><span class="f-bebas text-3xl">69</span></div>
+      <svg class="w-24 h-24 mx-auto" role="img" aria-label="Rota 69"><use href="#logo"/></svg>
       <h2 class="sec-title">Código da Casa</h2>
       <p class="f-bebas text-xl text-zinc-400 tracking-widest">Liberdade, respeito e irmandade</p>
     </div>
@@ -247,9 +275,10 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
       <div id="adm-menu-list" class="space-y-2 max-h-64 overflow-y-auto"></div></div>
     <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Programação</h3>
       <input id="adm-event-title" class="input" placeholder="Nome do evento">
-      <label class="block text-xs text-zinc-400">Data e hora (para a contagem regressiva)
-        <input id="adm-event-when" type="datetime-local" class="input mt-1"></label>
-      <input id="adm-event-date" class="input" placeholder="Texto da data (opcional). Ex: Sábado • 21h">
+      <div class="grid grid-cols-2 gap-2">
+        <label class="block text-xs text-zinc-400">Dia<input id="adm-event-day" type="date" class="input mt-1"></label>
+        <label class="block text-xs text-zinc-400">Hora<input id="adm-event-time" type="time" class="input mt-1"></label>
+      </div>
       <textarea id="adm-event-desc" class="input" rows="2" placeholder="Detalhes"></textarea>
       <div class="flex gap-2"><button id="btn-save-event" onclick="addEvent()" class="btn flex-1">Cadastrar</button><button id="btn-cancel-event" onclick="cancelEdit('event')" class="btn btn-dark hidden">Cancelar</button></div>
       <div class="flex items-center justify-between text-xs text-zinc-400 pt-2 border-t border-[#3a2d20]"><span>Eventos agendados</span><button onclick="clearEvents()" class="text-rose-400 font-bold hover:underline">Apagar todos</button></div>
@@ -257,7 +286,8 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
     <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Moderação de fotos</h3>
       <div id="adm-pending-gallery" class="space-y-2 max-h-52 overflow-y-auto"></div></div>
     <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Moderação do mural</h3>
-      <div id="adm-wall-messages" class="space-y-2 max-h-52 overflow-y-auto"></div></div>
+      <div id="adm-legacy"></div>
+        <div id="adm-wall-messages" class="space-y-2 max-h-52 overflow-y-auto"></div></div>
   </div>
 </section>
 
@@ -299,6 +329,7 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 <footer class="mt-16">
   <div class="estrada"></div>
   <div class="bg-black py-10 text-center text-sm text-zinc-500 px-4 space-y-2">
+    <svg class="w-16 h-16 mx-auto" role="img" aria-label="Rota 69"><use href="#logo"/></svg>
     <div class="f-rye text-2xl text-amber-500">Rota 69</div>
     <p class="tracking-widest text-zinc-400">Rodovia SP-330 • Flint County • Entrada da Rota 66</p>
     <p>Se beber, não dirija. Capacete sempre. © 2026 Rota 69.</p>
@@ -379,7 +410,7 @@ window.appState={...clone(EMPTY),
     {id:2,title:'Noite da Sinuca & BBQ',date:'Quarta • 20h',desc:'Torneio aberto de sinuca, com costela defumada em promoção.'}
   ]
 };
-window.wallList=[]; window.photoList=[]; window.inboxList=[]; window.adminUser=null;
+window.wallList=[]; window.photoList=[]; window.inboxList=[]; window.adminUser=null; window.legacy={wall:[],photos:[]};
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const isAdmin = () => !!window.adminUser;
@@ -444,7 +475,8 @@ window.renderUI = function(){
       <div class="stitch p-4 text-amber-500 text-3xl"><i class="fa-solid fa-guitar"></i></div>
       <div class="min-w-0"><span class="f-bebas text-lg text-amber-500">${esc(e.date||(e.ts?window.fmtWhen(e.ts):''))}</span>
         <h3 class="f-bebas text-3xl leading-tight">${esc(e.title)}</h3>
-        <p class="text-zinc-400">${esc(e.desc)}</p></div></div>`).join('');
+        <p class="text-zinc-400">${esc(e.desc)}</p>
+        ${e.ts?`<div class="inline-flex items-center gap-2 mt-3 px-3 py-1 rounded border border-amber-500/40 bg-amber-500/10 f-bebas text-lg text-amber-400" data-countdown="${e.ts}"></div>`:''}</div></div>`).join('');
 
   // ---- listas do painel da gerência (só com login) ----
   const adminIds=['adm-ann-list','adm-menu-list','adm-event-list','adm-pending-gallery','adm-wall-messages'];
@@ -463,6 +495,8 @@ window.renderUI = function(){
       (inbox.map(p=>row(esc(p.author),esc(p.caption||''),`<div class="flex gap-1 shrink-0"><button onclick="approvePhoto('${p.id}')" class="bg-emerald-600 text-white px-2 py-1 rounded font-bold">Aprovar</button><button onclick="deleteInboxPhoto('${p.id}')" class="bg-rose-600 text-white px-2 py-1 rounded font-bold">Excluir</button></div>`,th(p.url))).join('')||'<p class="text-xs text-zinc-500">Nenhuma foto pendente.</p>')+
       `<div class="text-[11px] uppercase tracking-widest text-amber-400 pt-2">Na galeria (${appr.length})</div>`+
       (appr.map(p=>row(esc(p.author),esc(p.caption||''),`<button onclick="deleteApprovedPhoto('${p.id}')" class="bg-rose-600 text-white px-2 py-1 rounded font-bold shrink-0">Excluir</button>`,th(p.url))).join('')||'<p class="text-xs text-zinc-500">Galeria vazia.</p>');
+    const L=window.legacy||{wall:[],photos:[]};
+    document.getElementById('adm-legacy').innerHTML=(L.wall.length||L.photos.length)?`<button onclick="importLegacy()" class="btn w-full !text-base">Recuperar mural e fotos antigos (${L.wall.length} assinaturas, ${L.photos.length} fotos)</button>`:'';
     document.getElementById('adm-wall-messages').innerHTML=(window.wallList||[]).map(w=>row(esc(w.name),esc(w.msg),`<button onclick="deleteWallMessage('${w.id}')" class="bg-rose-600 text-white px-2 py-1 rounded font-bold shrink-0">Remover</button>`)).join('')||'<p class="text-xs text-zinc-500">Mural vazio.</p>';
   }
   const empty=(id,msg)=>{const el=document.getElementById(id); if(el&&!el.innerHTML.trim()) el.innerHTML='<p class="text-zinc-500 col-span-full">'+msg+'</p>';};
@@ -474,7 +508,15 @@ window.renderUI = function(){
 // ---- dados em tempo real ----
 const toList=snap=>{ const v=snap.val()||{}; return Object.entries(v).map(([id,x])=>({id,...x})).sort((a,b)=>(b.ts||0)-(a.ts||0)); };
 if(ready){
-  onValue(ref(db,'mainState'),snap=>{ const d=snap.val(); if(d) window.appState={...clone(EMPTY),...d}; window.renderUI(); },e=>console.error(e));
+  onValue(ref(db,'mainState'),snap=>{
+    const d=snap.val();
+    if(d){
+      window.appState={...clone(EMPTY),...d};
+      const vals=x=>Array.isArray(x)?x.filter(Boolean):Object.values(x||{});
+      window.legacy={wall:vals(d.wallMessages),photos:vals(d.photos).filter(p=>p&&p.url&&p.status!=='pending')};
+    }
+    window.renderUI();
+  },e=>console.error(e));
   onValue(ref(db,'wall'),snap=>{ window.wallList=toList(snap); window.renderUI(); },e=>console.error(e));
   onValue(ref(db,'photos'),snap=>{ window.photoList=toList(snap); window.renderUI(); },e=>console.error(e));
   onAuthStateChanged(auth,user=>{
@@ -492,12 +534,19 @@ const KEYS=['barOpen','jukeboxTrack','discordUrl','announcements','menu','events
 window.syncState=async function(){
   if(!need()) return;
   if(!window.adminUser){ alert('Faça login na gerência para salvar.'); window.renderUI(); return; }
-  try{ const o={}; KEYS.forEach(k=>o[k]=window.appState[k]??EMPTY[k]); await set(ref(db,'mainState'),o); }
+  try{ const o={}; KEYS.forEach(k=>o[k]=window.appState[k]??EMPTY[k]); await update(ref(db,'mainState'),o); }
   catch(e){ console.error(e); alert('Não foi possível salvar. Verifique as regras do banco e se você está logado.'); }
 };
 window.fbLogin=async function(email,pass){ if(!need()) throw new Error('cfg'); const c=await signInWithEmailAndPassword(auth,email,pass); window.adminUser=c.user; return c.user; };
 window.fbLogout=async function(){ if(auth) await signOut(auth); window.adminUser=null; };
 window.fbAddWall=async function(name,msg){ if(!need()) return false; await push(ref(db,'wall'),{name,msg,ts:Date.now()}); return true; };
+window.fbImportLegacy=async function(){
+  const L=window.legacy||{wall:[],photos:[]}, t=Date.now();
+  for(let i=0;i<L.wall.length;i++){ const w=L.wall[i]; if(w&&w.name&&w.msg) await push(ref(db,'wall'),{name:String(w.name).slice(0,40),msg:String(w.msg).slice(0,280),ts:t-i-1}); }
+  for(let i=0;i<L.photos.length;i++){ const p=L.photos[i]; await push(ref(db,'photos'),{author:p.author||'',caption:p.caption||'',url:p.url,path:'',ts:t-i-1}); }
+  await update(ref(db,'mainState'),{wallMessages:null,photos:null});
+  window.legacy={wall:[],photos:[]};
+};
 window.fbDeleteWall=async function(id){ await remove(ref(db,'wall/'+id)); };
 window.fbSubmitPhoto=async function({author,caption,blob,dataUrl}){
   if(!need()) return false;
@@ -659,16 +708,28 @@ async function loginAdmin(){
 async function logoutAdmin(){ await window.fbLogout(); showSection('home'); window.renderUI(); }
 window.onAdminLogout=function(){ const el=document.getElementById('sec-admin'); if(el&&!el.classList.contains('hidden')) showSection('home'); };
 
+function leftText(ms){
+  const d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/36e5), m=Math.floor(ms%36e5/6e4), parts=[];
+  if(d) parts.push(d+(d>1?' dias':' dia')); if(h||d) parts.push(h+'h'); parts.push(m+'min');
+  return parts.join(' ');
+}
 function updateCountdown(){
-  const box=document.getElementById('next-event'); if(!box||!window.appState) return;
+  if(!window.appState) return;
   const now=Date.now();
+  // cartões na página Programação
+  document.querySelectorAll('[data-countdown]').forEach(el=>{
+    const ts=Number(el.dataset.countdown), ms=ts-now;
+    if(ms>0) el.innerHTML='<i class="fa-solid fa-hourglass-half text-sm"></i> Faltam '+leftText(ms);
+    else if(ms>-4*3600e3) el.innerHTML='<i class="fa-solid fa-fire text-sm"></i> Rolando agora!';
+    else el.innerHTML='<i class="fa-solid fa-flag-checkered text-sm"></i> Encerrado';
+  });
+  // destaque na home
+  const box=document.getElementById('next-event'); if(!box) return;
   const next=(appState.events||[]).filter(e=>e.ts&&e.ts>now).sort((a,b)=>a.ts-b.ts)[0];
   if(!next){ box.classList.add('hidden'); return; }
-  const ms=next.ts-now, d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/36e5), m=Math.floor(ms%36e5/6e4);
-  const parts=[]; if(d) parts.push(d+(d>1?' dias':' dia')); if(h||d) parts.push(h+'h'); parts.push(m+'min');
   document.getElementById('next-event-title').textContent=next.title;
   document.getElementById('next-event-when').textContent=next.date||window.fmtWhen(next.ts);
-  document.getElementById('next-event-count').textContent='Faltam '+parts.join(' ');
+  document.getElementById('next-event-count').textContent='Faltam '+leftText(next.ts-now);
   box.classList.remove('hidden');
 }
 window.updateCountdown=updateCountdown;
@@ -688,7 +749,7 @@ async function updateJukeboxTrack(){
 }
 
 const editing={ann:null,menu:null,event:null};
-const FORM={ann:['adm-announcement-title','adm-announcement-text'],menu:['adm-menu-title','adm-menu-price'],event:['adm-event-title','adm-event-when','adm-event-date','adm-event-desc']};
+const FORM={ann:['adm-announcement-title','adm-announcement-text'],menu:['adm-menu-title','adm-menu-price'],event:['adm-event-title','adm-event-day','adm-event-time','adm-event-desc']};
 const LABEL={ann:'Publicar',menu:'Salvar item',event:'Cadastrar'};
 function openCard(id){ const c=document.getElementById(id).closest('.adm-card'); if(c) c.classList.remove('collapsed'); }
 function cancelEdit(k){
@@ -721,18 +782,24 @@ async function deleteMenuItem(id){ if(!confirm('Excluir este item do cardápio?'
 async function clearMenu(){ if(!confirm('Apagar TODO o cardápio?')) return; appState.menu=[]; cancelEdit('menu'); await syncState(); }
 
 async function addEvent(){
-  const title=document.getElementById('adm-event-title').value.trim(), when=document.getElementById('adm-event-when').value, date=document.getElementById('adm-event-date').value.trim(), desc=document.getElementById('adm-event-desc').value.trim();
-  if(!title||(!when&&!date)) return alert('Preencha o nome e a data/hora do evento!');
-  const ts=when?new Date(when).getTime():null;
+  const title=document.getElementById('adm-event-title').value.trim(), day=document.getElementById('adm-event-day').value, time=document.getElementById('adm-event-time').value, desc=document.getElementById('adm-event-desc').value.trim();
+  if(!title) return alert('Digite o nome do evento!');
+  if(!day||!time) return alert('Escolha o dia e a hora do evento!');
+  const ts=new Date(day+'T'+time).getTime();
+  if(isNaN(ts)) return alert('Data ou hora inválida.');
   const list=(appState.events=appState.events||[]);
-  if(editing.event){ const it=list.find(x=>x.id===editing.event); if(it){it.title=title;it.date=date;it.desc=desc;it.ts=ts;} } else list.push({id:Date.now(),title,date,desc,ts});
+  if(editing.event){ const it=list.find(x=>x.id===editing.event); if(it){it.title=title;it.date='';it.desc=desc;it.ts=ts;} } else list.push({id:Date.now(),title,date:'',desc,ts});
   await syncState(); cancelEdit('event');
 }
 function editEvent(id){
   const it=(appState.events||[]).find(x=>x.id===id); if(!it) return;
   document.getElementById('adm-event-title').value=it.title;
-  document.getElementById('adm-event-when').value=it.ts?new Date(it.ts-new Date(it.ts).getTimezoneOffset()*60000).toISOString().slice(0,16):'';
-  document.getElementById('adm-event-date').value=it.date||''; document.getElementById('adm-event-desc').value=it.desc||'';
+  if(it.ts){
+    const d=new Date(it.ts), p=n=>String(n).padStart(2,'0');
+    document.getElementById('adm-event-day').value=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+    document.getElementById('adm-event-time').value=p(d.getHours())+':'+p(d.getMinutes());
+  }else{ document.getElementById('adm-event-day').value=''; document.getElementById('adm-event-time').value=''; }
+  document.getElementById('adm-event-desc').value=it.desc||'';
   startEdit('event',id);
 }
 async function deleteEvent(id){ if(!confirm('Excluir este evento?')) return; appState.events=(appState.events||[]).filter(x=>x.id!==id); if(editing.event===id) cancelEdit('event'); await syncState(); }
@@ -793,6 +860,10 @@ async function submitPhoto(){
     }
   }catch(e){ console.error(e); alert('Não foi possível enviar a foto agora. Tente de novo.'); }
   finally{ if(btn){btn.disabled=false;btn.innerText='Enviar foto';} }
+}
+async function importLegacy(){
+  if(!confirm('Importar as assinaturas e fotos antigas para o mural e a galeria novos?')) return;
+  try{ await window.fbImportLegacy(); alert('Pronto! Mural e galeria recuperados.'); }catch(e){ console.error(e); alert('Não foi possível importar. Verifique se as regras do banco foram publicadas e se você está logado.'); }
 }
 async function approvePhoto(id){ try{ await window.fbApprovePhoto(id); }catch(e){ alert('Sem permissão. Faça login de novo.'); } }
 async function deleteInboxPhoto(id){ if(!confirm('Excluir esta foto pendente?')) return; try{ await window.fbDeletePhoto('inbox',id); }catch(e){ alert('Sem permissão. Faça login de novo.'); } }
