@@ -79,6 +79,18 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 #eq-hero span{width:9px;border-radius:5px 5px 0 0}
 body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
 @keyframes wave{0%,100%{height:4px}50%{height:var(--h)}}
+
+/* ===== ABAS, DADO, DESTAQUE ===== */
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;border-bottom:1px solid var(--borda);padding-bottom:.9rem}
+.tab{font-family:'Bebas Neue';letter-spacing:.08em;font-size:1.15rem;padding:.35rem 1rem;border-radius:999px;border:1px solid var(--borda);color:#d8cbb4;background:#1a1511;transition:.2s}
+.tab:hover{border-color:var(--bourbon);color:var(--bourbon)}
+.tab.on{background:var(--bourbon);color:#1a1005;border-color:var(--bourbon)}
+.pin-card{border-color:rgba(232,163,23,.7)!important;box-shadow:0 0 28px rgba(232,163,23,.18),inset 0 0 0 3px var(--couro),inset 0 0 0 4px rgba(232,163,23,.5)}
+.scene{width:120px;height:120px;perspective:700px;margin:2rem auto}
+.cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 1.4s cubic-bezier(.15,.8,.2,1)}
+.face{position:absolute;inset:0;background:#f4efe2;border:3px solid #14100c;border-radius:16px;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:16px;place-items:center;backface-visibility:hidden}
+.pip{width:18px;height:18px;border-radius:50%;background:#14100c}
+.f1{transform:translateZ(60px)}.f6{transform:rotateY(180deg) translateZ(60px)}.f3{transform:rotateY(90deg) translateZ(60px)}.f4{transform:rotateY(-90deg) translateZ(60px)}.f2{transform:rotateX(90deg) translateZ(60px)}.f5{transform:rotateX(-90deg) translateZ(60px)}
 /* ===== ANIMAÇÕES ===== */
 @keyframes secIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes rise{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
@@ -164,9 +176,9 @@ body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
   <nav id="main-nav" class="flex-1 overflow-y-auto">
     <button data-s="home" onclick="showSection('home')" class="d-link on"><i class="fa-solid fa-house"></i>Início</button>
     <button data-s="cardapio" onclick="showSection('cardapio')" class="d-link"><i class="fa-solid fa-utensils"></i>Cardápio</button>
-    <button data-s="eventos" onclick="showSection('eventos')" class="d-link"><i class="fa-solid fa-calendar-days"></i>Programação</button>
-    <button data-s="mural" onclick="showSection('mural')" class="d-link"><i class="fa-solid fa-pen-nib"></i>Mural</button>
-    <button data-s="galeria" onclick="showSection('galeria')" class="d-link"><i class="fa-solid fa-camera"></i>Galeria</button>
+    <button data-s="eventos" data-g="role" onclick="showSection('eventos')" class="d-link"><i class="fa-solid fa-calendar-days"></i>Rolê</button>
+    <button data-s="mural" data-g="comunidade" onclick="showSection('mural')" class="d-link"><i class="fa-solid fa-users"></i>Comunidade</button>
+    <button data-s="cartao" data-g="diversao" onclick="showSection('cartao')" class="d-link"><i class="fa-solid fa-dice"></i>Diversão</button>
     <button data-s="manifesto" onclick="showSection('manifesto')" class="d-link"><i class="fa-solid fa-shield-halved"></i>Código da Casa</button>
     <a id="discord-link-drawer" href="#" target="_blank" rel="noopener" style="display:none" class="d-link"><i class="fa-brands fa-discord"></i>Entrar no Discord</a>
     <button onclick="copyAddress();toggleDrawer(false)" class="d-link"><i class="fa-solid fa-location-dot"></i>Copiar endereço</button>
@@ -202,11 +214,29 @@ body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
       </div>
       <div id="next-event-count" class="f-bebas text-xl text-amber-400"></div>
     </div>
+
+    <div class="grid md:grid-cols-2 gap-4">
+      <div id="challenge-card" style="display:none" class="card p-5 flex items-start gap-4">
+        <i class="fa-solid fa-trophy text-3xl text-amber-500 mt-1"></i>
+        <div class="min-w-0"><div class="f-bebas text-lg text-amber-400">Desafio da semana</div>
+          <div id="challenge-title" class="f-bebas text-2xl leading-tight"></div>
+          <p id="challenge-text" class="text-sm text-zinc-300 mt-1"></p></div>
+      </div>
+      <div id="rider-card" style="display:none" class="card p-5 flex items-center gap-4">
+        <div class="shrink-0 w-20 h-20 rounded-full border-2 border-amber-500 bg-black/50 flex items-center justify-center overflow-hidden text-amber-500 text-3xl">
+          <img id="rider-photo" class="w-full h-full object-cover" style="display:none" alt="Motoqueiro da semana"><i id="rider-icon" class="fa-solid fa-motorcycle"></i></div>
+        <div class="min-w-0"><div class="f-bebas text-lg text-amber-400">Motoqueiro da semana</div>
+          <div id="rider-name" class="f-bebas text-2xl leading-tight truncate"></div>
+          <div id="rider-bike" class="text-sm text-zinc-400 truncate"></div>
+          <p id="rider-quote" class="text-sm italic text-zinc-300 mt-1"></p></div>
+      </div>
+    </div>
+
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
       <button class="card quick" onclick="showSection('cardapio')"><i class="fa-solid fa-utensils"></i><span>Cardápio</span></button>
-      <button class="card quick" onclick="showSection('eventos')"><i class="fa-solid fa-guitar"></i><span>Programação</span></button>
-      <button class="card quick" onclick="showSection('mural')"><i class="fa-solid fa-pen-nib"></i><span>Mural</span></button>
-      <button class="card quick" onclick="showSection('galeria')"><i class="fa-solid fa-camera"></i><span>Galeria</span></button>
+      <button class="card quick" onclick="showSection('eventos')"><i class="fa-solid fa-calendar-days"></i><span>Rolê</span></button>
+      <button class="card quick" onclick="showSection('mural')"><i class="fa-solid fa-users"></i><span>Comunidade</span></button>
+      <button class="card quick" onclick="showSection('cartao')"><i class="fa-solid fa-dice"></i><span>Diversão</span></button>
     </div>
 
     <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-zinc-300">
@@ -233,6 +263,7 @@ body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
 
 <!-- EVENTOS -->
 <section id="sec-eventos" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
+  <div class="tabs-slot" data-group="role"></div>
   <div class="border-b border-[#3a2d20] pb-5">
     <h2 class="sec-title">Programação</h2>
     <p class="text-zinc-400 mt-2">Rock ao vivo, comboios e noites de sinuca.</p>
@@ -242,6 +273,7 @@ body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
 
 <!-- MURAL -->
 <section id="sec-mural" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
+  <div class="tabs-slot" data-group="comunidade"></div>
   <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#3a2d20] pb-5">
     <div><h2 class="sec-title">Mural dos viajantes</h2><p class="text-zinc-400 mt-2">Deixe sua marca na parede do saloon.</p></div>
     <button class="btn" onclick="toggleElement('sign-wall-modal')"><i class="fa-solid fa-pen mr-2"></i>Assinar o mural</button>
@@ -251,11 +283,69 @@ body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
 
 <!-- GALERIA -->
 <section id="sec-galeria" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
+  <div class="tabs-slot" data-group="comunidade"></div>
   <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#3a2d20] pb-5">
     <div><h2 class="sec-title">Galeria</h2><p class="text-zinc-400 mt-2">Motos alinhadas, noites de show e balcão cheio.</p></div>
     <button class="btn" onclick="toggleElement('upload-photo-modal')"><i class="fa-solid fa-camera mr-2"></i>Enviar foto</button>
   </div>
   <div id="gallery-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+</section>
+
+<!-- LUGARES -->
+<section id="sec-lugares" class="hidden max-w-7xl mx-auto px-4 py-10 space-y-8">
+  <div class="tabs-slot" data-group="role"></div>
+  <div class="border-b border-[#3a2d20] pb-5">
+    <h2 class="sec-title">Pontos de encontro</h2>
+    <p class="text-zinc-400 mt-2">Onde a galera se junta antes de pegar a estrada.</p>
+  </div>
+  <div id="spots-list" class="grid md:grid-cols-2 gap-5"></div>
+</section>
+
+<!-- CARTAO -->
+<section id="sec-cartao" class="hidden max-w-6xl mx-auto px-4 py-10 space-y-8">
+  <div class="tabs-slot" data-group="diversao"></div>
+  <div class="border-b border-[#3a2d20] pb-5">
+    <h2 class="sec-title">Cartão de motoqueiro</h2>
+    <p class="text-zinc-400 mt-2">Monte a sua carteirinha da Rota 69, baixe e compartilhe.</p>
+  </div>
+  <div class="grid md:grid-cols-5 gap-6 items-start">
+    <div class="card p-5 space-y-3 md:col-span-2">
+      <input id="card-nick" maxlength="20" oninput="drawCard()" class="input" placeholder="Seu apelido">
+      <input id="card-bike" maxlength="28" oninput="drawCard()" class="input" placeholder="Sua moto (ex: Harley Sportster)">
+      <input id="card-club" maxlength="28" oninput="drawCard()" class="input" placeholder="Moto clube (opcional)">
+      <input id="card-motto" maxlength="40" oninput="drawCard()" class="input" placeholder="Seu lema (opcional)">
+      <select id="card-theme" onchange="drawCard()" class="input">
+        <option value="bourbon">Cor: Bourbon</option><option value="esmeralda">Cor: Esmeralda</option><option value="neon">Cor: Neon vermelho</option>
+      </select>
+      <div class="flex gap-2"><button onclick="downloadCard()" class="btn flex-1"><i class="fa-solid fa-download mr-2"></i>Baixar</button><button onclick="shareCard()" class="btn btn-dark flex-1"><i class="fa-solid fa-share-nodes mr-2"></i>Compartilhar</button></div>
+    </div>
+    <div class="md:col-span-3"><canvas id="card-canvas" width="1000" height="620" class="w-full rounded-xl border border-[#3a2d20] shadow-2xl"></canvas></div>
+  </div>
+</section>
+
+<!-- DADO -->
+<section id="sec-dado" class="hidden max-w-5xl mx-auto px-4 py-10 space-y-8">
+  <div class="tabs-slot" data-group="diversao"></div>
+  <div class="border-b border-[#3a2d20] pb-5">
+    <h2 class="sec-title">Dado do Saloon</h2>
+    <p class="text-zinc-400 mt-2">Role o dado ou sorteie quem paga a rodada. É só brincadeira.</p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="card p-6 text-center">
+      <div class="scene"><div id="cube" class="cube">
+        <div class="face f1" data-n="1"></div><div class="face f2" data-n="2"></div><div class="face f3" data-n="3"></div>
+        <div class="face f4" data-n="4"></div><div class="face f5" data-n="5"></div><div class="face f6" data-n="6"></div>
+      </div></div>
+      <p id="dice-result" class="f-bebas text-2xl text-amber-400 min-h-[2.5rem]">Toque para rolar</p>
+      <button onclick="rollDice()" class="btn mt-3"><i class="fa-solid fa-dice mr-2"></i>Rolar dado</button>
+    </div>
+    <div class="card p-6 space-y-3">
+      <h3 class="f-bebas text-2xl text-amber-400">Quem paga a rodada?</h3>
+      <textarea id="pay-names" rows="4" class="input" placeholder="Digite os nomes, um por linha ou separados por vírgula"></textarea>
+      <button onclick="sortPay()" class="btn w-full">Sortear</button>
+      <p id="pay-result" class="f-bebas text-3xl text-amber-400 text-center min-h-[3rem] pt-2"></p>
+    </div>
+  </div>
 </section>
 
 <!-- MANIFESTO -->
@@ -284,6 +374,28 @@ body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
     </div>
   </div>
   <div class="adm-grid">
+    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Pontos de encontro</h3>
+      <input id="adm-spot-name" class="input" maxlength="50" placeholder="Nome do lugar">
+      <input id="adm-spot-when" class="input" maxlength="50" placeholder="Quando (ex: Sábados, 19h)">
+      <textarea id="adm-spot-desc" class="input" rows="2" maxlength="200" placeholder="Como chegar / detalhes"></textarea>
+      <div class="flex gap-2"><button id="btn-save-spot" onclick="addSpot()" class="btn flex-1">Salvar ponto</button><button id="btn-cancel-spot" onclick="cancelEdit('spot')" class="btn btn-dark hidden">Cancelar</button></div>
+      <div class="flex items-center justify-between text-xs text-zinc-400 pt-2 border-t border-[#3a2d20]"><span>Pontos cadastrados</span><button onclick="clearSpots()" class="text-rose-400 font-bold hover:underline">Apagar todos</button></div>
+      <div id="adm-spot-list" class="space-y-2 max-h-56 overflow-y-auto"></div></div>
+
+    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Desafio da semana</h3>
+      <input id="adm-challenge-title" class="input" maxlength="60" placeholder="Título do desafio">
+      <textarea id="adm-challenge-text" class="input" rows="3" maxlength="300" placeholder="Regras, prêmio, prazo..."></textarea>
+      <div class="flex gap-2"><button onclick="saveChallenge()" class="btn flex-1">Publicar</button><button onclick="clearChallenge()" class="btn btn-dark">Remover</button></div>
+      <p id="adm-challenge-current" class="text-xs text-zinc-400 break-words"></p></div>
+
+    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Motoqueiro da semana</h3>
+      <input id="adm-rider-name" class="input" maxlength="30" placeholder="Apelido">
+      <input id="adm-rider-bike" class="input" maxlength="40" placeholder="Moto (ex: Harley Sportster)">
+      <input id="adm-rider-quote" class="input" maxlength="90" placeholder="Frase (opcional)">
+      <label class="block text-xs text-zinc-400">Foto (opcional)<input id="adm-rider-photo" type="file" accept="image/*" class="input mt-1"></label>
+      <div class="flex gap-2"><button onclick="saveRider()" class="btn flex-1">Publicar</button><button onclick="clearRider()" class="btn btn-dark">Remover</button></div>
+      <p id="adm-rider-current" class="text-xs text-zinc-400 break-words"></p></div>
+
     <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Discord</h3>
       <input id="adm-discord-input" class="input" placeholder="https://discord.gg/seu-convite">
       <div class="flex gap-2"><button onclick="saveDiscord()" class="btn flex-1">Salvar link</button><button onclick="clearDiscord()" class="btn btn-dark">Remover</button></div>
@@ -423,7 +535,7 @@ try{
   ready=true;
 }catch(e){ console.warn("Firebase não configurado: site em modo demonstrativo (somente leitura)."); }
 
-const EMPTY={barOpen:true,discordUrl:'',announcements:[],menu:[],events:[]};
+const EMPTY={barOpen:true,discordUrl:'',challenge:null,rider:null,spots:[],announcements:[],menu:[],events:[]};
 const clone=o=>JSON.parse(JSON.stringify(o));
 window.appState={...clone(EMPTY),
   announcements:[
@@ -489,7 +601,8 @@ window.renderUI = function(){
         </div>`).join('')}</div></div>`;
   }).join('');
 
-  document.getElementById('wall-messages-grid').innerHTML=(window.wallList||[]).map((w,idx)=>`
+  const wl=window.wallList||[], pin=wl.find(w=>w.pinned), rest=wl.filter(w=>!w.pinned);
+  document.getElementById('wall-messages-grid').innerHTML=(pin?`<div class="card pin-card p-7 space-y-3 sm:col-span-2 lg:col-span-3 text-center"><div class="f-bebas text-amber-400 tracking-widest"><i class="fa-solid fa-thumbtack mr-2"></i>Em destaque</div><p class="italic text-xl sm:text-2xl text-zinc-100">"${esc(pin.msg)}"</p><span class="f-bebas text-xl text-amber-500">— ${esc(pin.name)}</span></div>`:'')+rest.map((w,idx)=>`
     <div class="card mural-card p-6 space-y-3" style="--r:${(idx%3-1)*0.8}deg">
       <i class="fa-solid fa-quote-left text-amber-500 text-xl"></i>
       <p class="italic text-zinc-200">"${esc(w.msg)}"</p>
@@ -511,8 +624,29 @@ window.renderUI = function(){
         <p class="text-zinc-400">${esc(e.desc)}</p>
         ${e.ts?`<div class="inline-flex items-center gap-2 mt-3 px-3 py-1 rounded border border-amber-500/40 bg-amber-500/10 f-bebas text-lg text-amber-400" data-countdown="${e.ts}"></div>`:''}</div></div>`).join('');
 
+  // desafio da semana
+  const ch=S.challenge, chEl=document.getElementById('challenge-card');
+  if(ch&&(ch.title||ch.text)){ chEl.style.display=''; document.getElementById('challenge-title').textContent=ch.title||'Participe!'; document.getElementById('challenge-text').textContent=ch.text||''; } else chEl.style.display='none';
+  // motoqueiro da semana
+  const rd=S.rider, rdEl=document.getElementById('rider-card');
+  if(rd&&rd.name){
+    rdEl.style.display='';
+    document.getElementById('rider-name').textContent=rd.name;
+    document.getElementById('rider-bike').textContent=rd.bike||'';
+    document.getElementById('rider-quote').textContent=rd.quote?('"'+rd.quote+'"'):'';
+    const ph=document.getElementById('rider-photo'), ic=document.getElementById('rider-icon');
+    if(rd.photo){ ph.src=rd.photo; ph.style.display=''; ic.style.display='none'; } else { ph.style.display='none'; ic.style.display=''; }
+  } else rdEl.style.display='none';
+  // pontos de encontro
+  document.getElementById('spots-list').innerHTML=(S.spots||[]).map(p=>`
+    <div class="card p-6 flex items-start gap-4">
+      <div class="stitch p-4 text-amber-500 text-3xl"><i class="fa-solid fa-location-dot"></i></div>
+      <div class="min-w-0"><span class="f-bebas text-lg text-amber-500">${esc(p.when)}</span>
+        <h3 class="f-bebas text-3xl leading-tight">${esc(p.name)}</h3>
+        <p class="text-zinc-400">${esc(p.desc)}</p></div></div>`).join('');
+
   // ---- listas do painel da gerência (só com login) ----
-  const adminIds=['adm-ann-list','adm-menu-list','adm-event-list','adm-pending-gallery','adm-wall-messages'];
+  const adminIds=['adm-ann-list','adm-menu-list','adm-event-list','adm-spot-list','adm-pending-gallery','adm-wall-messages'];
   if(!isAdmin()){ adminIds.forEach(id=>{const e=document.getElementById(id); if(e) e.innerHTML='';}); }
   else{
     const rowBtns=(ed,del)=>`<div class="flex gap-1 shrink-0"><button onclick="${ed}" class="bg-amber-500 text-black px-2 py-1 rounded font-bold">Editar</button><button onclick="${del}" class="bg-rose-600 text-white px-2 py-1 rounded font-bold">Excluir</button></div>`;
@@ -521,6 +655,9 @@ window.renderUI = function(){
     document.getElementById('adm-ann-list').innerHTML=(S.announcements||[]).map(a=>row(esc(a.title),esc(a.text),rowBtns(`editAnnouncement(${a.id})`,`deleteAnnouncement(${a.id})`))).join('')||none;
     document.getElementById('adm-menu-list').innerHTML=(S.menu||[]).map(i=>row(esc(i.title),'R$ '+esc(i.price)+' • '+esc(i.category),rowBtns(`editMenuItem(${i.id})`,`deleteMenuItem(${i.id})`))).join('')||none;
     document.getElementById('adm-event-list').innerHTML=sortEv(S.events||[]).map(e=>row(esc(e.title),esc(e.date||(e.ts?window.fmtWhen(e.ts):'')),rowBtns(`editEvent(${e.id})`,`deleteEvent(${e.id})`))).join('')||none;
+    document.getElementById('adm-spot-list').innerHTML=(S.spots||[]).map(p=>row(esc(p.name),esc(p.when),rowBtns(`editSpot(${p.id})`,`deleteSpot(${p.id})`))).join('')||none;
+    document.getElementById('adm-challenge-current').textContent=(S.challenge&&(S.challenge.title||S.challenge.text))?('No ar: '+(S.challenge.title||S.challenge.text)):'Nenhum desafio no ar.';
+    document.getElementById('adm-rider-current').textContent=(S.rider&&S.rider.name)?('No ar: '+S.rider.name+(S.rider.bike?' — '+S.rider.bike:'')):'Nenhum motoqueiro no ar.';
     const th=u=>`<img src="${esc(u)}" class="w-10 h-10 object-cover rounded shrink-0" alt="">`;
     const inbox=window.inboxList||[], appr=window.photoList||[];
     document.getElementById('adm-pending-gallery').innerHTML=
@@ -530,11 +667,11 @@ window.renderUI = function(){
       (appr.map(p=>row(esc(p.author),esc(p.caption||''),`<button onclick="deleteApprovedPhoto('${p.id}')" class="bg-rose-600 text-white px-2 py-1 rounded font-bold shrink-0">Excluir</button>`,th(p.url))).join('')||'<p class="text-xs text-zinc-500">Galeria vazia.</p>');
     const L=window.legacy||{wall:[],photos:[]};
     document.getElementById('adm-legacy').innerHTML=(L.wall.length||L.photos.length)?`<button onclick="importLegacy()" class="btn w-full !text-base">Recuperar mural e fotos antigos (${L.wall.length} assinaturas, ${L.photos.length} fotos)</button>`:'';
-    document.getElementById('adm-wall-messages').innerHTML=(window.wallList||[]).map(w=>row(esc(w.name),esc(w.msg),`<button onclick="deleteWallMessage('${w.id}')" class="bg-rose-600 text-white px-2 py-1 rounded font-bold shrink-0">Remover</button>`)).join('')||'<p class="text-xs text-zinc-500">Mural vazio.</p>';
+    document.getElementById('adm-wall-messages').innerHTML=(window.wallList||[]).map(w=>row(esc(w.name),esc(w.msg),`<div class="flex gap-1 shrink-0"><button onclick="pinWall('${w.id}',${!w.pinned})" class="bg-amber-500 text-black px-2 py-1 rounded font-bold">${w.pinned?'Desafixar':'Fixar'}</button><button onclick="deleteWallMessage('${w.id}')" class="bg-rose-600 text-white px-2 py-1 rounded font-bold">Remover</button></div>`)).join('')||'<p class="text-xs text-zinc-500">Mural vazio.</p>';
   }
   const empty=(id,msg)=>{const el=document.getElementById(id); if(el&&!el.innerHTML.trim()) el.innerHTML='<p class="text-zinc-500 col-span-full">'+msg+'</p>';};
   empty('announcements-list','Nenhum aviso no momento.'); empty('menu-container','O cardápio está sendo atualizado. Volte já!'); empty('events-list','Nenhum evento agendado por enquanto.');
-  empty('wall-messages-grid','Ninguém assinou ainda. Seja o primeiro!'); empty('gallery-grid','Nenhuma foto na galeria ainda.');
+  empty('wall-messages-grid','Ninguém assinou ainda. Seja o primeiro!'); empty('spots-list','Nenhum ponto de encontro cadastrado.'); empty('gallery-grid','Nenhuma foto na galeria ainda.');
   if(window.updateCountdown) window.updateCountdown();
 };
 
@@ -563,7 +700,7 @@ if(ready){
 
 // ---- ações ----
 const need=()=>{ if(!ready){ alert('O Firebase ainda não foi configurado neste arquivo.'); return false; } return true; };
-const KEYS=['barOpen','discordUrl','announcements','menu','events'];
+const KEYS=['barOpen','discordUrl','challenge','rider','spots','announcements','menu','events'];
 window.syncState=async function(){
   if(!need()) return;
   if(!window.adminUser){ alert('Faça login na gerência para salvar.'); window.renderUI(); return; }
@@ -579,6 +716,12 @@ window.fbImportLegacy=async function(){
   for(let i=0;i<L.photos.length;i++){ const p=L.photos[i]; await push(ref(db,'photos'),{author:p.author||'',caption:p.caption||'',url:p.url,path:'',ts:t-i-1}); }
   await update(ref(db,'mainState'),{wallMessages:null,photos:null});
   window.legacy={wall:[],photos:[]};
+};
+window.fbPinWall=async function(id,pin){
+  const up={};
+  (window.wallList||[]).forEach(w=>{ if(w.pinned&&w.id!==id) up['wall/'+w.id+'/pinned']=null; });
+  up['wall/'+id+'/pinned']=pin?true:null;
+  await update(ref(db),up);
 };
 window.fbDeleteWall=async function(id){ await remove(ref(db,'wall/'+id)); };
 window.fbSubmitPhoto=async function({author,caption,blob,dataUrl}){
@@ -722,14 +865,28 @@ function toggleDrawer(force){
 }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') toggleDrawer(false); });
 
+const GROUPS={
+  role:[['eventos','Programação'],['lugares','Pontos de encontro']],
+  comunidade:[['mural','Mural'],['galeria','Galeria']],
+  diversao:[['cartao','Cartão de motoqueiro'],['dado','Dado do Saloon']]
+};
+const SECTIONS=['home','cardapio','eventos','lugares','mural','galeria','cartao','dado','manifesto','admin'];
+function renderTabs(active){
+  document.querySelectorAll('.tabs-slot').forEach(el=>{
+    const items=GROUPS[el.dataset.group]||[];
+    el.innerHTML='<div class="tabs">'+items.map(([id,l])=>`<button class="tab ${id===active?'on':''}" onclick="showSection('${id}')">${l}</button>`).join('')+'</div>';
+  });
+}
 function showSection(id){
   if(id==='admin'&&!window.adminUser){ toggleDrawer(false); document.getElementById('admin-login-modal').classList.remove('hidden'); return; }
-  ['home','cardapio','eventos','mural','galeria','manifesto','admin'].forEach(s=>document.getElementById('sec-'+s).classList.add('hidden'));
+  SECTIONS.forEach(s=>document.getElementById('sec-'+s).classList.add('hidden'));
   const secEl=document.getElementById('sec-'+id);
   secEl.classList.remove('hidden');
   secEl.classList.remove('sec-in'); void secEl.offsetWidth; secEl.classList.add('sec-in');
   clearTimeout(secEl._t); secEl._t=setTimeout(()=>secEl.classList.remove('sec-in'),1100);
-  document.querySelectorAll('#main-nav [data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
+  document.querySelectorAll('#main-nav [data-s]').forEach(b=>{ const g=b.dataset.g; b.classList.toggle('on',b.dataset.s===id||(g&&GROUPS[g].some(i=>i[0]===id))); });
+  renderTabs(id);
+  if(id==='cartao') drawCard();
   toggleDrawer(false);
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -797,9 +954,9 @@ async function clearDiscord(){ if(!confirm('Remover o link do Discord?')) return
 
 async function toggleBarStatus(){ appState.barOpen=!appState.barOpen; await syncState(); }
 
-const editing={ann:null,menu:null,event:null};
-const FORM={ann:['adm-announcement-title','adm-announcement-text'],menu:['adm-menu-title','adm-menu-price'],event:['adm-event-title','adm-event-day','adm-event-time','adm-event-desc']};
-const LABEL={ann:'Publicar',menu:'Salvar item',event:'Cadastrar'};
+const editing={ann:null,menu:null,event:null,spot:null};
+const FORM={ann:['adm-announcement-title','adm-announcement-text'],menu:['adm-menu-title','adm-menu-price'],event:['adm-event-title','adm-event-day','adm-event-time','adm-event-desc'],spot:['adm-spot-name','adm-spot-when','adm-spot-desc']};
+const LABEL={ann:'Publicar',menu:'Salvar item',event:'Cadastrar',spot:'Salvar ponto'};
 function openCard(id){ const c=document.getElementById(id).closest('.adm-card'); if(c) c.classList.remove('collapsed'); }
 function cancelEdit(k){
   editing[k]=null; FORM[k].forEach(id=>document.getElementById(id).value='');
@@ -914,6 +1071,112 @@ async function importLegacy(){
   if(!confirm('Importar as assinaturas e fotos antigas para o mural e a galeria novos?')) return;
   try{ await window.fbImportLegacy(); alert('Pronto! Mural e galeria recuperados.'); }catch(e){ console.error(e); alert('Não foi possível importar. Verifique se as regras do banco foram publicadas e se você está logado.'); }
 }
+
+async function addSpot(){
+  const name=document.getElementById('adm-spot-name').value.trim(), when=document.getElementById('adm-spot-when').value.trim(), desc=document.getElementById('adm-spot-desc').value.trim();
+  if(!name||!when) return alert('Preencha o nome do lugar e quando a galera se encontra!');
+  const list=(appState.spots=appState.spots||[]);
+  if(editing.spot){ const it=list.find(x=>x.id===editing.spot); if(it){it.name=name;it.when=when;it.desc=desc;} } else list.push({id:Date.now(),name,when,desc});
+  await syncState(); cancelEdit('spot');
+}
+function editSpot(id){ const it=(appState.spots||[]).find(x=>x.id===id); if(!it) return; document.getElementById('adm-spot-name').value=it.name; document.getElementById('adm-spot-when').value=it.when; document.getElementById('adm-spot-desc').value=it.desc||''; startEdit('spot',id); }
+async function deleteSpot(id){ if(!confirm('Excluir este ponto de encontro?')) return; appState.spots=(appState.spots||[]).filter(x=>x.id!==id); if(editing.spot===id) cancelEdit('spot'); await syncState(); }
+async function clearSpots(){ if(!confirm('Apagar TODOS os pontos de encontro?')) return; appState.spots=[]; cancelEdit('spot'); await syncState(); }
+
+async function saveChallenge(){
+  const title=document.getElementById('adm-challenge-title').value.trim(), text=document.getElementById('adm-challenge-text').value.trim();
+  if(!title&&!text) return alert('Escreva o título ou a descrição do desafio!');
+  appState.challenge={title,text}; await syncState();
+  document.getElementById('adm-challenge-title').value=''; document.getElementById('adm-challenge-text').value='';
+}
+async function clearChallenge(){ if(!confirm('Remover o desafio da semana?')) return; appState.challenge=null; await syncState(); }
+
+async function saveRider(){
+  const name=document.getElementById('adm-rider-name').value.trim(), bike=document.getElementById('adm-rider-bike').value.trim(), quote=document.getElementById('adm-rider-quote').value.trim();
+  const file=document.getElementById('adm-rider-photo').files[0];
+  if(!name) return alert('Digite o apelido do motoqueiro!');
+  let photo=(appState.rider&&appState.rider.photo)||'';
+  if(file){ try{ photo=(await compressImage(file,360,0.7)).dataUrl; }catch(e){ return alert('Não consegui ler essa foto. Tente outra.'); } }
+  appState.rider={name,bike,quote,photo}; await syncState();
+  ['adm-rider-name','adm-rider-bike','adm-rider-quote','adm-rider-photo'].forEach(id=>document.getElementById(id).value='');
+}
+async function clearRider(){ if(!confirm('Remover o motoqueiro da semana?')) return; appState.rider=null; await syncState(); }
+async function pinWall(id,pin){ try{ await window.fbPinWall(id,pin); }catch(e){ console.error(e); alert('Não foi possível fixar ('+(e.code||e.message)+').'); } }
+
+/* ===== CARTÃO DE MOTOQUEIRO ===== */
+const CARD_THEMES={bourbon:'#e8a317',esmeralda:'#1fa35c',neon:'#ff4a3d'};
+const BEBAS="'Bebas Neue',Impact,sans-serif";
+function hashNum(str){ let h=0; for(const c of str) h=(h*31+c.charCodeAt(0))>>>0; return String(h%9000+1000); }
+function fitSize(ctx,text,family,maxW,start,min){ let sz=start; while(sz>min){ ctx.font=sz+'px '+family; if(ctx.measureText(text).width<=maxW) break; sz-=2; } return sz; }
+function rr(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function drawEmblem(ctx,cx,cy,r,accent){
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.fillStyle='#14100c'; ctx.fill(); ctx.lineWidth=r*.05; ctx.strokeStyle=accent; ctx.stroke();
+  const ir=r*.72;
+  ctx.beginPath(); ctx.arc(cx,cy,ir,0,Math.PI*2); ctx.clip();
+  const g=ctx.createLinearGradient(0,cy-ir,0,cy+ir); g.addColorStop(0,'#1d3f8f'); g.addColorStop(.55,accent); g.addColorStop(1,'#ffd23f');
+  ctx.fillStyle=g; ctx.fillRect(cx-ir,cy-ir,ir*2,ir*2);
+  ctx.beginPath(); ctx.arc(cx,cy-ir*.12,ir*.42,0,Math.PI*2); ctx.fillStyle='#fff1b8'; ctx.fill();
+  ctx.fillStyle='#1fa35c'; ctx.beginPath(); ctx.moveTo(cx-ir,cy+ir*.2); ctx.lineTo(cx-ir*.45,cy-ir*.05); ctx.lineTo(cx-ir*.1,cy+ir*.1); ctx.lineTo(cx+ir*.25,cy-ir*.12); ctx.lineTo(cx+ir*.65,cy+ir*.12); ctx.lineTo(cx+ir,cy-ir*.02); ctx.lineTo(cx+ir,cy+ir); ctx.lineTo(cx-ir,cy+ir); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#1a1511'; ctx.beginPath(); ctx.moveTo(cx,cy+ir*.15); ctx.lineTo(cx+ir*.6,cy+ir); ctx.lineTo(cx-ir*.6,cy+ir); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle='#ffd23f'; ctx.lineWidth=ir*.07; ctx.lineCap='round';
+  [[.28,.4],[.52,.68],[.8,.98]].forEach(([a,b])=>{ ctx.beginPath(); ctx.moveTo(cx,cy+ir*a); ctx.lineTo(cx,cy+ir*b); ctx.stroke(); });
+  ctx.fillStyle='#14100c'; ctx.textAlign='center'; ctx.font=(ir*.7)+'px '+BEBAS; ctx.fillText('69',cx,cy+ir*.12);
+  ctx.restore();
+}
+async function drawCard(){
+  const cv=document.getElementById('card-canvas'); if(!cv) return;
+  try{ await Promise.all(["56px 'Rye'","40px 'Bebas Neue'","24px 'Barlow'"].map(f=>document.fonts.load(f))); }catch(e){}
+  const ctx=cv.getContext('2d'), W=cv.width, H=cv.height;
+  const nick=(document.getElementById('card-nick').value.trim()||'SEU APELIDO').toUpperCase();
+  const bike=document.getElementById('card-bike').value.trim()||'Sua moto';
+  const club=document.getElementById('card-club').value.trim();
+  const motto=document.getElementById('card-motto').value.trim();
+  const accent=CARD_THEMES[document.getElementById('card-theme').value]||CARD_THEMES.bourbon;
+  ctx.setLineDash([]); ctx.globalAlpha=1; ctx.textAlign='left';
+  const bg=ctx.createLinearGradient(0,0,W,H); bg.addColorStop(0,'#2a2118'); bg.addColorStop(1,'#0d0b09'); ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(255,255,255,.03)'; ctx.lineWidth=2;
+  for(let i=-H;i<W;i+=14){ ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i+H,H); ctx.stroke(); }
+  const bw=W/3; ['#1fa35c','#ffd23f','#1d3f8f'].forEach((c,i)=>{ ctx.fillStyle=c; ctx.fillRect(i*bw,0,bw,16); });
+  ctx.strokeStyle=accent; ctx.lineWidth=6; rr(ctx,18,32,W-36,H-50,26); ctx.stroke();
+  ctx.setLineDash([10,10]); ctx.lineWidth=2; ctx.globalAlpha=.55; rr(ctx,34,48,W-68,H-82,18); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha=1;
+  drawEmblem(ctx,200,310,130,accent);
+  ctx.textAlign='left'; ctx.fillStyle=accent; ctx.font="64px 'Rye',serif"; ctx.fillText('ROTA 69',380,142);
+  ctx.fillStyle='#d8cbb4'; ctx.font='30px '+BEBAS; try{ ctx.letterSpacing='6px'; }catch(e){} ctx.fillText('CARTEIRA DE MOTOQUEIRO',380,188); try{ ctx.letterSpacing='0px'; }catch(e){}
+  const sz=fitSize(ctx,nick,BEBAS,560,112,48); ctx.fillStyle='#ffffff'; ctx.font=sz+'px '+BEBAS; ctx.fillText(nick,380,305);
+  ctx.fillStyle='#d8cbb4'; ctx.font="30px 'Barlow',sans-serif"; ctx.fillText('Moto: '+bike,380,356); if(club) ctx.fillText('Clube: '+club,380,398);
+  if(motto){ ctx.fillStyle=accent; ctx.font="italic 28px 'Barlow',sans-serif"; ctx.fillText('"'+motto+'"',380,458); }
+  const d=new Date();
+  ctx.fillStyle='#9a8d78'; ctx.font="22px 'Barlow',sans-serif"; ctx.fillText('Nº RT69-'+hashNum(nick+bike)+'  •  Membro desde '+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear(),380,H-96);
+  ctx.textAlign='left'; ctx.fillStyle=accent; ctx.font='28px '+BEBAS; try{ ctx.letterSpacing='3px'; }catch(e){} ctx.fillText('ESTRADA ABERTA DESDE 1969',380,H-62); try{ ctx.letterSpacing='0px'; }catch(e){}
+}
+function cardBlob(){ return new Promise(r=>document.getElementById('card-canvas').toBlob(r,'image/png')); }
+async function downloadCard(){ await drawCard(); const b=await cardBlob(); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='cartao-rota69.png'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),3000); }
+async function shareCard(){
+  await drawCard(); const b=await cardBlob(); const f=new File([b],'cartao-rota69.png',{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){ try{ await navigator.share({files:[f],title:'Meu cartão da Rota 69'}); }catch(e){} } else downloadCard();
+}
+
+/* ===== DADO ===== */
+const PIPS={1:[5],2:[1,9],3:[1,5,9],4:[1,3,7,9],5:[1,3,5,7,9],6:[1,3,4,6,7,9]};
+const DICE_TARGET={1:[0,0],6:[0,180],3:[0,-90],4:[0,90],2:[-90,0],5:[90,0]};
+const DICE_MSG={1:'Ih, tirou 1! Hoje a rodada é sua.',2:'Quase! Pague uma porção de batata.',3:'Na média: ninguém paga nada.',4:'Boa! Escolha a próxima música.',5:'Bela jogada! Você manda no som.',6:'Sorte grande! Hoje você é VIP do saloon.'};
+let diceSpin=0;
+function buildDice(){ document.querySelectorAll('#cube .face').forEach(f=>{ const cells=PIPS[Number(f.dataset.n)]; f.innerHTML=Array.from({length:9},(_,i)=>cells.includes(i+1)?'<span class="pip"></span>':'<span></span>').join(''); }); }
+function rollDice(){
+  const v=1+Math.floor(Math.random()*6); diceSpin++;
+  const [rx,ry]=DICE_TARGET[v];
+  document.getElementById('cube').style.transform='rotateX('+(rx+720*diceSpin)+'deg) rotateY('+(ry+720*diceSpin)+'deg)';
+  const out=document.getElementById('dice-result'); out.textContent='Rolando...';
+  setTimeout(()=>{ out.textContent='Deu '+v+'! '+DICE_MSG[v]; },1400);
+}
+function sortPay(){
+  const names=document.getElementById('pay-names').value.split(/[\n,;]+/).map(x=>x.trim()).filter(Boolean);
+  const out=document.getElementById('pay-result');
+  if(names.length<2){ out.textContent='Digite pelo menos 2 nomes.'; return; }
+  let n=0; const t=setInterval(()=>{ out.textContent=names[Math.floor(Math.random()*names.length)]; if(++n>18){ clearInterval(t); out.textContent=names[Math.floor(Math.random()*names.length)]+' paga a rodada!'; } },90);
+}
+window.addEventListener('DOMContentLoaded',()=>{ renderTabs(); buildDice(); drawCard(); });
 async function approvePhoto(id){ try{ await window.fbApprovePhoto(id); }catch(e){ alert('Sem permissão. Faça login de novo.'); } }
 async function deleteInboxPhoto(id){ if(!confirm('Excluir esta foto pendente?')) return; try{ await window.fbDeletePhoto('inbox',id); }catch(e){ alert('Sem permissão. Faça login de novo.'); } }
 async function deleteApprovedPhoto(id){ if(!confirm('Excluir esta foto da galeria?')) return; try{ await window.fbDeletePhoto('photos',id); }catch(e){ alert('Sem permissão. Faça login de novo.'); } }
