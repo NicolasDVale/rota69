@@ -68,6 +68,31 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 #radio-panel.open{max-height:420px}
 .st{display:flex;align-items:center;gap:.6rem;width:100%;text-align:left;padding:.55rem .8rem;border-radius:4px;font-size:.9rem;color:#d8cbb4}
 .st:hover{background:rgba(232,163,23,.12)}.st.on{background:rgba(232,163,23,.2);color:var(--bourbon);font-weight:700}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes secIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
+.sec-in{animation:secIn .45s ease backwards}
+.sec-in .card,.sec-in .quick{animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.sec-in .card:nth-child(2){animation-delay:.08s}.sec-in .card:nth-child(3){animation-delay:.16s}.sec-in .card:nth-child(4){animation-delay:.24s}
+.sec-in .card:nth-child(5){animation-delay:.32s}.sec-in .card:nth-child(6){animation-delay:.4s}.sec-in .card:nth-child(n+7){animation-delay:.48s}
+.btn{transition:transform .15s,background .15s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(232,163,23,.28)}
+.btn:active{transform:translateY(3px)}
+.nav-btn,.d-link{transition:background .2s,color .2s,padding-left .2s}
+.d-link:hover{padding-left:1.6rem}
+.quick i{transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.hero h1,.hero p,.hero .btn{animation:rise .8s cubic-bezier(.2,.7,.2,1) backwards}
+.hero p{animation-delay:.12s}.hero .btn{animation-delay:.25s}
+@media (hover:hover) and (min-width:1024px){
+  .hero{background-attachment:fixed}
+  #sec-home .card,#sec-cardapio .card,#sec-eventos .card,#sec-mural .card,#sec-galeria .card{transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s}
+  #sec-home .card:hover,#sec-cardapio .card:hover,#sec-eventos .card:hover,#sec-galeria .card:hover{transform:translateY(-6px);border-color:rgba(232,163,23,.6);box-shadow:inset 0 0 0 3px var(--couro),inset 0 0 0 4px rgba(232,163,23,.35),0 18px 34px rgba(0,0,0,.65),0 0 24px rgba(232,163,23,.12)}
+  #sec-mural .card:hover{transform:rotate(0deg) translateY(-6px) scale(1.02);border-color:rgba(232,163,23,.6);box-shadow:0 18px 34px rgba(0,0,0,.65),0 0 24px rgba(232,163,23,.15)}
+  .quick:hover i{transform:scale(1.25) rotate(-8deg)}
+  .quick:hover span{color:var(--bourbon)}
+  #sec-galeria .card:hover img{filter:none}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}}
 ::-webkit-scrollbar{width:9px}::-webkit-scrollbar-track{background:var(--asfalto)}::-webkit-scrollbar-thumb{background:var(--borda)}
 </style>
@@ -144,7 +169,6 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 <section id="sec-home">
   <div class="hero relative px-4 py-14 sm:py-20 text-center">
     <div class="max-w-3xl mx-auto space-y-4">
-      <svg class="w-32 h-32 sm:w-36 sm:h-36 mx-auto drop-shadow-[0_0_18px_rgba(232,163,23,.45)]" role="img" aria-label="Rota 69"><use href="#logo"/></svg>
       <h1 class="f-rye neon text-5xl sm:text-6xl leading-[1.05]">Rota 69</h1>
       <p class="f-bebas text-2xl sm:text-3xl tracking-widest">Gasolina, Rock & Churrasco</p>
       <p class="max-w-xl mx-auto text-zinc-300">Saloon de beira de estrada onde a Route 66 encontra o Brasil. Chopp gelado, bourbon, costela defumada e rock a noite toda.</p>
@@ -227,7 +251,7 @@ body{font-family:'Barlow',sans-serif;color:var(--osso);background:
 <section id="sec-manifesto" class="hidden max-w-3xl mx-auto px-4 py-10">
   <div class="card p-8 sm:p-12 space-y-8">
     <div class="text-center space-y-2">
-      <svg class="w-24 h-24 mx-auto" role="img" aria-label="Rota 69"><use href="#logo"/></svg>
+      
       <h2 class="sec-title">Código da Casa</h2>
       <p class="f-bebas text-xl text-zinc-400 tracking-widest">Liberdade, respeito e irmandade</p>
     </div>
@@ -671,6 +695,7 @@ document.querySelectorAll('#sec-admin .adm-card > h3').forEach(h=>{
   h.addEventListener('click',()=>h.parentElement.classList.toggle('collapsed'));
   if(window.innerWidth<768) h.parentElement.classList.add('collapsed');
 });
+window.addEventListener('DOMContentLoaded',()=>{ const h=document.getElementById('sec-home'); h.classList.add('sec-in'); setTimeout(()=>h.classList.remove('sec-in'),1100); });
 function toggleDrawer(force){
   const open=typeof force==='boolean'?force:!document.getElementById('drawer').classList.contains('open');
   document.getElementById('drawer').classList.toggle('open',open);
@@ -681,7 +706,10 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') toggleDrawer(false
 function showSection(id){
   if(id==='admin'&&!window.adminUser){ toggleDrawer(false); document.getElementById('admin-login-modal').classList.remove('hidden'); return; }
   ['home','cardapio','eventos','mural','galeria','manifesto','admin'].forEach(s=>document.getElementById('sec-'+s).classList.add('hidden'));
-  document.getElementById('sec-'+id).classList.remove('hidden');
+  const secEl=document.getElementById('sec-'+id);
+  secEl.classList.remove('hidden');
+  secEl.classList.remove('sec-in'); void secEl.offsetWidth; secEl.classList.add('sec-in');
+  clearTimeout(secEl._t); secEl._t=setTimeout(()=>secEl.classList.remove('sec-in'),1100);
   document.querySelectorAll('#main-nav [data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===id));
   toggleDrawer(false);
   window.scrollTo({top:0,behavior:'smooth'});
