@@ -401,7 +401,7 @@ body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getDatabase, ref, onValue, set, push, update, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
 // ================= COLE AQUI A CONFIG DO SEU PROJETO =================
 // Firebase Console > Configurações do projeto > Seus apps > Configuração do SDK
@@ -591,9 +591,13 @@ window.fbSubmitPhoto=async function({author,caption,blob,dataUrl}){
     try{
       path='uploads/'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.jpg';
       const r=sRef(storage,path);
-      await uploadBytes(r,blob,{contentType:'image/jpeg'});
-      url=await getDownloadURL(r);
-    }catch(e){ console.warn('Storage indisponível, usando o banco de dados.',e); url=null; path=''; }
+      const task=uploadBytesResumable(r,blob,{contentType:'image/jpeg'});
+      await new Promise((res,rej)=>{
+        const t=setTimeout(()=>{ try{task.cancel();}catch(_){} rej(new Error('timeout')); },10000);
+        task.on('state_changed',null,err=>{ clearTimeout(t); rej(err); },()=>{ clearTimeout(t); res(); });
+      });
+      url=await Promise.race([getDownloadURL(r),new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),6000))]);
+    }catch(e){ console.warn('Storage indisponível, salvando a foto no banco de dados.',e); url=null; path=''; }
   }
   if(!url) url=dataUrl;
   await push(ref(db,'inbox/photos'),{author,caption:caption||'',url,path,ts:Date.now()});
