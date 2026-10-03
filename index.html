@@ -284,9 +284,6 @@ body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
     </div>
   </div>
   <div class="adm-grid">
-    <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Faixa da jukebox</h3>
-      <input id="adm-jukebox-input" class="input" placeholder="Artista — Música">
-      <button onclick="updateJukeboxTrack()" class="btn w-full">Atualizar</button></div>
     <div class="card adm-card p-5 space-y-3"><h3 class="f-bebas text-2xl text-amber-400">Discord</h3>
       <input id="adm-discord-input" class="input" placeholder="https://discord.gg/seu-convite">
       <div class="flex gap-2"><button onclick="saveDiscord()" class="btn flex-1">Salvar link</button><button onclick="clearDiscord()" class="btn btn-dark">Remover</button></div>
@@ -379,7 +376,6 @@ body.playing .vis span{animation:wave var(--d) ease-in-out var(--dl) infinite}
     <div class="max-w-6xl mx-auto px-3 py-3 grid sm:grid-cols-2 gap-3 items-start">
       <div id="station-list" class="space-y-1"></div>
       <div class="space-y-3">
-        <div class="text-xs text-zinc-400">Jukebox da casa: <span id="jukebox-track-name" class="text-amber-400 font-semibold">Lynyrd Skynyrd — Simple Man</span></div>
         <label class="flex items-center gap-3 text-xs text-zinc-400"><i class="fa-solid fa-volume-low"></i>
           <input id="radio-vol" type="range" min="0" max="1" step="0.05" value="0.6" oninput="audio().volume=this.value" class="flex-1 accent-amber-500" aria-label="Volume"><i class="fa-solid fa-volume-high"></i></label>
       </div>
@@ -417,6 +413,8 @@ const firebaseConfig = {
 };
 // =====================================================================
 
+// Fotos: false = salva direto no banco de dados (rápido, sem Storage). true = tenta o Firebase Storage primeiro.
+const USE_STORAGE=false;
 let db=null, auth=null, storage=null, ready=false, unsubInbox=null;
 try{
   const app=initializeApp(firebaseConfig);
@@ -425,7 +423,7 @@ try{
   ready=true;
 }catch(e){ console.warn("Firebase não configurado: site em modo demonstrativo (somente leitura)."); }
 
-const EMPTY={barOpen:true,jukeboxTrack:'Lynyrd Skynyrd — Simple Man',discordUrl:'',announcements:[],menu:[],events:[]};
+const EMPTY={barOpen:true,discordUrl:'',announcements:[],menu:[],events:[]};
 const clone=o=>JSON.parse(JSON.stringify(o));
 window.appState={...clone(EMPTY),
   announcements:[
@@ -465,7 +463,6 @@ window.renderUI = function(){
     icon.innerHTML='<span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span>';
     txt.innerText="SALOON FECHADO"; if(tg) tg.innerText="Abrir saloon";
   }
-  const j=document.getElementById('jukebox-track-name'); if(j&&S.jukeboxTrack) j.innerText=S.jukeboxTrack;
 
   // Discord
   const dUrl=S.discordUrl||'';
@@ -566,7 +563,7 @@ if(ready){
 
 // ---- ações ----
 const need=()=>{ if(!ready){ alert('O Firebase ainda não foi configurado neste arquivo.'); return false; } return true; };
-const KEYS=['barOpen','jukeboxTrack','discordUrl','announcements','menu','events'];
+const KEYS=['barOpen','discordUrl','announcements','menu','events'];
 window.syncState=async function(){
   if(!need()) return;
   if(!window.adminUser){ alert('Faça login na gerência para salvar.'); window.renderUI(); return; }
@@ -587,7 +584,7 @@ window.fbDeleteWall=async function(id){ await remove(ref(db,'wall/'+id)); };
 window.fbSubmitPhoto=async function({author,caption,blob,dataUrl}){
   if(!need()) return false;
   let url=null, path='';
-  if(storage&&blob){
+  if(USE_STORAGE&&storage&&blob){
     try{
       path='uploads/'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'.jpg';
       const r=sRef(storage,path);
@@ -799,10 +796,6 @@ async function saveDiscord(){
 async function clearDiscord(){ if(!confirm('Remover o link do Discord?')) return; appState.discordUrl=''; await syncState(); }
 
 async function toggleBarStatus(){ appState.barOpen=!appState.barOpen; await syncState(); }
-async function updateJukeboxTrack(){
-  const t=document.getElementById('adm-jukebox-input').value.trim(); if(!t) return alert('Digite o nome da música!');
-  appState.jukeboxTrack=t; await syncState(); document.getElementById('adm-jukebox-input').value='';
-}
 
 const editing={ann:null,menu:null,event:null};
 const FORM={ann:['adm-announcement-title','adm-announcement-text'],menu:['adm-menu-title','adm-menu-price'],event:['adm-event-title','adm-event-day','adm-event-time','adm-event-desc']};
